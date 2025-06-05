@@ -1,5 +1,3 @@
-
-
 import { Component } from '@angular/core';
 
 @Component({
@@ -11,19 +9,19 @@ import { Component } from '@angular/core';
 export class HeroComponent {
   slides = [
     {
-      image: '/assets/images/banner/banner1.jpg',
-      title: 'We Care For Your Health',
-      description: 'Our expert doctors and modern facilities ensure the best care for every patient.'
+      image: 'assets/images/banner/banner1.png',
+      title: 'Trusted Doctors, Modern Care',
+      description: 'Professional medical experts ready to serve you.'
     },
     {
-      image: '/assets/images/banner/banner2.jpg',
-      title: 'Book Appointments Easily',
-      description: 'Use our online system to schedule your visit with a doctor in seconds.'
+      image: 'assets/images/banner/banner2.png',
+      title: 'Book Your Visit In Seconds',
+      description: 'Simple. Fast. Accessible from anywhere.'
     },
     {
-      image: '/assets/images/banner/banner3.jpg',
-      title: 'Your Health, Our Priority',
-      description: 'From emergency to general care — we are with you at every step.'
+      image: 'assets/images/banner/banner3.png',
+      title: 'Compassionate Nursing Support',
+      description: 'Helping hands when you need them most.'
     }
   ];
 }
