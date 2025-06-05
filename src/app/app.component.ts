@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { RegisterComponent } from './components/register/register.component';
+import {NavbarComponent} from './components/navbar/navbar.component';
+import {GoToTopComponent} from './components/go-to-top/go-to-top.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, NavbarComponent, GoToTopComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

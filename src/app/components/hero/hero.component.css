@@ -1,0 +1,19 @@
+.carousel-caption {
+  padding: 2rem;
+  border-radius: 1rem;
+  max-width: 600px;
+}
+
+.carousel-caption h1,
+.carousel-caption p {
+  color: white;
+}
+.hero {
+  margin-top: 0;
+}
+
+@media (min-width: 992px) {
+  .hero {
+    margin-top: 0;
+  }
+}
