@@ -1,3 +1,6 @@
+.navbar{
+  padding: 20px;
+}
 .top-bar {
   font-size: 0.85rem;
 }
@@ -24,3 +27,17 @@ button.btn i {
   font-weight: bold;
 }
 
+.animate-navbar {
+  animation: slideDown 0.5s ease-in-out;
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}

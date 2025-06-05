@@ -33,7 +33,15 @@
   </div>
 </div>
 
-<nav class="navbar navbar-expand-lg navbar-light bg-white py-4 ">
+<nav [ngClass]="{
+      'navbar': true,
+      'navbar-expand-lg': true,
+      'navbar-light': true,
+      'bg-white': true,
+      'shadow-sm': isScrolled,
+      'fixed-top': isScrolled,
+      'animate-navbar': isScrolled
+    }">
   <div class="container">
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
       <span class="navbar-toggler-icon"></span>
@@ -49,9 +57,9 @@
         <li class="nav-item"><a class="nav-link" routerLinkActive="active-link"  routerLink="contact">CONTACT</a></li>
       </ul>
     </div>
-    <button routerLink="login" class="btn btn-outline-primary text-center" id="login-button">
+    <bu routerLink="login" class="btn btn-outline-primary text-center" id="login-button">
       <i class="fa-solid fa-lock me-2"></i> Login
-    </button>
+    </bu>
   </div>
 </nav>
 
