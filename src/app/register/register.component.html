@@ -1,0 +1,114 @@
+<div class="auth-form">
+  <h2>Register an Account</h2>
+  <!-- <p class="subtitle">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p> -->
+
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    @if (errorMessage) {
+      <div class="alert alert-danger">{{ errorMessage }}</div>
+    }
+
+    <div class="form-group">
+      <label>First Name</label>
+      <input type="text" formControlName="firstName" [class.is-invalid]="f['firstName'].invalid && f['firstName'].touched">
+      @if (f['firstName'].invalid && f['firstName'].touched) {
+        <div class="invalid-feedback">
+          @if (f['firstName'].errors?.['required']) {
+            <div>First name is required</div>
+          }
+          @if (f['firstName'].errors?.['minlength']) {
+            <div>Minimum length is 2 characters</div>
+          }
+        </div>
+      }
+    </div>
+
+    <div class="form-group">
+      <label>Last Name</label>
+      <input type="text" formControlName="lastName" [class.is-invalid]="f['lastName'].invalid && f['lastName'].touched">
+      @if (f['lastName'].invalid && f['lastName'].touched) {
+        <div class="invalid-feedback">
+          @if (f['lastName'].errors?.['required']) {
+            <div>Last name is required</div>
+          }
+          @if (f['lastName'].errors?.['minlength']) {
+            <div>Minimum length is 2 characters</div>
+          }
+        </div>
+      }
+    </div>
+
+    <div class="form-group">
+      <label>Email Address</label>
+      <input type="email" formControlName="email" [class.is-invalid]="f['email'].invalid && f['email'].touched">
+      @if (f['email'].invalid && f['email'].touched) {
+        <div class="invalid-feedback">
+          @if (f['email'].errors?.['required']) {
+            <div>Email is required</div>
+          }
+          @if (f['email'].errors?.['email']) {
+            <div>Please enter a valid email</div>
+          }
+        </div>
+      }
+    </div>
+
+    <div class="form-group">
+      <label>Password</label>
+      <input type="password" formControlName="password" [class.is-invalid]="f['password'].invalid && f['password'].touched">
+      @if (f['password'].invalid && f['password'].touched) {
+        <div class="invalid-feedback">
+          @if (f['password'].errors?.['required']) {
+            <div>Password is required</div>
+          }
+          @if (f['password'].errors?.['minlength']) {
+            <div>Minimum length is 6 characters</div>
+          }
+        </div>
+      }
+    </div>
+
+    <div class="form-group">
+      <label>Confirm Password</label>
+      <input type="password" formControlName="confirmPassword" [class.is-invalid]="registerForm.errors?.['mismatch'] && f['confirmPassword'].touched">
+      @if (registerForm.errors?.['mismatch'] && f['confirmPassword'].touched) {
+        <div class="invalid-feedback">Passwords do not match</div>
+      }
+    </div>
+
+    <div class="form-group">
+      <label>Phone</label>
+      <input type="tel" formControlName="phone" [class.is-invalid]="f['phone'].invalid && f['phone'].touched">
+      @if (f['phone'].invalid && f['phone'].touched) {
+        <div class="invalid-feedback">
+          @if (f['phone'].errors?.['required']) {
+            <div>Phone is required</div>
+          }
+          @if (f['phone'].errors?.['pattern']) {
+            <div>Please enter a valid phone number (10-15 digits)</div>
+          }
+        </div>
+      }
+    </div>
+    <div class="form-group">
+  <label>Role</label>
+  <select formControlName="role" [class.is-invalid]="f['role'].invalid && f['role'].touched">
+    <option value="" disabled selected>Select a role</option>
+    <option value="doctor">doctor</option>
+    <option value="patient">patient</option>
+  </select>
+  @if (f['role'].invalid && f['role'].touched) {
+    <div class="invalid-feedback">
+      @if (f['role'].errors?.['required']) {
+        <div>Role is required</div>
+      }
+    </div>
+  }
+</div>
+
+    <button type="submit" class="btn-primary">Register</button>
+  </form>
+
+  <div class="auth-footer">
+    <p>Already have an account? <a routerLink="/login">Login here</a></p>
+  </div>
+</div>
