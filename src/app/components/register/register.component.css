@@ -89,3 +89,55 @@
   text-align: center;
   line-height: 1.5;
 }
+.doctors-hero {
+  background-image: url('../../../../public/images/register.jfif');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 200px;
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  padding-left: 50px;
+}
+
+.hero-content {
+  background-color: rgba(255, 255, 255, 0.6);
+  padding: 50px;
+  border-radius: 10px;
+  width: 80%;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  margin-bottom: 0px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.hero-content h1 {
+  font-size: 36px;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.hero-content .breadcrumb {
+  margin-top: 60px;
+
+  font-size: 14px;
+}
+
+.hero-content .breadcrumb a {
+  color: #3498db;
+  text-decoration: none;
+}
+
+
+.form-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap; /* خليها تلف لو الشاشة صغيرة */
+  gap: 40px;
+  padding: 20px;
+}
