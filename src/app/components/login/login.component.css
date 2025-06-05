@@ -123,7 +123,6 @@
 }
 
 .doctors-hero {
-  background-image: url('../../../../public/images/register.jfif');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -139,7 +138,7 @@
 .hero-content {
   background-color: rgba(255, 255, 255, 0.6);
   padding: 50px;
-  border-radius: 10px;
+  border-radius: 10px 10px 0 0 ;
   width: 80%;
   margin: auto;
   display: flex;
@@ -147,6 +146,7 @@
   flex-direction: row;
   margin-bottom: 0px;
   box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  font-weight: 600;
 }
 
 .hero-content h1 {

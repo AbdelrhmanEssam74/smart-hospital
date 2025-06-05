@@ -1,4 +1,7 @@
-<section class="doctors-hero">
+<section class="doctors-hero"
+         style="background-image: url('/assets/images/auth-image.jpeg');
+background-size: cover; background-position: center; height: 60vh; display: flex; align-items: center; justify-content: center;">
+>
   <div class="hero-content">
     <div>
       <small>Register</small>
@@ -26,7 +29,8 @@
           <!-- First Name -->
           <div class="form-group">
             <label>First Name</label>
-            <input type="text" formControlName="firstName" [class.is-invalid]="f['firstName'].invalid && f['firstName'].touched">
+            <input type="text" formControlName="firstName"
+                   [class.is-invalid]="f['firstName'].invalid && f['firstName'].touched">
             @if (f['firstName'].invalid && f['firstName'].touched) {
               <div class="invalid-feedback">
                 @if (f['firstName'].errors?.['required']) {
@@ -42,7 +46,8 @@
           <!-- Last Name -->
           <div class="form-group">
             <label>Last Name</label>
-            <input type="text" formControlName="lastName" [class.is-invalid]="f['lastName'].invalid && f['lastName'].touched">
+            <input type="text" formControlName="lastName"
+                   [class.is-invalid]="f['lastName'].invalid && f['lastName'].touched">
             @if (f['lastName'].invalid && f['lastName'].touched) {
               <div class="invalid-feedback">
                 @if (f['lastName'].errors?.['required']) {
@@ -74,7 +79,8 @@
           <!-- Password -->
           <div class="form-group">
             <label>Password</label>
-            <input type="password" formControlName="password" [class.is-invalid]="f['password'].invalid && f['password'].touched">
+            <input type="password" formControlName="password"
+                   [class.is-invalid]="f['password'].invalid && f['password'].touched">
             @if (f['password'].invalid && f['password'].touched) {
               <div class="invalid-feedback">
                 @if (f['password'].errors?.['required']) {
@@ -90,7 +96,8 @@
           <!-- Confirm Password -->
           <div class="form-group">
             <label>Confirm Password</label>
-            <input type="password" formControlName="confirmPassword" [class.is-invalid]="registerForm.errors?.['mismatch'] && f['confirmPassword'].touched">
+            <input type="password" formControlName="confirmPassword"
+                   [class.is-invalid]="registerForm.errors?.['mismatch'] && f['confirmPassword'].touched">
             @if (registerForm.errors?.['mismatch'] && f['confirmPassword'].touched) {
               <div class="invalid-feedback">Passwords do not match</div>
             }
@@ -113,22 +120,22 @@
           </div>
 
           <!-- Role -->
-<div class="form-group">
-  <label>Role</label>
-  <select class="p-3  " [class.is-invalid]="f['role'].invalid && f['role'].touched">
-    <option value="" disabled>Select a role</option>
-    <option value="doctor">Doctor</option>
-    <option value="patient">Patient</option>
-  </select>
+          <div class="form-group">
+            <label>Role</label>
+            <select class="p-3  " [class.is-invalid]="f['role'].invalid && f['role'].touched">
+              <option value="" disabled>Select a role</option>
+              <option value="doctor">Doctor</option>
+              <option value="patient">Patient</option>
+            </select>
 
-  @if (f['role'].invalid && f['role'].touched) {
-    <div class="invalid-feedback">
-      @if (f['role'].errors?.['required']) {
-        <div>Role is required</div>
-      }
-    </div>
-  }
-</div>
+            @if (f['role'].invalid && f['role'].touched) {
+              <div class="invalid-feedback">
+                @if (f['role'].errors?.['required']) {
+                  <div>Role is required</div>
+                }
+              </div>
+            }
+          </div>
 
 
           <button type="submit" class="btn btn-primary w-100">Register</button>
@@ -139,8 +146,8 @@
         </div>
       </div>
     </div>
-     <div class="col-md-6 text-center">
-      <img src="./images/thank.jpeg" class="img-fluid" alt="Form Image" >
+    <div class="col-md-6 text-center">
+      <img src="/assets/images/thank.jpeg" class="img-fluid" alt="Form Image">
     </div>
 
 
