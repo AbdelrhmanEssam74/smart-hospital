@@ -6,7 +6,10 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
   imports: [
     ReactiveFormsModule
   ],
-  templateUrl: './login.component.html'
+
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.css']
+
 })
 export class LoginComponent {
   loginForm: FormGroup;
