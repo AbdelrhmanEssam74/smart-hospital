@@ -1,0 +1,67 @@
+<div class="container ">
+  <div class="heading  text-center mb-4 ">
+    <h2 class="display-5">Welcome to the <span class="display-3">MediPlus</span></h2>
+  </div>
+  <div class="lead">
+    <p class="text-center mb-4 text-secondary">
+      At MediPlus, we believe that quality healthcare starts with compassion and trust.
+      Our experienced medical team is dedicated to providing personalized care, using advanced technology and modern
+      facilities.
+      Whether you're booking a regular check-up or need specialized treatment, we're here to guide you every step of the
+      way.
+      Your health, your comfort — our priority.</p>
+  </div>
+  <div class="mb-3 text-center ">
+    <button class="appointment-btn btn" data-bs-toggle="collapse" data-bs-target="#newAddressCollapse">
+      <i class="fa-solid fa-caret-down me-1"></i> Appointment
+    </button>
+  </div>
+  <div class="collapse mt-3" id="newAddressCollapse">
+    <h3 class="mb-4 display-6  text-center">Make an Appointment</h3>
+    <form class="p-4">
+      <div class="row g-3">
+
+        <div class="col-md-6">
+          <input class="form-control" id="f_name" name="name" placeholder="Full Name" type="text" required>
+        </div>
+
+        <div class="col-md-6">
+          <input class="form-control" id="f_phone" name="phone" placeholder="Phone Number" type="tel" required>
+        </div>
+
+        <div class="col-md-6">
+          <select class="custom-select form-select" required>
+            <option value="" disabled selected>Select Gender</option>
+            <option value="1">Male</option>
+            <option value="2">Female</option>
+            <option value="3">Child</option>
+          </select>
+
+        </div>
+
+        <div class="col-md-6">
+          <select class="custom-select form-select" name="department" required>
+            <option value="" disabled selected>Select Department</option>
+            <option value="med">Medicine</option>
+            <option value="dental">Dental Care</option>
+            <option value="trauma">Traumatology</option>
+          </select>
+        </div>
+
+        <div class="col-md-6">
+          <input class="form-control" id="f_date" name="date" type="date" required>
+        </div>
+
+        <div class="col-md-6">
+          <input class="form-control" id="f_time" name="time" type="time" required>
+        </div>
+
+        <div class="col-12 text-center">
+          <button class="btn px-5 py-2" type="submit">
+            Book Appointment
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
