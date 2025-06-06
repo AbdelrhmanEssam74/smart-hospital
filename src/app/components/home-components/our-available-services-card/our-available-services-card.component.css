@@ -32,7 +32,7 @@
   display: inline-block;
   margin-top: 10px;
   background-color: #e5f2fd;
-  color: #0d6efd;
+  color: #51b8f2;
   text-decoration: none;
   font-weight: 600;
   transition: color 0.3s ease;
@@ -83,5 +83,5 @@
 }
 
 .card:hover .card-title {
-  color: #0d6efd;
+  color: #51b8f2;
 }

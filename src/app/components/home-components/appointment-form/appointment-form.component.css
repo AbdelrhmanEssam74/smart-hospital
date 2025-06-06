@@ -1,14 +1,19 @@
 .container{
   margin-top: 50px;
+  font-family: main-font-regular;
 }
 .heading{
   font-size: 48px;
-  font-weight: 300;
+
+  font-family: 'main-font-light';
 }
 .heading span{
   color: #51b8f2;
   font-size: 53px;
-  font-weight: 700;
+  font-family: 'main-font-bold';
+}
+.lead{
+  font-family: main-font-light;
 }
 .appointment-btn{
   margin-top: 20px;

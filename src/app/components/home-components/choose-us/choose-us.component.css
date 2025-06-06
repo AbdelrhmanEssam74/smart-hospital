@@ -1,19 +1,24 @@
 .container-fluid {
   margin-top: 70px;
   padding: 50px 20px;
+  font-family: main-font-regular;
 }
 
 .heading {
   font-size: 48px;
   font-weight: 300;
+  font-family: main-font-light;
 }
 
 .heading span {
   color: #51b8f2;
   font-size: 53px;
   font-weight: 700;
+  font-family: main-font-bold;
 }
-
+.lead{
+  font-family: main-font-regular;
+}
 #heading-box {
   position: relative;
   font-family: sans-serif;
@@ -68,7 +73,9 @@
   align-items: center;
   gap: 15px;
 }
-
+.item-content p{
+  font-family: main-font-regular;
+}
 
 
 .item-content .icon {
@@ -88,7 +95,7 @@
 .item-content .icon span {
   font-size: 30px;
 
-  color: #3d8bff;
+  color: #51b8f2;
 }
 
 .item-content h6 {
@@ -104,7 +111,7 @@
 }
 
 .item-content h6 a:hover {
-  color: #3d8bff;
+  color: #51b8f2;
 }
 
 .item-content p {
