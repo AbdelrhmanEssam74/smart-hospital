@@ -22,7 +22,7 @@
   text-align: center;
 }
 
-/* الخط */
+
 #heading-box::after {
   content: '';
   position: absolute;
@@ -34,7 +34,6 @@
   transform: translateX(-50%);
 }
 
-/* 💧 رمز قطرة الماء باستخدام Font Awesome */
 #heading-box::before {
   content: '\f043';
   font-family: 'Font Awesome 6 Free';
