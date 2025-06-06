@@ -1,0 +1,100 @@
+<section class="doctors-hero">
+  <div class="hero-content">
+    <div>    <small>Doctor</small>
+    <h1>Doctor Details</h1>
+  </div>
+
+    <nav class="breadcrumb fw-bold" >
+      <a class="fw-bold" href="#">Home &raquo;  </a>   <a class="fw-bold" href="#">Doctor's &raquo;</a>Doctor Details
+    </nav>
+  </div>
+</section>
+
+<div class="container py-5">
+    <div class="text-center">
+    <h6 class="section-title">Our  <span class="highlight">Doctor Details</span></h6>
+    <p class="section-subtitle">Who is behind the best medical service in our clinic?</p>
+    <i class="icon  bi bi-droplet-fill "></i>
+    <hr class="line_down" />
+  </div>
+  <div class="row bg-white  mt-5 box">
+    <div class="col-md-4 p-4 border-end">
+      <img [src]="doctor.image" alt="Doctor" class="profile-img">
+      <div class="profile-name mb-1">{{doctor.name}}</div>
+        <hr class="text-primary">
+  
+      <div class="profile-details mb-3">
+        <p><strong>Speciality</strong>:{{ doctor.specialty}}</p>
+        <hr class="text-primary">
+        <p><strong>Education</strong>: MD, OB/GYN</p>
+        <hr class="text-primary">
+        <p><strong>Work Days</strong>: Monday, Wednesday, Thursday</p>
+        <hr class="text-primary">
+        <p><strong>E-mail:</strong>: {{doctor.email}}</p>
+        <hr class="text-primary">
+        <p><strong>Phone:</strong>: {{doctor.phone}}</p>
+        <hr class="text-primary">
+      </div>
+
+      <div class="profile-social">
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-facebook-f"></i></a>
+        <a href="#"><i class="fab fa-google"></i></a>
+        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+        <a href="#"><i class="fab fa-skype"></i></a>
+      </div>
+    </div>
+
+    <div class="col-md-8 p-4">
+      <h4 class="mb-4">{{doctor.name}}</h4>
+
+      <div class="experience mb-4">
+        <h5>Rprofile_description</h5>
+        <p>{{ doctor.profile_description }}</p>
+      </div>
+
+      <div class="experience mb-4">
+        <h5>Experience</h5>
+        <p>{{ doctor.years_of_experience }} -Years</p>
+      </div>
+
+      <div class="experience">
+        <h5>St Vincents Hospital – Sydney</h5>
+        <div class="date">Aug 2011 to Present</div>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore...</p>
+      </div>
+      <div class="container py-5">
+  <h2 class="mb-4 fw-normal">Book An Appointment</h2>
+  <form>
+    <div class="row g-3">
+      <div class="col-md-6">
+        <input type="text" class="form-control form-input" placeholder="Your Name" required>
+      </div>
+      <div class="col-md-6">
+        <input type="text" class="form-control form-input" placeholder="Gender" required>
+      </div>
+      <div class="col-md-6">
+        <input type="tel" class="form-control form-input" placeholder="Phone Number" required>
+      </div>
+      <div class="col-md-6">
+        <input type="email" class="form-control form-input" placeholder="Your Email" required>
+      </div>
+      <div class="col-md-6">
+        <input type="text" class="form-control form-input" placeholder="Day" required>
+      </div>
+      <div class="col-md-6">
+        <input type="time" class="form-control form-input" placeholder="Time" required>
+      </div>
+      <div class="col-12">
+        <textarea class="form-control form-input" rows="5" placeholder="Your Message"></textarea>
+      </div>
+      <div class="col-12">
+        <button type="submit" class="btn  px-4">SEND MESSAGE</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+    </div>
+  </div>
+</div>
