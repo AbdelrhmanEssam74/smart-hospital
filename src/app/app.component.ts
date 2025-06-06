@@ -1,11 +1,8 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { NavbarComponent } from './components/navbar/navbar.component';
-import { ListDoctorComponent } from './components/list-doctor/list-doctor.component';
-
+import {NavbarComponent} from './components/navbar/navbar.component';
+import {GoToTopComponent} from './components/go-to-top/go-to-top.component';
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet,NavbarComponent,ListDoctorComponent],
+  imports: [RouterOutlet, NavbarComponent, GoToTopComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

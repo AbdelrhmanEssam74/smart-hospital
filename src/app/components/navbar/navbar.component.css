@@ -1,32 +1,50 @@
+.navbar{
+  padding: 20px;
+}
 .top-bar {
-  background-color: #f8f9fa;
-  padding: 10px 0;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
 }
-.contact-info span {
-  margin-right: 15px;
-}
-.contact-info i {
-  margin-right: 5px;
-  color: #6c757d;
-}
-.navbar {
-  padding: 15px 0;
-}
-.navbar-brand {
-  font-weight: bold;
-  font-size: 1.5rem;
-}
-.nav-link {
+
+.navbar-nav .nav-link {
   padding: 0.5rem 1rem;
-  font-weight: 500;
 }
-@media (max-width: 768px) {
-  .contact-info span {
-    display: block;
-    margin-bottom: 5px;
+
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link.active {
+  color: #51b8f2;
+}
+
+button.btn i {
+  vertical-align: middle;
+}
+
+#login-button {
+  padding: 10px 35px;
+  border-radius: 30px;
+  box-shadow: none;
+  color: #51b8f2;
+  background-color:#e3f5ff ;
+}
+#login-button:hover {
+  color: #fff;
+  background-color: #51b8f2;
+}
+.active-link{
+  color: #51b8f2 !important;
+  font-weight: bold;
+}
+
+.animate-navbar {
+  animation: slideDown 0.5s ease-in-out;
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
   }
-  .navbar-nav {
-    margin-top: 10px;
+  to {
+    transform: translateY(0);
+    opacity: 1;
   }
 }

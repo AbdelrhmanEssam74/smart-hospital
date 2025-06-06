@@ -1,51 +1,65 @@
-<!-- Top Contact Bar -->
-<div class="top-bar">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-6 contact-info">
-        <span><i class="far fa-clock"></i> Monday - Friday 08:00-19:00</span>
-        <span>Saturday and Sunday - CLOSED</span>
+<div class="top-bar bg-light py-2 border-bottom">
+  <div class="container d-flex justify-content-between  gap-4 flex-wrap p-2">
+    <div class="logo">
+      <a class="navbar-brand d-flex align-items-center" href="#">
+        <img src="/assets/images/logo.webp" alt="Logo" height="40" class="me-2"/>
+      </a>
+    </div>
+    <div class="d-flex  justify-content-center justify-content-md-start gap-3">
+      <div class="d-flex align-items-center gap-3 text-secondary">
+        <div class="">
+          <i class="fa-solid fa-clock fs-2 text-primary "></i>
+        </div>
+        <div class="d-flex flex-column  text-secondary">
+          <span>Monday - Friday 08:00 - 19:00</span>
+          <span class="d-none d-md-inline">Saturday and Sunday - CLOSED</span>
+        </div>
       </div>
-      <div class="col-md-6 contact-info text-md-end">
-        <span><i class="fas fa-phone"></i> (-001) 321-125-152</span>
-        <span><i class="far fa-envelope"></i> contactProlexe.com</span>
-        <span><i class="fas fa-map-marker-alt"></i> 27th Avenue, New York, W2 3XE</span>
+      <div class="d-flex align-items-center gap-3 text-secondary">
+        <div>
+          <i class="fa-solid fa-mobile-screen text-primary fs-2"></i>
+        </div>
+        <div class="d-flex flex-column  text-secondary">
+          <div>
+            (+001) 321-125-152
+          </div>
+          <div>
+            contact Prolexe.com
+          </div>
+        </div>
+
       </div>
     </div>
   </div>
 </div>
 
-<!-- Navigation -->
-<nav class="navbar navbar-expand-lg navbar-light bg-white">
+<nav [ngClass]="{
+      'navbar': true,
+      'navbar-expand-lg': true,
+      'navbar-light': true,
+      'bg-white': true,
+      'shadow-sm': isScrolled,
+      'fixed-top': isScrolled,
+      'animate-navbar': isScrolled
+    }">
   <div class="container">
-    <a class="navbar-brand" href="#">Prolexe</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ms-auto">
-        <li class="nav-item">
-          <a class="nav-link" href="#">HOME</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">SERVICE</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">PAGES</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">BLOG</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">GALLERY</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">SHOP</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">CONTACT</a>
-        </li>
+    <div class="collapse navbar-collapse" id="mainNavbar">
+      <ul class="navbar-nav mb-2 mb-lg-0 fw-semibold">
+        <li class="nav-item"><a class="nav-link" routerLinkActive="active-link" href="#">HOME</a></li>
+        <li class="nav-item"><a class="nav-link" routerLinkActive="active-link"   routerLink="/service">SERVICE</a></li>
+        <li class="nav-item"><a class="nav-link"  routerLinkActive="active-link"  routerLink="doctors">DOCTORS</a></li>
+        <li class="nav-item"><a class="nav-link"  routerLinkActive="active-link" routerLink="blog">BLOG</a></li>
+        <li class="nav-item"><a class="nav-link" routerLinkActive="active-link"  routerLink="gallery">GALLERY</a></li>
+        <li class="nav-item"><a class="nav-link" routerLinkActive="active-link"  routerLink="shop">SHOP</a></li>
+        <li class="nav-item"><a class="nav-link" routerLinkActive="active-link"  routerLink="contact">CONTACT</a></li>
       </ul>
     </div>
+    <bu routerLink="login" class="btn  text-center" id="login-button">
+      <i class="fa-solid fa-lock me-2"></i> Login
+    </bu>
   </div>
 </nav>
+
