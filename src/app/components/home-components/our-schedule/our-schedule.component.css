@@ -1,24 +1,23 @@
-.container-fluid{
-  margin-top: 70px;
+.container-fluid {
+  margin-top: 50px;
   background-color: rgba(249, 249, 249, 0.53);
   padding: 50px 20px;
+  font-family: main-font-regular;
 }
 
 
 .heading {
   font-size: 48px;
-  font-family: 'main-font-light';
-
+  font-weight: 300;
 }
 
 .heading span {
   color: #51b8f2;
   font-size: 53px;
-  font-family: 'main-font-bold';
+  font-weight: 700;
+  font-family: main-font-bold;
 }
-.lead{
-  font-family: 'main-font-regular';
-}
+
 #heading-box {
   position: relative;
   font-family: sans-serif;
@@ -61,14 +60,39 @@
   }
 }
 
-.grid-cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 2rem;
-  font-family: 'main-font-regular';
-
+.card {
+  background-color: transparent;
+  border-radius: 5px;
+  box-shadow: none;
+  border: none;
 }
 
+.card h5 {
+  padding: 15px 0px;
+  font-family: 'main-font-bold';
+  font-size: 25px;
+}
 
+.card ul li {
+  font-family: main-font-light;
+  background-color: transparent;
+  transition: 0.5s ease;
+}
 
+.card ul li:hover {
+  color: #51b8f2;
+}
 
+.image-sections h4 {
+  font-family: 'main-font-bold';
+  font-size: 40px;
+  margin-bottom: 20px;
+}
+
+.first-image {
+  width: 400px;
+}
+
+.second-image {
+  width: 250px;
+}

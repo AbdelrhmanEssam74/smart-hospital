@@ -1,14 +1,23 @@
 /* You can add global styles to this file, and also import other style files */
 @import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
-
-html, body {
-  height: 2000px;
+@font-face {
+  font-family: 'main-font-light';
+  src: url("/assets/fonts/helvetica/helvetica-light-587ebe5a59211.ttf")
 }
-
+@font-face {
+  font-family: 'main-font-regular';
+  src: url("/assets/fonts/helvetica/Helvetica.ttf")
+}
+@font-face {
+  font-family: 'main-font-bold';
+  src: url("/assets/fonts/helvetica/Helvetica-Bold.ttf")
+}
 body {
   margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+
   scroll-behavior: smooth;
 }
-
+*{
+  box-sizing: border-box;
+}
 

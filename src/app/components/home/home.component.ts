@@ -3,6 +3,7 @@ import {HeroComponent} from '../home-components/hero/hero.component';
 import {AppointmentFormComponent} from '../home-components/appointment-form/appointment-form.component';
 import {OurAvailableServicesComponent} from '../home-components/our-available-services/our-available-services.component';
 import {ChooseUsComponent} from '../home-components/choose-us/choose-us.component';
+import {OurScheduleComponent} from '../home-components/our-schedule/our-schedule.component';
 
 @Component({
   selector: 'app-home',
@@ -10,7 +11,8 @@ import {ChooseUsComponent} from '../home-components/choose-us/choose-us.componen
     HeroComponent,
     AppointmentFormComponent,
     OurAvailableServicesComponent,
-    ChooseUsComponent
+    ChooseUsComponent,
+    OurScheduleComponent
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'

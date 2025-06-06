@@ -17,3 +17,15 @@
     margin-top: 0;
   }
 }
+.slide-title{
+  font-family: 'main-font-bold';
+  font-size: 50px;
+  color: #fff;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+.slide-desc{
+  font-family: 'main-font-regular';
+  font-size: 20px;
+  color: #fff;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+}

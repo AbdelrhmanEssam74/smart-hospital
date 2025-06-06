@@ -7,10 +7,10 @@
   <div class="carousel-inner">
     @for (slide of slides; let i = $index; track i) {
       <div class="carousel-item" [class.active]="i === 0">
-        <img [src]="slide.image" class="d-block w-100" style="height: 100vh; object-fit: cover;" />
+        <img [src]="slide.image" class="d-block w-100" style="height: 100%; object-fit: cover;" />
         <div class="carousel-caption text-start d-none d-md-block" style="left: 10%; bottom: 30%;">
-          <h1 class="display-4 fw-bold text-white">{{ slide.title }}</h1>
-          <p class="lead text-white">{{ slide.description }}</p>
+          <h1 class="display-4 slide-title fw-bold text-white">{{ slide.title }}</h1>
+          <p class="lead text-white slide-desc">{{ slide.description }}</p>
         </div>
       </div>
     }
