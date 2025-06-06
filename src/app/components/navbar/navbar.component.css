@@ -11,7 +11,7 @@
 
 .navbar-nav .nav-link:hover,
 .navbar-nav .nav-link.active {
-  color: #0d6efd;
+  color: #51b8f2;
 }
 
 button.btn i {
@@ -19,11 +19,18 @@ button.btn i {
 }
 
 #login-button {
-  padding: 0.5rem 1.5rem;
+  padding: 10px 35px;
   border-radius: 30px;
+  box-shadow: none;
+  color: #51b8f2;
+  background-color:#e3f5ff ;
+}
+#login-button:hover {
+  color: #fff;
+  background-color: #51b8f2;
 }
 .active-link{
-  color: #0d6efd !important;
+  color: #51b8f2 !important;
   font-weight: bold;
 }
 
