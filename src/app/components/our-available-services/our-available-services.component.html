@@ -1,0 +1,22 @@
+<div class="container ">
+  <div id="heading-box">
+    <div class="heading  text-center mb-4 ">
+      <h2 class="display-5">Our Available <span class="display-3">Services</span></h2>
+    </div>
+    <div class="lead">
+      <p class="text-center mb-4 text-secondary">
+        What kind ok the service you can grt from us.</p>
+    </div>
+  </div>
+    <div class="grid-cards mt-5">
+        @for (card of cards; track card.title) {
+          <app-our-available-services-card
+            [iconClass]="card.iconClass"
+            [cardTitle]="card.title"
+            [cardText]="card.text"
+            [cardStyle]="card.style">
+          </app-our-available-services-card>
+        }
+    </div>
+
+</div>
