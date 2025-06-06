@@ -96,3 +96,39 @@
 .second-image {
   width: 250px;
 }
+@media (max-width: 992px) {
+  .image-sections {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .first-image {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .second-image {
+    width: 100%;
+    max-width: 300px;
+  }
+
+  .image-sections h4 {
+    text-align: center;
+  }
+}
+
+
+@media (max-width: 600px) {
+  .image-sections{
+    flex-wrap: wrap;
+  }
+  .second-image {
+    width: 400px;
+  }
+  .image-sections h4{
+    text-align: center;
+  }
+  .card{
+    text-align: center;
+  }
+}
