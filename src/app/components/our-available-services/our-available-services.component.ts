@@ -29,6 +29,24 @@ export class OurAvailableServicesComponent {
       title: 'Operation Theater',
       text: 'Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis.',
       style: 'Operation-card'
+    },
+    {
+      iconClass: 'fa-solid fa-brain',
+      title: 'Cancer Service',
+      text: 'Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis.',
+      style: 'Cancer-card'
+    },
+    {
+      iconClass: 'bi bi-droplet',
+      title: 'Blood Test',
+      text: 'Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis.',
+      style: 'Blood-card'
+    },
+    {
+      iconClass: 'bi bi-hospital',
+      title: '24/7 Pharmacy',
+      text: 'Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis.',
+      style: 'Pharmacy-card'
     }
   ];
 
