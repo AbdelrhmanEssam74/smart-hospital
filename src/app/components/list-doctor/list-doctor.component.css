@@ -1,0 +1,71 @@
+.doctors-hero {
+  background-image: url('../../../../public/assets/images/auth-image.jpeg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 400px;
+  background-attachment: fixed;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  padding-left: 50px;
+}
+
+.hero-content {
+  background-color: rgba(255, 255, 255, 0.6);
+  padding: 50px;
+  border-radius: 10px;
+  width: 80%;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  margin-bottom: 0px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.hero-content h1 {
+  font-size: 36px;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.hero-content .breadcrumb {
+  margin-top: 60px;
+
+  font-size: 14px;
+}
+
+.hero-content .breadcrumb a {
+  color: #51B8F2;
+  text-decoration: none;
+}
+.section-title {
+  font-weight: 200;
+  font-size: 3rem;
+  margin-bottom: 10px;
+}
+.line_down{
+  width: 150px;
+  margin: auto;
+  margin-top: -4px;
+  color: #51B8F2;
+  border-top: 2px solid #51B8F2;
+
+}
+.icon{
+    color: #51B8F2;
+    margin-bottom: -30px;
+
+}
+
+.section-subtitle {
+  color: #6c757d;
+  font-size: 20px;
+}
+
+.highlight {
+  color: #51B8F2;
+  font-weight: 700;
+}
+
