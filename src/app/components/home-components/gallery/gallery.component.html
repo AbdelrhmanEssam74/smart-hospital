@@ -1,0 +1,23 @@
+<div class="container-fluid">
+  <div class="container">
+    <div id="heading-box">
+      <div class="heading text-center mb-4">
+        <h2 class="display-5">Our <span class="display-3">Gallery</span></h2>
+      </div>
+      <div class="lead">
+        <p class="text-center mb-4 text-secondary">
+          What other sais about clinic</p>
+      </div>
+    </div>
+
+    <!-- Gallery Section -->
+    <div class="gallery-grid">
+      @for (image of Images; track image) {
+        <div class="gallery-item" [ngClass]="image.spanClass">
+          <img [src]="image.src" [alt]="image.alt" />
+        </div>
+      }
+    </div>
+
+  </div>
+</div>
