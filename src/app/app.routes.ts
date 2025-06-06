@@ -11,6 +11,6 @@ export const routes: Routes = [
   {path: 'register', component: RegisterComponent},
   {path: 'home', redirectTo: '', pathMatch: 'full'},
   { path: 'doctordetails/:id', component: DoctorDetailsComponent },
-  { path: 'listdoctor', component: ListDoctorComponent },
+  { path: 'doctors', component: ListDoctorComponent },
   {path: "**", redirectTo: "404", pathMatch: "full"}
 ]
