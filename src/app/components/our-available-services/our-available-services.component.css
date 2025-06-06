@@ -1,6 +1,9 @@
-.container {
-  margin-top: 50px;
+.container-fluid{
+  margin-top: 70px;
+  background-color: rgba(249, 249, 249, 0.53);
+  padding: 50px 20px;
 }
+
 
 .heading {
   font-size: 48px;
