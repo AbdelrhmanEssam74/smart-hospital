@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import {
   OurAvailableServicesCardComponent
-} from '../../our-available-services-card/our-available-services-card.component';
+} from '../our-available-services-card/our-available-services-card.component';
 
 @Component({
   selector: 'app-choose-us',
