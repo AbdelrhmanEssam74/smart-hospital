@@ -4,6 +4,7 @@ import {AppointmentFormComponent} from '../home-components/appointment-form/appo
 import {OurAvailableServicesComponent} from '../home-components/our-available-services/our-available-services.component';
 import {ChooseUsComponent} from '../home-components/choose-us/choose-us.component';
 import {OurScheduleComponent} from '../home-components/our-schedule/our-schedule.component';
+import {GalleryComponent} from '../home-components/gallery/gallery.component';
 
 @Component({
   selector: 'app-home',
@@ -12,7 +13,8 @@ import {OurScheduleComponent} from '../home-components/our-schedule/our-schedule
     AppointmentFormComponent,
     OurAvailableServicesComponent,
     ChooseUsComponent,
-    OurScheduleComponent
+    OurScheduleComponent,
+    GalleryComponent
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
