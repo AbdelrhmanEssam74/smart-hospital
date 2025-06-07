@@ -5,6 +5,7 @@ import {OurAvailableServicesComponent} from '../home-components/our-available-se
 import {ChooseUsComponent} from '../home-components/choose-us/choose-us.component';
 import {OurScheduleComponent} from '../home-components/our-schedule/our-schedule.component';
 import {GalleryComponent} from '../home-components/gallery/gallery.component';
+import {OurDepartmentsComponent} from '../home-components/our-departments/our-departments.component';
 
 @Component({
   selector: 'app-home',
@@ -14,7 +15,8 @@ import {GalleryComponent} from '../home-components/gallery/gallery.component';
     OurAvailableServicesComponent,
     ChooseUsComponent,
     OurScheduleComponent,
-    GalleryComponent
+    GalleryComponent,
+    OurDepartmentsComponent
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
