@@ -1,0 +1,32 @@
+<div class="container-fluid">
+  <div class="container ">
+    <div id="heading-box">
+      <div class="heading  text-center mb-4 ">
+        <h2 class="display-5">Our <span class="display-3">Departments</span></h2>
+      </div>
+      <div class="lead">
+        <p class="text-center mb-4 text-secondary">
+          Who Is Behind The Best Medical Service In Our Clinic?</p>
+      </div>
+    </div>
+    <section class="services-section py-5">
+      <div class="container">
+        <div class="row g-4">
+          @for (dept of departments; track  dept) {
+            <div class="col-md-4 col-sm-6">
+              <div class="service-card p-4 h-100">
+                <div class="icon-circle mb-3">
+                  <i [class]="dept.iconClass"></i>
+                </div>
+                <h5 class="fw-bold">{{ dept.title }}</h5>
+                <p class="text-muted">{{ dept.description }}</p>
+                <a href="#" class="read-more fw-semibold">READ MORE <span>&rarr;</span></a>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+    </section>
+
+  </div>
+</div>

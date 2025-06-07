@@ -1,0 +1,94 @@
+.container-fluid{
+  margin-top: 70px;
+  background-color: rgba(249, 249, 249, 0.53);
+  padding: 50px 20px;
+}
+
+
+.heading {
+  font-size: 48px;
+  font-family: 'main-font-light';
+
+}
+
+.heading span {
+  color: #51b8f2;
+  font-size: 53px;
+  font-family: 'main-font-bold';
+}
+.lead{
+  font-family: 'main-font-regular';
+}
+#heading-box {
+  position: relative;
+  font-family: sans-serif;
+  text-align: center;
+}
+
+
+#heading-box::after {
+  content: '';
+  position: absolute;
+  width: 200px;
+  height: 2px;
+  background-color: #51b8f2;
+  bottom: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+#heading-box::before {
+  content: '\f043';
+  font-family: 'Font Awesome 6 Free';
+  font-weight: 600;
+  font-size: 15px;
+  color: #51b8f2;
+  position: absolute;
+  bottom: -19px;
+  left: 50%;
+  transform: translateX(-50%);
+  animation: dropFade 1s ease-in-out infinite alternate;
+}
+
+@keyframes dropFade {
+  0% {
+    opacity: 0.8;
+    transform: translateX(-50%) translateY(0);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(3px);
+  }
+}
+.service-card {
+  background-color: #fff;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  transition: box-shadow 0.3s ease;
+}
+
+.service-card:hover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.icon-circle {
+  width: 60px;
+  height: 60px;
+  background-color: #e5f2fd;
+  color: #51b8f2;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 26px;
+}
+
+.read-more {
+  text-decoration: none;
+  color: #51b8f2;
+  transition: color 0.3s;
+}
+
+.read-more:hover {
+  color: #51b8f2;
+}
