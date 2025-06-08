@@ -7,6 +7,7 @@ import {OurScheduleComponent} from '../home-components/our-schedule/our-schedule
 import {GalleryComponent} from '../home-components/gallery/gallery.component';
 import {OurDepartmentsComponent} from '../home-components/our-departments/our-departments.component';
 import {CounterSectionComponent} from '../home-components/counter-section/counter-section.component';
+import {QualifiedDoctorComponent} from '../home-components/qualified-doctor/qualified-doctor.component';
 
 @Component({
   selector: 'app-home',
@@ -18,7 +19,8 @@ import {CounterSectionComponent} from '../home-components/counter-section/counte
     OurScheduleComponent,
     GalleryComponent,
     OurDepartmentsComponent,
-    CounterSectionComponent
+    CounterSectionComponent,
+    QualifiedDoctorComponent
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
