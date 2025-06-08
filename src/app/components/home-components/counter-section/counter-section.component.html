@@ -1,0 +1,18 @@
+<section class="counter-section text-white py-5" #counterSection>
+  <div class="container">
+    <div class="row text-center">
+      @for (item of counters; let i = $index; track item) {
+        <div class="col-md-3 col-6">
+          <div class="counter-box">
+            <div class="icon mb-3">
+              <i [class]="item.icon"></i>
+            </div>
+            <h2 [id]="'counter-' + i" class="counter-value">0</h2>
+            <div class="divider mx-auto my-2"></div>
+            <p class="fw-semibold">{{ item.label }}</p>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</section>
