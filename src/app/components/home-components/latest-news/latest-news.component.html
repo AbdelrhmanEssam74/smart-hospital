@@ -1,0 +1,37 @@
+<div class="container-fluid">
+  <div class="container ">
+    <div id="heading-box">
+      <div class="heading  text-center mb-4 ">
+        <h2 class="display-5">Latest <span class="display-3">News</span></h2>
+      </div>
+      <div class="lead">
+        <p class="text-center mb-4 text-secondary">
+          Who Is Behind The Best Medical Service In Our Clinic?.</p>
+      </div>
+    </div>
+    <section class="blog-section py-5">
+      <div class="row g-4">
+        @for (post of blogPosts; track post) {
+          <div class="col-md-4 col-sm-6">
+            <div class="card blog-card border-0 shadow-sm h-100">
+              <div class="position-relative">
+                <img [src]="post.image" alt="blog" class="img-fluid w-100"/>
+                <span class="date-badge">{{ post.date }}</span>
+              </div>
+              <div class="card-body">
+                <div class="d-flex justify-content-start gap-3 text-muted small mb-2">
+                  <span><i class="fa-regular fa-calendar"></i> {{ post.created }}</span>
+                  <span><i class="fa-regular fa-comments"></i> {{ post.comments }} Comment</span>
+                </div>
+                <a href="#" class="title fw-bold">{{ post.title }}</a>
+                <p class="text-muted small">{{ post.description }}</p>
+                <a href="#" class="btn-light-blue ">Learn More</a>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    </section>
+
+  </div>
+</div>
