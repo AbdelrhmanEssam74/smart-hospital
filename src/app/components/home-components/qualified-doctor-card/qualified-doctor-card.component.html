@@ -1,0 +1,16 @@
+<div class="doctor-card text-center">
+  <div class="image-wrapper">
+    <img [src]="doctor.image" alt="{{ doctor.name }}" class="img-fluid rounded shadow" />
+    <div class="overlay">
+      <ul class="social-icons list-unstyled d-flex justify-content-center gap-2 m-0">
+        @for (icon of doctor.social; track icon) {
+          <li><a href="#"><i [class]="icon"></i></a></li>
+        }
+      </ul>
+    </div>
+  </div>
+  <div class="info-box mt-3">
+    <h6 class="fw-bold m-0">{{ doctor.name }}</h6>
+    <p class="text-muted">{{ doctor.specialty }}</p>
+  </div>
+</div>
