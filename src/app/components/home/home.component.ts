@@ -10,6 +10,7 @@ import {CounterSectionComponent} from '../home-components/counter-section/counte
 import {QualifiedDoctorComponent} from '../home-components/qualified-doctor/qualified-doctor.component';
 import {LatestNewsComponent} from '../home-components/latest-news/latest-news.component';
 import {ContactSectionComponent} from '../home-components/contact-section/contact-section.component';
+import {FooterComponent} from '../footer/footer.component';
 
 @Component({
   selector: 'app-home',
@@ -24,7 +25,8 @@ import {ContactSectionComponent} from '../home-components/contact-section/contac
     CounterSectionComponent,
     QualifiedDoctorComponent,
     LatestNewsComponent,
-    ContactSectionComponent
+    ContactSectionComponent,
+    FooterComponent
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
