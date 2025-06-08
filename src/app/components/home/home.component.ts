@@ -6,6 +6,7 @@ import {ChooseUsComponent} from '../home-components/choose-us/choose-us.componen
 import {OurScheduleComponent} from '../home-components/our-schedule/our-schedule.component';
 import {GalleryComponent} from '../home-components/gallery/gallery.component';
 import {OurDepartmentsComponent} from '../home-components/our-departments/our-departments.component';
+import {CounterSectionComponent} from '../home-components/counter-section/counter-section.component';
 
 @Component({
   selector: 'app-home',
@@ -16,7 +17,8 @@ import {OurDepartmentsComponent} from '../home-components/our-departments/our-de
     ChooseUsComponent,
     OurScheduleComponent,
     GalleryComponent,
-    OurDepartmentsComponent
+    OurDepartmentsComponent,
+    CounterSectionComponent
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
