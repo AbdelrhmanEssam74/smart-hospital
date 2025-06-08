@@ -11,32 +11,33 @@ import { Component } from '@angular/core';
 export class OurDepartmentsComponent {
   departments = [
     {
-      iconClass: 'fas fa-brain',
+      iconClass: 'fa-regular fa-brain',
       title: 'Neurology',
       description: 'Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis Nullam sit amet nunc felis,'
     },
     {
-      iconClass: 'fas fa-eye',
+      iconClass: 'fa-regular fa-eye',
       title: 'Eye Care',
       description: 'Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis Nullam sit amet nunc felis,'
     },
     {
-      iconClass: 'fas fa-procedures',
+
+      iconClass: 'fa-regular fa-bone-break',
       title: 'Traumatology',
       description: 'Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis Nullam sit amet nunc felis,'
     },
     {
-      iconClass: 'fas fa-tooth',
+      iconClass: 'fa-regular fa-tooth',
       title: 'Denteal care',
       description: 'Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis Nullam sit amet nunc felis,'
     },
     {
-      iconClass: 'fas fa-tint',
+      iconClass: 'fa-regular fa-stomach',
       title: 'Kidney',
       description: 'Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis Nullam sit amet nunc felis,'
     },
     {
-      iconClass: 'fas fa-ear-listen',
+      iconClass: 'fa-regular fa-ear',
       title: 'Ear Care',
       description: 'Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis Nullam sit amet nunc felis,'
     }

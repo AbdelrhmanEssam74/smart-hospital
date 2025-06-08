@@ -17,6 +17,9 @@
 button.btn i {
   vertical-align: middle;
 }
+i{
+  color : #51b8f2
+}
 
 #login-button {
   padding: 10px 35px;
