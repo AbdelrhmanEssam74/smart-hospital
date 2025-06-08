@@ -1,0 +1,277 @@
+.contact-section {
+  background: #061939;
+  padding: 60px 0;
+  font-family: main-font-regular;
+}
+
+.contact-top-bar-side {
+  align-items: center;
+
+}
+
+.contact-top-bar-side i {
+  font-size: 20px;
+  height: 60px;
+  width: 60px;
+  background: #063464;
+  color: #fff;
+  margin-right: 10px;
+  line-height: 60px;
+  border-radius: 50px;
+  text-align: center;
+  -webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+  -webkit-transform: scale(1);
+  transform: scale(1);
+  overflow: hidden;
+  -webkit-transition: all 0.4s cubic-bezier(0.68, -0.6, 0.32, 1.6);
+  transition: all 0.4s cubic-bezier(0.68, -0.6, 0.32, 1.6);
+}
+.contact-title {
+  padding: 0 10px;
+}
+
+.contact-top-bar-side p {
+  margin: 0;
+  line-height: 1.5;
+  color: #fff;
+}
+
+.contact-top-bar-side a {
+  color: #51b8f2;
+  text-decoration: none;
+}
+
+.contact-top-bar {
+  justify-content: flex-end;
+}
+
+.contact-top-bar .icon a {
+  font-size: 14px;
+  font-weight: 300;
+  -webkit-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+}
+
+.contact-top-bar .icon a i {
+  color: #fff;
+  background: #063464;
+  border-radius: 5px;
+  text-align: center;
+  margin-left: 10px;
+  font-size: 20px;
+  height: 50px;
+  width: 50px;
+  line-height: 50px;
+  transition: 0.3s all;
+}
+
+.contact-top-bar .icon a:hover i {
+  background: #51b8f2;
+  color: white;
+}
+
+.btn-secondary-filled {
+  background: #51b8f2;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  margin-left: 20px;
+  font-weight: 500;
+}
+
+.btn-secondary-filled:hover {
+  background: #2a9a9f;
+}
+
+hr {
+  margin: 30px 0;
+  opacity: 0.1;
+  color: #fff;
+}
+
+.contact-title h5 {
+  font-size: 24px;
+  color: #fff;
+  padding-bottom: 13px;
+  font-weight: 600;
+}
+
+.contact-title h5 span {
+  color: #51b8f2;
+  font-weight: 800;
+}
+
+.contact-title p {
+  color: #fff;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.sub-title h6 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.sub-title h6 span {
+  color: #51b8f2;
+}
+
+.contact-link h6 {
+  font-size: 14px;
+  font-weight: 500;
+  color: #fff;
+  margin-bottom: 10px;
+}
+
+.contact-link h6 a {
+  color: #fff;
+  text-decoration: none;
+  transition: 0.3s all;
+}
+
+.contact-link h6 a:hover {
+  color: #51b8f2;
+}
+
+.contact-link-post {
+  list-style: none;
+  padding: 0;
+}
+
+.contact-link-post li {
+  margin-bottom: 10px;
+}
+
+.contact-link-post li a {
+  color: #fff;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.contact-link-post li a:hover {
+  color: #51b8f2;
+}
+
+.contact-link-post li i {
+  margin-right: 5px;
+  color: #3fbbc0;
+}
+
+.day-time a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.text-box {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.text-box input {
+  border: none;
+  padding: 10px 15px;
+  width: 100%;
+  outline: none;
+}
+
+.text-box button {
+  background: #51b8f2;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+}
+.social-icon {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.social-icon a {
+  display: inline-block;
+  background: #05244b;
+  color: #fff;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 40px;
+  transition: 0.3s;
+  font-size: 20px;
+}
+
+.social-icon a:hover {
+  background: #3fbbc0;
+  color: white;
+}
+
+@media (max-width: 768px) {
+  .contact-top-bar {
+    justify-content: center;
+    margin-top: 20px;
+  }
+
+  .contact-top-bar .icon {
+    margin: 0 auto 15px;
+  }
+
+  .bttn {
+    margin: 0 auto;
+  }
+}
+@media (max-width: 768px) {
+  .contact-top-bar-side {
+    flex-direction: column;
+    text-align: center;
+    gap: 10px;
+  }
+
+  .contact-top-bar-side i {
+    margin: 0 auto 10px;
+  }
+
+  .contact-top-bar {
+    flex-direction: column;
+    align-items: center !important;
+    text-align: center !important;
+  }
+
+  .contact-top-bar .icon {
+    margin-bottom: 15px;
+  }
+
+  .btn-secondary-filled {
+    margin: 0;
+  }
+
+  .social-icon {
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+  }
+
+  .social-icon a {
+    margin-bottom: 10px;
+  }
+
+  .contact-section .row > div {
+    text-align: center;
+  }
+
+  .contact-title {
+    margin-top: 20px;
+  }
+
+  .day-time .d-flex {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .day-time a {
+    margin-top: 5px;
+  }
+}
