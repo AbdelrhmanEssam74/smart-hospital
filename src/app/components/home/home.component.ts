@@ -9,6 +9,7 @@ import {OurDepartmentsComponent} from '../home-components/our-departments/our-de
 import {CounterSectionComponent} from '../home-components/counter-section/counter-section.component';
 import {QualifiedDoctorComponent} from '../home-components/qualified-doctor/qualified-doctor.component';
 import {LatestNewsComponent} from '../home-components/latest-news/latest-news.component';
+import {ContactSectionComponent} from '../home-components/contact-section/contact-section.component';
 
 @Component({
   selector: 'app-home',
@@ -22,7 +23,8 @@ import {LatestNewsComponent} from '../home-components/latest-news/latest-news.co
     OurDepartmentsComponent,
     CounterSectionComponent,
     QualifiedDoctorComponent,
-    LatestNewsComponent
+    LatestNewsComponent,
+    ContactSectionComponent
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
