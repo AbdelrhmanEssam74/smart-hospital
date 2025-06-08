@@ -1,0 +1,20 @@
+.footer-section {
+  background: #000000;
+  padding-top: 30px;
+  padding-bottom: 33px;
+}
+@media (max-width: 991px) {
+  .container {
+    max-width: 991px !important;
+  }
+}
+.footer-section .footer-content p {
+  color: #fff;
+  margin-bottom: 0;
+}
+.footer-section .footer-link a {
+  font-family: main-font-regular;
+  color: #fff;
+  padding-left: 20px;
+  text-decoration: none;
+}
