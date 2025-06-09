@@ -1,0 +1,44 @@
+<h2 class="text-center my-4">Appointments List</h2>
+
+<div class="container">
+  <div class="table-responsive">
+    <table class="table table-bordered table-striped table-hover text-center">
+      <thead class="table-primary">
+        <tr>
+          <th>Patient</th>
+          <th>Gander</th>
+          <th>Date</th>
+          <th>From</th>
+          <th>To</th>
+          <th>notes</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for(appt of appointments; track appt.id) {
+          <tr>
+            <td>{{ appt.patientName }}</td>
+            <td>{{ appt.gender}}</td>
+            <td>{{ appt.date }}</td>
+            <td>{{ appt.startTime }}</td>
+            <td>{{ appt.endTime }}</td>
+            <td>{{ appt.notes }}</td>
+
+            <td>
+              <span class="badge" [ngClass]="{
+                'bg-success': appt.status === 'confirmed',
+                'bg-warning': appt.status === 'pending',
+                'bg-danger': appt.status === 'cancelled'
+              }">
+                {{ appt.status }}
+              </span>
+            </td>
+
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
