@@ -1,30 +1,53 @@
 <section class="doctors-hero">
   <div class="hero-content">
-    <div>    <small>Doctor's</small>
-    <h1>Meet Our Doctors</h1>
-  </div>
-
+    <div>
+      <small>Doctor's</small>
+      <h1>Meet Our Doctors</h1>
+    </div>
     <nav class="breadcrumb fw-bold">
-      <a href="#">Home &raquo;  </a>      Doctor's
+      <a href="#">Home &raquo;</a> Doctor's
     </nav>
   </div>
 </section>
-
 
 <div class="container py-5">
   <div class="text-center">
     <h6 class="section-title">Qualified The <span class="highlight">Doctor's</span></h6>
     <p class="section-subtitle">Who is behind the best medical service in our clinic?</p>
-    <i class="icon  bi bi-droplet-fill "></i>
+    <i class="icon bi bi-droplet-fill"></i>
     <hr class="line_down" />
   </div>
-    <div class="row g-4 m-5">
-              @for(doctor of doctors; track doctor.id){
 
-      <div class="col-lg-3 col-md-6 col-sm-12">
-      <app-doctor [doctor]="doctor"></app-doctor>
+  <!-- Search Bar -->
+  <div class="row justify-content-center mb-4 my-5">
+    <div class="col-md-6">
+      <div class="input-group">
+        <input type="text" 
+               class="form-control" 
+               [(ngModel)]="searchTerm" 
+               (input)="filterDoctors()"
+               placeholder="Search by name or specialty">
+        <button class="btn btn-outline-secondary" 
+                type="button" 
+                (click)="searchTerm = ''; filterDoctors()">
+          Clear
+        </button>
+      </div>
     </div>
-  }
-    </div>
+  </div>
+  @if (filteredDoctors.length === 0) {
+      <div class="col-12 text-center py-5">
+        <div class="alert alert-info">
+          No doctors found matching your search.
+        </div>
+      </div>
+    }
+  <div class="row g-4 m-5">
+    @for(doctor of filteredDoctors; track doctor.id) {
+      <div class="col-md-3">
+        <app-doctor [doctor]="doctor"></app-doctor>
+      </div>
+    }
+  
+  </div>
 </div>
-

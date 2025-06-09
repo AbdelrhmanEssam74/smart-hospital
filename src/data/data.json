@@ -1,0 +1,498 @@
+{
+"roles": [
+{
+    "id": 1,
+    "name": "Admin"
+},
+{
+    "id": 2,
+    "name": "Doctor"
+},
+{
+    "id": 3,
+    "name": "Nurse"
+},
+{
+    "id": 4,
+    "name": "Receptionist"
+}
+],
+"users": [
+{
+    "id": 1,
+    "name": "Dr. Nada Smith",
+    "email": "nada@hospital.com",
+    "password": "$2a$10$hashedpassword",
+    "phone": "966501234567",
+    "image": "assets/images/doctors/doctor1.jpg",
+"profile_description": "Experienced cardiologist with over 10 years in patient care.",
+
+
+
+    "role_id": 1,
+    "created_at": "2023-01-01T08:00:00Z",
+    "updated_at": "2023-01-01T08:00:00Z"
+},
+{
+    "id": 2,
+    "name": "Dr. Emily Johnson",
+    "email": "emily.johnson@hospital.com",
+    "password": "$2a$10$hashedpassword",
+    "phone": "966502345678",
+    "image": "assets/images/doctors/doctor2.jpg",
+    "profile_description": "Experienced cardiologist with over 10 years in patient care.",
+
+
+    "role_id": 2,
+    "created_at": "2023-01-02T09:00:00Z",
+    "updated_at": "2023-01-02T09:00:00Z"
+}, {
+    "id": 3,
+    "name": "Dr. Michael Brown",
+    "email": "michael.brown@hospital.com",
+    "password": "$2a$10$hashedpassword",
+    "phone": "966502345478",
+        "image": "assets/images/doctors/doctor3.webp",
+        "profile_description": "Experienced cardiologist with over 10 years in patient care.",
+
+
+    "role_id": 2,
+    "created_at": "2023-01-02T09:00:00Z",
+    "updated_at": "2023-01-02T09:00:00Z"
+}, {
+    "id": 4,
+    "name": "Dr. Sarah Davis",
+    "email": "Sarah.Davis@hospital.com",
+    "password": "$2a$10$hashedpassword",
+    "phone": "966502365679",
+        "image": "assets/images/doctors/doctor4.webp",
+        "profile_description": "Experienced cardiologist with over 10 years in patient care.",
+
+
+    "role_id": 2,
+    "created_at": "2023-01-02T09:00:00Z",
+    "updated_at": "2023-01-02T09:00:00Z"
+}, {
+    "id": 5,
+    "name": "Dr. William Wilson",
+    "email": "William@hospital.com",
+    "password": "$2a$10$hashedpassword",
+    "phone": "966502345679",
+        "image": "assets/images/doctors/doctor5.webp",
+        "profile_description": "Experienced cardiologist with over 10 years in patient care.",
+
+
+    "role_id": 2,
+    "created_at": "2023-01-02T09:00:00Z",
+    "updated_at": "2023-01-02T09:00:00Z"
+},
+ {
+    "id": 6,
+    "name": "Dr. Linda Martinez",
+    "email": "Linda@hospital.com",
+    "password": "$2a$10$hashedpassword",
+    "phone": "966502345679",
+        "image": "assets/images/doctors/doctor6.webp",
+        "profile_description": "Experienced cardiologist with over 10 years in patient care.",
+
+
+    "role_id": 2,
+    "created_at": "2023-01-02T09:00:00Z",
+    "updated_at": "2023-01-02T09:00:00Z"
+}, {
+    "id": 7,
+    "name": "Dr. James Anderson",
+    "email": "James@hospital.com",
+    "password": "$2a$10$hashedpassword",
+    "phone": "966502345679",
+    "image": "assets/images/doctors/doctor7.webp",
+    "profile_description": "Experienced cardiologist with over 10 years in patient care.",
+
+    "role_id": 2,
+    "created_at": "2023-01-02T09:00:00Z",
+    "updated_at": "2023-01-02T09:00:00Z"
+}, {
+    "id": 8,
+    "name": "Dr. Barbara Thomas",
+    "email": "Barbara@hospital.com",
+    "password": "$2a$10$hashedpassword",
+    "phone": "966502345679",
+        "image": "assets/images/doctors/doctor8.webp",
+        "profile_description": "Experienced cardiologist with over 10 years in patient care.",
+
+
+    "role_id": 2,
+    "created_at": "2023-01-02T09:00:00Z",
+    "updated_at": "2023-01-02T09:00:00Z"
+}, 
+{
+    "id": 9,
+    "name": "Dr. Christopher Taylor",
+    "email": "Christopher@hospital.com",
+    "password": "$2a$10$hashedpassword",
+    "phone": "966502345679",
+    "image": "assets/images/doctors/doctor9.jpg",
+    "profile_description": "Experienced cardiologist with over 10 years in patient care.",
+
+
+    "role_id": 2,
+    "created_at": "2023-01-02T09:00:00Z",
+    "updated_at": "2023-01-02T09:00:00Z"
+}, {
+    "id": 10,
+    "name": "Dr. Patricia Moore",
+    "email": "Patricia@hospital.com",
+    "password": "$2a$10$hashedpassword",
+    "phone": "966502345679",
+        "image": "assets/images/doctors/doctor10.webp",
+        "profile_description": "Experienced cardiologist with over 10 years in patient care.",
+
+
+    "role_id": 2,
+    "created_at": "2023-01-02T09:00:00Z",
+    "updated_at": "2023-01-02T09:00:00Z"
+},
+
+{
+    "id": 6,
+    "name": "Nurse Hany Hanna",
+    "email": "hany@hospital.com",
+    "password": "$2a$10$hashedpassword",
+    "phone": "266503456789",
+    "role_id": 3,
+    "created_at": "2023-01-03T10:00:00Z",
+    "updated_at": "2023-01-03T10:00:00Z"
+},
+{
+    "id": 7,
+    "name": "Nurse Hanaa Fathy",
+    "email": "hanaa@hospital.com",
+    "password": "$2a$10$hashedpassword",
+    "phone": "966566656789",
+    "role_id": 3,
+    "created_at": "2023-01-03T10:00:00Z",
+    "updated_at": "2023-01-03T10:00:00Z"
+},
+{
+    "id": 8,
+    "name": "Nurse Menna Nady",
+    "email": "Menna@hospital.com",
+    "password": "$2a$10$hashedpassword",
+    "phone": "944503456789",
+    "role_id": 3,
+    "created_at": "2023-01-03T10:00:00Z",
+    "updated_at": "2023-01-03T10:00:00Z"
+}
+],
+"patients": [
+{
+    "id": 1,
+    "user_id": null,
+    "medical_record_number": "MRN20230001",
+    "date_of_birth": "1985-05-15",
+    "gender": "Male",
+    "address": "123 King Fahd Rd, Riyadh",
+    "phone": "966504567890",
+    "created_at": "2023-02-01T10:30:00Z",
+    "updated_at": "2023-02-01T10:30:00Z"
+},
+{
+    "id": 2,
+    "user_id": null,
+    "medical_record_number": "MRN20230002",
+    "date_of_birth": "1990-08-22",
+    "gender": "Female",
+    "address": "456 Olaya St, Riyadh",
+    "phone": "966505678901",
+    "created_at": "2023-02-02T11:45:00Z",
+    "updated_at": "2023-02-02T11:45:00Z"
+}
+],
+"specialties": [
+{
+    "id": 1,
+    "name": "Cardiology"
+},
+{
+    "id": 2,
+    "name": "Orthopedics"
+},
+{
+    "id": 3,
+    "name": "Pediatrics"
+},
+{
+    "id": 4,
+    "name": "Allergy and Immunology"
+},
+{
+    "id": 5,
+    "name": "Anesthesiology"
+},
+{
+    "id": 6,
+    "name": "Colon and Rectal Surgery"
+},
+{
+    "id": 7,
+    "name": "Dermatology"
+},
+{
+    "id": 8,
+    "name": "Emergency Medicine"
+},
+{
+    "id": 9,
+    "name": "Family Medicine"
+},
+{
+    "id": 10,
+    "name": "General Surgery"
+}
+],
+"doctors": [
+{
+    "id": 1,
+    "user_id": 2,
+    "specialty_id": 1,
+    "license_number": "DOC-SA-12345",
+    "years_of_experience": 10,
+    "created_at": "2023-01-02T09:00:00Z",
+    "updated_at": "2023-01-02T09:00:00Z"
+},
+{
+    "id": 2,
+    "user_id": 3,
+    "specialty_id": 2,
+    "license_number": "DOC-SA-12345",
+    "years_of_experience": 8,
+    "created_at": "2023-01-02T09:00:00Z",
+    "updated_at": "2023-01-02T09:00:00Z"
+},
+{
+    "id": 3,
+    "user_id": 4,
+    "specialty_id": 3,
+    "license_number": "DOC-SA-12345",
+    "years_of_experience": 10,
+    "created_at": "2023-01-02T09:00:00Z",
+    "updated_at": "2023-01-02T09:00:00Z"
+},
+{
+    "id": 4,
+    "user_id": 5,
+    "specialty_id": 4,
+    "license_number": "DOC-SA-12345",
+    "years_of_experience": 2,
+    "created_at": "2023-01-02T09:00:00Z",
+    "updated_at": "2023-01-02T09:00:00Z"
+},
+{
+    "id": 5,
+    "user_id": 6,
+    "specialty_id": 5,
+    "license_number": "DOC-SA-12345",
+    "years_of_experience": 4,
+    "created_at": "2023-01-02T09:00:00Z",
+    "updated_at": "2023-01-02T09:00:00Z"
+},
+{
+    "id": 6,
+    "user_id": 7,
+    "specialty_id": 6,
+    "license_number": "DOC-SA-12345",
+    "years_of_experience": 9,
+    "created_at": "2023-01-02T09:00:00Z",
+    "updated_at": "2023-01-02T09:00:00Z"
+},{
+    "id": 7,
+    "user_id": 8,
+    "specialty_id": 7,
+    "license_number": "DOC-SA-12345",
+    "years_of_experience": 4,
+    "created_at": "2023-01-02T09:00:00Z",
+    "updated_at": "2023-01-02T09:00:00Z"
+},{
+    "id": 8,
+    "user_id": 9,
+    "specialty_id": 8,
+    "license_number": "DOC-SA-12345",
+    "years_of_experience": 9,
+    "created_at": "2023-01-02T09:00:00Z",
+    "updated_at": "2023-01-02T09:00:00Z"
+},{
+    "id": 9,
+    "user_id": 10,
+    "specialty_id": 9,
+    "license_number": "DOC-SA-12345",
+    "years_of_experience": 5,
+    "created_at": "2023-01-02T09:00:00Z",
+    "updated_at": "2023-01-02T09:00:00Z"
+},{
+    "id": 10,
+    "user_id": 1,
+    "specialty_id": 10,
+    "license_number": "DOC-SA-12345",
+    "years_of_experience": 20,
+    "created_at": "2023-01-02T09:00:00Z",
+    "updated_at": "2023-01-02T09:00:00Z"
+}
+
+],
+"departments": [
+{
+    "id": 1,
+    "name": "Cardiology",
+    "location": "Floor 3, Wing A",
+    "head_doctor_id": 1
+},
+{
+    "id": 2,
+    "name": "Emergency",
+    "location": "Floor 1, Main Building",
+    "head_doctor_id": null
+}
+],
+"rooms": [
+{
+    "id": 1,
+    "room_number": "301A",
+    "department_id": 1,
+    "type": "Private",
+    "status": "Occupied"
+},
+{
+    "id": 2,
+    "room_number": "302B",
+    "department_id": 1,
+    "type": "General",
+    "status": "Available"
+}
+],
+"nurses": [
+{
+    "id": 1,
+    "user_id": 3,
+    "department_id": 1,
+    "license_number": "NUR-SA-54321",
+    "shift_start": "08:00:00",
+    "shift_end": "16:00:00",
+    "created_at": "2023-01-03T10:00:00Z",
+    "updated_at": "2023-01-03T10:00:00Z"
+}
+],
+"admissions": [
+{
+    "id": 1,
+    "patient_id": 1,
+    "room_id": 1,
+    "admit_date": "2023-02-10T14:30:00Z",
+    "discharge_date": null,
+    "status": "Admitted"
+}
+],
+"appointments": [
+{
+    "id": 1,
+    "patient_id": 2,
+    "doctor_id": 1,
+    "scheduled_at": "2023-02-15T10:00:00Z",
+    "status": "Confirmed",
+    "notes": "Follow-up for heart condition"
+}
+],
+"medical_records": [
+{
+    "id": 1,
+    "patient_id": 1,
+    "doctor_id": 1,
+    "record_date": "2023-02-10T15:00:00Z",
+    "diagnosis": "Hypertension",
+    "treatment_plan": "Medication and lifestyle changes"
+}
+],
+"prescriptions": [
+{
+    "id": 1,
+    "medical_record_id": 1,
+    "prescribed_at": "2023-02-10T15:30:00Z",
+    "total_cost": 120.50
+}
+],
+"medicines": [
+{
+    "id": 1,
+    "name": "Lisinopril",
+    "description": "ACE inhibitor for blood pressure",
+    "unit_price": 45.25
+},
+{
+    "id": 2,
+    "name": "Atorvastatin",
+    "description": "Cholesterol medication",
+    "unit_price": 75.25
+}
+],
+"prescription_items": [
+{
+    "id": 1,
+    "prescription_id": 1,
+    "medicine_id": 1,
+    "dosage": "10mg",
+    "frequency": "Once daily",
+    "duration_days": 30
+},
+{
+    "id": 2,
+    "prescription_id": 1,
+    "medicine_id": 2,
+    "dosage": "20mg",
+    "frequency": "Once daily at bedtime",
+    "duration_days": 30
+}
+],
+"lab_tests": [
+{
+    "id": 1,
+    "name": "Complete Blood Count",
+    "description": "Measures various components of blood",
+    "cost": 150.00
+},
+{
+    "id": 2,
+    "name": "Lipid Panel",
+    "description": "Measures cholesterol and triglycerides",
+    "cost": 200.00
+}
+],
+"lab_results": [
+{
+    "id": 1,
+    "appointment_id": 1,
+    "lab_test_id": 2,
+    "patient_id": 2,
+    "result_value": "Total Cholesterol: 180 mg/dL",
+    "result_date": "2023-02-16T09:15:00Z"
+}
+],
+"invoices": [
+{
+    "id": 1,
+    "patient_id": 1,
+    "admission_id": 1,
+    "appointment_id": null,
+    "invoice_date": "2023-02-11T10:00:00Z",
+    "total_amount": 500.00,
+    "status": "Unpaid"
+}
+],
+"payments": [
+{
+    "id": 1,
+    "invoice_id": 1,
+    "paid_at": "2023-02-12T11:30:00Z",
+    "amount": 250.00,
+    "method": "Credit Card"
+}
+]
+}
