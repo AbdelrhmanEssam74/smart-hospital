@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { AuthService } from '../../services/auth.service';
+import { AuthService, User } from '../../services/auth.service';
 
 @Component({
   selector: 'app-register',
@@ -15,7 +15,7 @@ import { AuthService } from '../../services/auth.service';
 export class RegisterComponent {
   registerForm: FormGroup;
   errorMessage: string | null = null;
-  roles = ['doctor', 'patient'];
+  roles = ['doctor', 'patient', 'user', 'admin'];
 
   constructor(
     private fb: FormBuilder,
@@ -44,16 +44,25 @@ export class RegisterComponent {
     }
 
     const formValue = this.registerForm.value;
-    const user = {
-      firstName: formValue.firstName,
-      lastName: formValue.lastName,
-      email: formValue.email.toLowerCase(),
-      password: formValue.password,
-      phone: formValue.phone,
-      role: formValue.role
-    };
 
-    if (this.authService.register(user)) {
+    const usersString = localStorage.getItem('auth_users');
+const users: User[] = usersString ? JSON.parse(usersString) : [];
+
+const newId = users.length > 0 ? Math.max(...users.map(u => u.id || 0)) + 1 : 1;
+
+const user: User = {
+  id: newId,
+  firstName: formValue.firstName,
+  lastName: formValue.lastName,
+  email: formValue.email.toLowerCase(),
+  password: formValue.password,
+  phone: formValue.phone,
+  role: formValue.role
+};
+
+    const registered = this.authService.register(user);
+
+    if (registered) {
       this.router.navigate(['/login']);
     } else {
       this.errorMessage = 'Email already registered';

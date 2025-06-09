@@ -50,11 +50,20 @@ export class LoginComponent {
       u.password === formValues.password
     );
 
-    if (user) {
-      alert('Login successful!');
-      this.errorMessage = '';
-    } else {
-      this.errorMessage = 'Invalid email or password!';
-    }
-  }
+  if (user) {
+  alert('Login successful!');
+  this.errorMessage = '';
+
+  localStorage.setItem('current_user_name', user.firstName);
+  localStorage.setItem('current_user_role', user.role);
+  localStorage.setItem('current_user_id', user.id.toString()); 
+
+  localStorage.setItem('current_user', JSON.stringify(user));
+} else {
+  this.errorMessage = 'Invalid email or password!';
 }
+
+
+
+
+  }}
