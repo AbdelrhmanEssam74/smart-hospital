@@ -1,62 +1,63 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 
-interface User {
+export interface User {
+  id: number;
   firstName: string;
   lastName: string;
   email: string;
   password: string;
   phone: string;
-  role: 'doctor' | 'patient';
+  role: string;
 }
+
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private readonly STORAGE_KEY = 'auth_users';
+  isAuthenticated(): boolean {
+    throw new Error('Method not implemented.');
+  }
 
-  constructor(private router: Router) {}
+  private localStorageKey = 'auth_users';
 
-  register(user: User): boolean {
-    const users = this.getUsers();
+  constructor() { }
 
-    // Check if email already exists
-    if (users.some(u => u.email === user.email)) {
+  register(newUser: User): boolean {
+    const usersString = localStorage.getItem(this.localStorageKey);
+    const users: User[] = usersString ? JSON.parse(usersString) : [];
+
+    const emailExists = users.some(user => user.email === newUser.email.toLowerCase());
+    if (emailExists) {
       return false;
     }
 
-    users.push(user);
-    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(users));
+    users.push(newUser);
+    localStorage.setItem(this.localStorageKey, JSON.stringify(users));
     return true;
   }
 
-  login(email: string, password: string): boolean {
-    const users = this.getUsers();
-    const user = users.find(u => u.email === email && u.password === password);
+  login(email: string, password: string): User | null {
+    const usersString = localStorage.getItem(this.localStorageKey);
+    const users: User[] = usersString ? JSON.parse(usersString) : [];
 
+    const user = users.find(u => u.email === email.toLowerCase() && u.password === password);
     if (user) {
-      localStorage.setItem('current_user', JSON.stringify(user));
-      return true;
+      localStorage.setItem('auth_currentUser', JSON.stringify(user));
+      return user;
     }
-    return false;
+    return null;
   }
 
   logout(): void {
-    localStorage.removeItem('current_user');
-    this.router.navigate(['/login']);
-  }
-
-  isLoggedIn(): boolean {
-    return !!localStorage.getItem('current_user');
+    localStorage.removeItem('auth_currentUser');
   }
 
   getCurrentUser(): User | null {
-    const user = localStorage.getItem('current_user');
-    return user ? JSON.parse(user) : null;
+    const userString = localStorage.getItem('auth_currentUser');
+    return userString ? JSON.parse(userString) : null;
   }
 
-  private getUsers(): User[] {
-    const users = localStorage.getItem(this.STORAGE_KEY);
-    return users ? JSON.parse(users) : [];
+  isLoggedIn(): boolean {
+    return !!localStorage.getItem('auth_currentUser');
   }
 }
