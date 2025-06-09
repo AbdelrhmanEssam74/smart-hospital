@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {Component} from '@angular/core';
+import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {RouterLink} from '@angular/router';
+import {users} from '../../../data/data.json';
+
 
 @Component({
   selector: 'app-login',
@@ -35,35 +37,25 @@ export class LoginComponent {
     }
 
     const formValues = this.loginForm.value;
-    const storedUsersString = localStorage.getItem('auth_users');
 
-    console.log('Stored users string:', storedUsersString);
-
-    if (!storedUsersString) {
-      this.errorMessage = 'No user found! Please register first.';
-      return;
-    }
-
-    const users = JSON.parse(storedUsersString);
     const user = users.find((u: any) =>
       u.email.toLowerCase() === formValues.email.toLowerCase() &&
       u.password === formValues.password
     );
 
-  if (user) {
-  alert('Login successful!');
-  this.errorMessage = '';
+    if (user) {
+      alert('Login successful!');
+      this.errorMessage = '';
+      const currentUser = {
+        id: user.id,
+        role_id: user.role_id,
+        name: user.name
+      };
 
-  localStorage.setItem('current_user_name', user.firstName);
-  localStorage.setItem('current_user_role', user.role);
-  localStorage.setItem('current_user_id', user.id.toString()); 
+      localStorage.setItem('current_user', JSON.stringify(currentUser));
+    } else {
+      this.errorMessage = 'Invalid email or password!';
+    }
+  }
 
-  localStorage.setItem('current_user', JSON.stringify(user));
-} else {
-  this.errorMessage = 'Invalid email or password!';
 }
-
-
-
-
-  }}
