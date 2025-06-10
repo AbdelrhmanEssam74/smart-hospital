@@ -65,11 +65,11 @@
 form button.btn {
   color: white;
   transition: all 0.3s ease-in-out;
-  background-color: #5fbef3;
+  background-color: #51b8f2;
 }
 
 form button.btn:hover {
-  color: #0d6efd;
+  color: #51b8f2;
   background-color: #dff3ff;
 }
 input , select {

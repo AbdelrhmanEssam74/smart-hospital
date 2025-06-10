@@ -16,7 +16,6 @@ import {FooterComponent} from '../footer/footer.component';
   selector: 'app-home',
   imports: [
     HeroComponent,
-    AppointmentFormComponent,
     OurAvailableServicesComponent,
     ChooseUsComponent,
     OurScheduleComponent,
@@ -26,7 +25,8 @@ import {FooterComponent} from '../footer/footer.component';
     QualifiedDoctorComponent,
     LatestNewsComponent,
     ContactSectionComponent,
-    FooterComponent
+    FooterComponent,
+    AppointmentFormComponent
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'

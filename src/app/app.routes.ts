@@ -9,11 +9,11 @@ import { AppointmentsComponent } from './components/dashboards/doctor/appointmen
 import { AddSlotComponent } from './components/dashboards/doctor/add-slot/add-slot.component';
 import { ProfileEditComponent } from './components/dashboards/doctor/profile-edit/profile-edit.component';
 import { PatientProfilesComponent } from './components/dashboards/doctor/patient-profiles/patient-profiles.component';
-
+import { AuthGuard } from './guards/auth.guard';
 export const routes: Routes = [
   {path: '', component: HomeComponent},
-  {path: 'login', component: LoginComponent},
-  {path: 'register', component: RegisterComponent},
+  {path: 'login', component: LoginComponent , canActivate: [AuthGuard]},
+  {path: 'register', component: RegisterComponent , canActivate: [AuthGuard]},
   {path: 'home', redirectTo: '', pathMatch: 'full'},
   { path: 'doctordetails/:id', component: DoctorDetailsComponent },
   { path: 'doctors', component: ListDoctorComponent },

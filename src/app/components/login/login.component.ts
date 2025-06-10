@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {Component} from '@angular/core';
+import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {RouterLink} from '@angular/router';
+import {users} from '../../../data/data.json';
+
 
 @Component({
   selector: 'app-login',
@@ -35,16 +37,7 @@ export class LoginComponent {
     }
 
     const formValues = this.loginForm.value;
-    const storedUsersString = localStorage.getItem('auth_users');
 
-    console.log('Stored users string:', storedUsersString);
-
-    if (!storedUsersString) {
-      this.errorMessage = 'No user found! Please register first.';
-      return;
-    }
-
-    const users = JSON.parse(storedUsersString);
     const user = users.find((u: any) =>
       u.email.toLowerCase() === formValues.email.toLowerCase() &&
       u.password === formValues.password
@@ -53,8 +46,16 @@ export class LoginComponent {
     if (user) {
       alert('Login successful!');
       this.errorMessage = '';
+      const currentUser = {
+        id: user.id,
+        role_id: user.role_id,
+        name: user.name
+      };
+
+      localStorage.setItem('current_user', JSON.stringify(currentUser));
     } else {
       this.errorMessage = 'Invalid email or password!';
     }
   }
+
 }
