@@ -1,0 +1,21 @@
+<h2 class="text-center my-4">Add Time Slot</h2>
+<form (ngSubmit)="addSlot()" #slotForm="ngForm" class="container" style="max-width: 500px;">
+
+
+  <div class="mb-3">
+    <label for="slot_date" class="form-label">Slot Date</label>
+    <input [(ngModel)]="slot.slot_date" name="slot_date" id="slot_date" type="date" class="form-control" required>
+  </div>
+
+  <div class="mb-3">
+    <label for="start_time" class="form-label">Start Time</label>
+    <input [(ngModel)]="slot.start_time" name="start_time" id="start_time" type="time" class="form-control" required>
+  </div>
+
+  <div class="mb-3">
+    <label for="end_time" class="form-label">End Time</label>
+    <input [(ngModel)]="slot.end_time" name="end_time" id="end_time" type="time" class="form-control" required>
+  </div>
+
+  <button type="submit" class="btn ">Add Slot</button>
+</form>

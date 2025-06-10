@@ -22,13 +22,13 @@
   <div class="row justify-content-center mb-4 my-5">
     <div class="col-md-6">
       <div class="input-group">
-        <input type="text" 
-               class="form-control" 
-               [(ngModel)]="searchTerm" 
+        <input type="text"
+               class="form-control"
+               [(ngModel)]="searchTerm"
                (input)="filterDoctors()"
                placeholder="Search by name or specialty">
-        <button class="btn btn-outline-secondary" 
-                type="button" 
+        <button class="btn"
+                type="button"
                 (click)="searchTerm = ''; filterDoctors()">
           Clear
         </button>
@@ -48,6 +48,6 @@
         <app-doctor [doctor]="doctor"></app-doctor>
       </div>
     }
-  
+
   </div>
 </div>

@@ -124,7 +124,7 @@
     "role_id": 2,
     "created_at": "2023-01-02T09:00:00Z",
     "updated_at": "2023-01-02T09:00:00Z"
-}, 
+},
 {
     "id": 9,
     "name": "Dr. Christopher Taylor",
@@ -391,16 +391,47 @@
     "status": "Admitted"
 }
 ],
+
 "appointments": [
-{
+  {
     "id": 1,
-    "patient_id": 2,
+    "patientName": "Ahmed Ali",
     "doctor_id": 1,
-    "scheduled_at": "2023-02-15T10:00:00Z",
-    "status": "Confirmed",
-    "notes": "Follow-up for heart condition"
-}
+    "gender": "male",
+    "date": "2025-06-10",
+    "startTime": "09:00",
+    "endTime": "09:30",
+    "status": "pending",
+    "notes": "heart condition"
+
+  },
+  {
+    "id": 2,
+    "patientName": "mohamed eid",
+    "doctor_id": 1,
+    "gender": "male",
+    "date": "2025-06-10",
+    "startTime": "07:00",
+    "endTime": "07:30",
+    "status": "confirmed",
+    "notes": "heart condition"
+
+  },
+  {
+    "id": 3,
+    "patientName": "nada emad",
+    "doctor_id": 1,
+    "gender": "Female",
+    "date": "2025-06-10",
+    "startTime": "07:00",
+    "endTime": "07:30",
+    "status": "cancelled",
+    "notes": "head"
+
+  }
 ],
+  "slots": [],
+
 "medical_records": [
 {
     "id": 1,
@@ -418,7 +449,9 @@
     "prescribed_at": "2023-02-10T15:30:00Z",
     "total_cost": 120.50
 }
+
 ],
+
 "medicines": [
 {
     "id": 1,
