@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {RouterLink} from '@angular/router';
 import {users} from '../../../data/data.json';
+import {NotificationService} from '../../services/notification.service';
 
 
 @Component({
@@ -19,7 +20,7 @@ export class LoginComponent {
   loginForm: FormGroup;
   errorMessage: string = '';
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private notificationService: NotificationService) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
@@ -44,14 +45,14 @@ export class LoginComponent {
     );
 
     if (user) {
-      alert('Login successful!');
+      this.notificationService.success("Form submitted successfully!");
       this.errorMessage = '';
       const currentUser = {
         id: user.id,
         role_id: user.role_id,
         name: user.name
       };
-
+      window.location.href = "/";
       localStorage.setItem('current_user', JSON.stringify(currentUser));
     } else {
       this.errorMessage = 'Invalid email or password!';
