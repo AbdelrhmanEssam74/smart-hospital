@@ -48,18 +48,41 @@
     </button>
     <div class="collapse navbar-collapse" id="mainNavbar">
       <ul class="navbar-nav mb-2 mb-lg-0 fw-semibold">
-        <li class="nav-item"><a class="nav-link" routerLinkActive="active-link" href="#">HOME</a></li>
-        <li class="nav-item"><a class="nav-link" routerLinkActive="active-link"   routerLink="/service">SERVICE</a></li>
-        <li class="nav-item"><a class="nav-link"  routerLinkActive="active-link"  routerLink="doctors">DOCTORS</a></li>
-        <li class="nav-item"><a class="nav-link"  routerLinkActive="active-link" routerLink="blog">BLOG</a></li>
-        <li class="nav-item"><a class="nav-link" routerLinkActive="active-link"  routerLink="gallery">GALLERY</a></li>
-        <li class="nav-item"><a class="nav-link" routerLinkActive="active-link"  routerLink="shop">SHOP</a></li>
-        <li class="nav-item"><a class="nav-link" routerLinkActive="active-link"  routerLink="contact">CONTACT</a></li>
+        <li class="nav-item"><a class="nav-link" routerLinkActive="active-link" routerLink="/">HOME</a></li>
+        <li class="nav-item"><a class="nav-link" routerLinkActive="active-link" routerLink="/service">SERVICE</a></li>
+        <li class="nav-item"><a class="nav-link" routerLinkActive="active-link" routerLink="doctors">DOCTORS</a></li>
+        <li class="nav-item"><a class="nav-link" routerLinkActive="active-link" routerLink="blog">BLOG</a></li>
+        <li class="nav-item"><a class="nav-link" routerLinkActive="active-link" routerLink="gallery">GALLERY</a></li>
+        <li class="nav-item"><a class="nav-link" routerLinkActive="active-link" routerLink="shop">SHOP</a></li>
+        <li class="nav-item"><a class="nav-link" routerLinkActive="active-link" routerLink="contact">CONTACT</a></li>
       </ul>
     </div>
-    <bu routerLink="login" class="btn  text-center" id="login-button">
-      <i class="fa-solid fa-lock me-2"></i> Login
-    </bu>
+    @if (!login) {
+      <a routerLink="/login" class="btn text-center" id="login-button">
+        <i class="fa-solid fa-lock me-2"></i> Login
+      </a>
+    }
+    @if (login) {
+      <div class="dropdown">
+        <button
+          class="btn btn-outline-secondary dropdown-toggle rounded-circle d-flex align-items-center justify-content-center"
+          type="button"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+          style="width: 40px; height: 40px;">
+          {{ userInitial }}
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end">
+          <li><a class="dropdown-item" href="">Profile</a></li>
+          <li>
+            <hr class="dropdown-divider">
+          </li>
+          <li>
+            <button class="dropdown-item" (click)="logout()">Logout</button>
+          </li>
+        </ul>
+      </div>
+    }
   </div>
 </nav>
 

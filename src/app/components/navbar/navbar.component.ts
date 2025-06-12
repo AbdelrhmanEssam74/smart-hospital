@@ -1,22 +1,40 @@
-import { Component , HostListener  } from '@angular/core';
-import {RouterLink, RouterLinkActive} from '@angular/router';
-import {NgClass} from '@angular/common';
+import { Component, HostListener, OnInit } from '@angular/core';
+import {Router, RouterLink, RouterLinkActive} from '@angular/router';
+import { AuthService, User } from '../../services/auth.service';
+import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-navbar',
-  imports: [
-    RouterLink,
-    RouterLinkActive,
-    NgClass
-  ],
+  standalone: true,
   templateUrl: './navbar.component.html',
+  imports: [NgClass, RouterLink, RouterLinkActive],
   styleUrl: './navbar.component.css'
 })
-export class NavbarComponent {
+export class NavbarComponent implements OnInit{
   isScrolled = false;
+  login: boolean | null = false;
+  userInitial: string = '';
+
+  constructor(private router: Router, private authService: AuthService) {}
 
   @HostListener('window:scroll', [])
   onWindowScroll() {
     this.isScrolled = window.pageYOffset > 50;
   }
+  ngOnInit() {
+    const user = JSON.parse(localStorage.getItem('current_user') || "{}");
+    if (user && user.name) {
+      this.login = true;
+      this.userInitial = user.name.charAt(0).toUpperCase();
+    }
+  }
+
+
+  logout() {
+    this.authService.logout();
+    this.login = false;
+    this.userInitial = '';
+    this.router.navigate(['/login']);
+  }
+
 }
