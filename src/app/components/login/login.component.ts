@@ -22,7 +22,7 @@ import {NotificationService} from '../../services/notification.service';
 export class LoginComponent {
   loginForm: FormGroup;
   errorMessage: string = '';
-  
+
 
 // patient_profile
   constructor(private fb: FormBuilder,
@@ -49,7 +49,7 @@ export class LoginComponent {
     }
 
     const formValues = this.loginForm.value;
-    
+
 
     const user = users.find((u: any) =>
       u.email.toLowerCase() === formValues.email.toLowerCase() &&
@@ -62,7 +62,7 @@ export class LoginComponent {
       console.log(user);
     this.router.navigateByUrl('/doctor');
     console.log(user.role_id);
-} else if (user.role_id === 5) { 
+} else if (user.role_id === 5) {
     this.router.navigateByUrl('/patient_profile');
 }
       alert('Login successful!');
@@ -86,5 +86,4 @@ export class LoginComponent {
       this.errorMessage = 'Invalid email or password!';
     }
   }
-
 }

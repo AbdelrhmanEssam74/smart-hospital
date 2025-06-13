@@ -77,12 +77,4 @@ getCurrentUser(): User | null {
     this.currentUserSubject.next(null);
   }
 
-  getCurrentUser(): User | null {
-    return this.currentUserSubject.value;
-  }
-
-  isLoggedIn(): boolean {
-    return !!this.getCurrentUser();
-//  master
-  }
 }
