@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';  // for backend
 import { Observable, of } from 'rxjs';
-
+import {Appointment} from '../interfaces/appointment';
 @Injectable({
   providedIn: 'root'
 })
@@ -17,10 +17,22 @@ export class AppointmentService {
     existing.push(appointment);
     localStorage.setItem(this.storageKey, JSON.stringify(existing));
   }
-
-  getAppointmentsByUserId(userId: number): any[] {
+  getAppointmentsByUserId(userId: string): any[] {
     const allAppointments = JSON.parse(localStorage.getItem(this.storageKey) || '[]');
-    return allAppointments.filter((a: any) => a.userId === userId);
+    return allAppointments.filter((a: any) => a.patient_id === userId);
+  }
+  getAllAppointments(): Appointment[] {
+    return JSON.parse(localStorage.getItem(this.storageKey) || '[]');
+  }
+
+  deleteAppointment(appointment: Appointment): void {
+    const all = this.getAllAppointments().filter(a =>
+      !(a.doctor_id === appointment.doctor_id &&
+        a.date === appointment.date &&
+        a.time === appointment.time &&
+        a.patient_id === appointment.patient_id)
+    );
+    localStorage.setItem(this.storageKey, JSON.stringify(all));
   }
 
 

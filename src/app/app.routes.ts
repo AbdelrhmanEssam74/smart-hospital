@@ -10,6 +10,7 @@ import { AddSlotComponent } from './components/dashboards/doctor/add-slot/add-sl
 import { ProfileEditComponent } from './components/dashboards/doctor/profile-edit/profile-edit.component';
 import { PatientProfilesComponent } from './components/dashboards/doctor/patient-profiles/patient-profiles.component';
 import { AuthGuard } from './guards/auth.guard';
+import {UserAppointmentsComponent} from './components/user-appointments/user-appointments.component';
 import { PatientProfileComponent } from './components/dashboards/patient/patient-profile/patient-profile.component';
 import { EditProfileComponent } from './components/dashboards/patient/edit-profile/edit-profile.component';
 
@@ -27,6 +28,8 @@ export const routes: Routes = [
   { path: 'patients', component: PatientProfilesComponent },
   { path: '', redirectTo: 'appointments', pathMatch: 'full' }
 ]},
+  {path:'my-appointments' , component:UserAppointmentsComponent},
+  {path: "**", redirectTo: "404", pathMatch: "full"}
   {path: "**", redirectTo: "404", pathMatch: "full"},
   {path: "patient_profile", component:PatientProfileComponent,
     children:[]

@@ -1,0 +1,51 @@
+<div class="container py-4">
+  <h2 class="mb-4 text-center">My Appointments</h2>
+
+  <div class="row g-4">
+    @for (appointment of appointments; track appointment) {
+      <div class="col-md-6 col-lg-4">
+        <div class="card shadow-sm border-0 h-100 rounded-4">
+          <div class="card-body position-relative p-4">
+            <button
+              class="btn btn-sm btn-light border-danger text-danger rounded-circle position-absolute top-0 end-0 m-2"
+              title="Delete Appointment"
+              (click)="deleteAppointment(appointment)">
+              <i class="bi bi-trash"></i>
+            </button>
+
+            <h5 class="card-title mb-1 fw-semibold">
+              {{ doctorMap[appointment.doctor_id]?.name || 'Unknown Doctor' }}
+            </h5>
+
+            <!--            <p class="text-muted small mb-3">-->
+            <!--              <i class="bi bi-person-circle me-1"></i> {{ appointment.patientName }} • {{ appointment.gender }}-->
+            <!--            </p>-->
+
+            <div class="d-flex align-items-center mb-2 text-primary">
+              <i class="bi bi-calendar-event me-2"></i> {{ appointment.date }}
+            </div>
+            <div class="d-flex align-items-center mb-2 text-secondary">
+              <i class="bi bi-clock me-2"></i> {{ appointment.time }}
+            </div>
+
+            <div class="mb-3">
+              <span [ngClass]="{
+                'badge  bg-warning text-dark ': appointment.status === 'pending',
+                'badge  bg-success ': appointment.status === 'confirmed',
+                'badge  bg-danger ': appointment.status === 'cancelled'
+              }" class="fs-6 p-1 rounded-1 text-capitalize">
+                {{ appointment.status }}
+              </span>
+            </div>
+            @if (appointment.message) {
+              <p class="card-text mt-2 text-muted">
+                <i class="bi bi-chat-left-text me-1 text-info"></i> {{ appointment.message }}
+              </p>
+            }
+
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+</div>
