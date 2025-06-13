@@ -33,6 +33,10 @@ export class NavbarComponent implements OnInit{
     if (user && user.name) {
       this.login = true;
       this.userInitial = user.name.charAt(0).toUpperCase();
+      // Check user role and navigate doctor or patient
+      if (user.role_id === 2) {
+      this.router.navigate(['/doctor']);
+    }
     }
   }
 

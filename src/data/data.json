@@ -22,22 +22,9 @@
 }
 ],
 "users": [
-    {
-    "id": 13,
-    "name": "nada fathy",
-    "email": "nada@hospital.com",
-    "password": "$2a$10$hashedpassword",
-    "phone": "966502345679",
-    "image": "assets/images/doctors/doctor8.webp",
-    "profile_description": "Experienced cardiologist with over 10 years in patient care.",
 
-
-    "role_id": 5,
-    "created_at": "2023-01-02T09:00:00Z",
-    "updated_at": "2023-01-02T09:00:00Z"
-},
 {
-    
+
     "id": 1,
     "name": "Dr. Nada Smith",
     "email": "nadas@hospital.com",
@@ -171,6 +158,48 @@
     "created_at": "2023-01-02T09:00:00Z",
     "updated_at": "2023-01-02T09:00:00Z"
 },
+ {
+    "id": 11,
+    "name": "mariam",
+    "email": "mariam@hospital.com",
+    "password": "$2a$10$hashedpassword",
+    "phone": "966502345679",
+        "image": "assets/images/patients/patient1.jpg",
+        "profile_description": "Experienced cardiologist with over 10 years in patient care.",
+
+
+    "role_id":5,
+    "created_at": "2023-01-02T09:00:00Z",
+    "updated_at": "2023-01-02T09:00:00Z"
+},
+ {
+    "id": 12,
+    "name": "mohamed",
+    "email": "mohamed@hospital.com",
+    "password": "$2a$10$hashedpassword",
+    "phone": "966502345679",
+        "image": "assets/images/patients/patient4.jpg",
+        "profile_description": "Experienced cardiologist with over 10 years in patient care.",
+
+
+    "role_id":5,
+    "created_at": "2023-01-02T09:00:00Z",
+    "updated_at": "2023-01-02T09:00:00Z"
+},
+ {
+    "id": 13,
+    "name": "ahmed",
+    "email": "ahmed@hospital.com",
+    "password": "$2a$10$hashedpassword",
+    "phone": "966502345679",
+        "image": "assets/images/patients/patient2.jpg",
+        "profile_description": "Experienced cardiologist with over 10 years in patient care.",
+
+
+    "role_id":5,
+    "created_at": "2023-01-02T09:00:00Z",
+    "updated_at": "2023-01-02T09:00:00Z"
+},
 
 {
     "id": 6,
@@ -209,12 +238,11 @@
     "user_id": 11,
     "medical_record_number": "MRN20230001",
     "date_of_birth": "1985-05-15",
-    "gender": "Male",
+    "gender": "Female",
     "address": "123 King Fahd Rd, Riyadh",
     "phone": "966504567890",
     "created_at": "2023-02-01T10:30:00Z",
-    "updated_at": "2023-02-01T10:30:00Z",
-        "image": "assets/images/doctors/(1).webp"
+    "updated_at": "2023-02-01T10:30:00Z"
 
 },
 {
@@ -222,12 +250,23 @@
     "user_id": 12,
     "medical_record_number": "MRN20230002",
     "date_of_birth": "1990-08-22",
-    "gender": "Female",
+    "gender": "male",
     "address": "456 Olaya St, Riyadh",
     "phone": "966505678901",
     "created_at": "2023-02-02T11:45:00Z",
-    "updated_at": "2023-02-02T11:45:00Z",
-    "image": "assets/images/doctors/(1).webp"
+    "updated_at": "2023-02-02T11:45:00Z"
+}
+,
+{
+    "id": 3,
+    "user_id": 13,
+    "medical_record_number": "MRN20230002",
+    "date_of_birth": "1990-08-22",
+    "gender": "male",
+    "address": "456 Olaya St, Riyadh",
+    "phone": "966505678901",
+    "created_at": "2023-02-02T11:45:00Z",
+    "updated_at": "2023-02-02T11:45:00Z"
 }
 ],
 "specialties": [
