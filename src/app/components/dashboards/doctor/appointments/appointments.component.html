@@ -15,7 +15,7 @@
         </tr>
       </thead>
       <tbody>
-        @for(appt of appointments; track appt.id) {
+        @for(appt of filteredAppointments; track appt.id) {
           <tr>
             <td>{{ appt.patientName }}</td>
             <td>{{ appt.gender}}</td>
