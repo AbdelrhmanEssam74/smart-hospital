@@ -1,0 +1,37 @@
+<div class="container mt-4">
+  <h2>My Appointments</h2>
+  <table class="table table-bordered table-striped mt-3">
+    <thead class="table-dark">
+      <tr>
+        <th>Patient</th>
+
+        <th>Gender</th>
+        <th>Date</th>
+        <th>Time</th>
+        <th>Status</th>
+        <th>Notes</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (appointment of appointments; track appointment) {
+  <tr>
+        <td>{{ appointment.patientName }}</td>
+        <td>{{ appointment.gender }}</td>
+        <td>{{ appointment.date }}</td>
+        <td>{{ appointment.time }}</td>
+        <td>
+          <span [ngClass]="{
+            'badge bg-warning': appointment.status === 'pending',
+            'badge bg-success': appointment.status === 'confirmed',
+            'badge bg-danger': appointment.status === 'cancelled'
+          }">
+            {{ appointment.status }}
+          </span>
+        </td>
+        <td>{{ appointment.message }}</td>
+      </tr>
+      }
+
+    </tbody>
+  </table>
+</div>
