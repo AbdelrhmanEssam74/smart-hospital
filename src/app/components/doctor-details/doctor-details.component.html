@@ -88,7 +88,6 @@
               @if (gender.invalid && gender.touched) {
                 <div class="text-danger">Gender is required</div>
               }
-
             </div>
 
             <!-- Phone -->
@@ -96,11 +95,8 @@
               <input type="tel" class="form-control form-input" placeholder="Phone Number"
                      [(ngModel)]="appointment.phone" name="phone" required pattern="^[0-9]{11}$" #phone="ngModel"/>
               @if (phone.invalid && phone.touched) {
-                <div class="text-danger">
-                  Phone must be 11 digits
-                </div>
+                <div class="text-danger">Phone must be 11 digits</div>
               }
-
             </div>
 
             <!-- Email -->
@@ -111,45 +107,44 @@
                 <div class="text-danger">Valid email is required</div>
               }
             </div>
-            <!-- Day -->
-            <div class="col-md-6">
-              <select class="form-control form-input" [(ngModel)]="appointment.day" name="day" required #day="ngModel">
-                <option value="" disabled selected>Select Day</option>
-                @for (d of daysOfWeek; track d) {
-                  <option [value]="d">{{ d }}</option>
-                }
-              </select>
-              @if (day.invalid && day.touched) {
-                <div class="text-danger">Day is required</div>
-              }
 
+            <!-- Date -->
+            <div class="col-md-6">
+              <input type="date" class="form-control form-input"
+                     [(ngModel)]="appointment.date" name="date" required #date="ngModel"
+                     (ngModelChange)="validateDateAndTime()" />
+              @if (dateError) {
+                <div class="text-danger">{{ dateError }}</div>
+              }
             </div>
 
             <!-- Time -->
             <div class="col-md-6">
               <input type="time" class="form-control form-input"
                      [(ngModel)]="appointment.time" name="time" required #time="ngModel"
-                     min="09:00" max="17:00"/>
-              @if (time.invalid && time.touched) {
-                <div class="text-danger">Time is required (09:00–17:00)</div>
+                     min="08:00" max="20:00"
+                     (ngModelChange)="validateDateAndTime()" />
+              @if (timeError) {
+                <div class="text-danger">{{ timeError }}</div>
               }
             </div>
 
             <!-- Message -->
             <div class="col-12">
-        <textarea class="form-control form-input" rows="5" placeholder="Your Message"
-                  [(ngModel)]="appointment.message" name="message"></textarea>
+      <textarea class="form-control form-input" rows="5" placeholder="Your Message"
+                [(ngModel)]="appointment.message" name="message"></textarea>
             </div>
 
             <!-- Submit -->
             <div class="col-12">
-              <button type="submit" class="btn px-4" [disabled]="appointmentForm.invalid">
+              <button type="submit" class="btn px-4"
+                      [disabled]="appointmentForm.invalid || dateError || timeError">
                 SEND MESSAGE
               </button>
+
             </div>
           </div>
         </form>
-
 
       </div>
 

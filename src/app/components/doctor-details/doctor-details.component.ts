@@ -23,17 +23,48 @@ export class DoctorDetailsComponent {
     gender: '',
     phone: '',
     email: '',
-    day: '',
+    date: '',
     time: '',
     message: ''
   };
-  daysOfWeek: string[] =
-    ['Sunday',
-      'Monday',
-      'Tuesday',
-      'Wednesday',
-      'Thursday',
-      'Saturday'];
+  dateError: string | null = null;
+  timeError: string | null = null;
+  validateDateAndTime(): void {
+    this.dateError = null;
+    this.timeError = null;
+
+    const today = new Date();
+    const selectedDate = new Date(this.appointment.date);
+    today.setHours(0, 0, 0, 0);
+    selectedDate.setHours(0, 0, 0, 0);
+
+    if (isNaN(selectedDate.getTime())) {
+      this.dateError = "Please select a valid date.";
+      return;
+    }
+
+    if (selectedDate < today) {
+      this.dateError = "Date cannot be in the past.";
+      return;
+    }
+
+    if (selectedDate.getDay() === 5) {
+      this.dateError = "Appointments cannot be scheduled on Fridays.";
+      return;
+    }
+
+    if (!this.appointment.time) {
+      this.timeError = "Time is required.";
+      return;
+    }
+
+    const [hour, minute] = this.appointment.time.split(':').map(Number);
+    const totalMinutes = hour * 60 + minute;
+
+    if (totalMinutes < 8 * 60 || totalMinutes > 20 * 60) {
+      this.timeError = "Time must be between 08:00 and 20:00.";
+    }
+  }
 
   constructor(
     private route: ActivatedRoute,
@@ -41,6 +72,7 @@ export class DoctorDetailsComponent {
     private notifications: NotificationService
   ) {
   }
+
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
@@ -63,21 +95,19 @@ export class DoctorDetailsComponent {
       return;
     }
 
-    if (!form.valid) {
-      this.notifications.error("Please fill in all required fields correctly.");
+    if (!(!form.valid || this.validateDateAndTime())) {
+      const appointmentData = {
+        ...this.appointment,
+        doctorId: this.doctorId,
+        userId: currentUser.id
+      };
+      this.notifications.success("Your Appointment Sent Successfully");
+      console.log('Sending appointment:', appointmentData);
+    } else {
+      this.notifications.error("Please fix the errors before submitting.");
       return;
     }
-
-    // Add doctorId to the appointment
-    const appointmentData = {
-      ...this.appointment,
-      doctorId: this.doctorId,
-      userId: currentUser.id
-    };
-this.notifications.success("Your Appointment Sent Succe");
-    // Submit the appointment
-    console.log('Sending appointment:', appointmentData);
-    // Here, call your backend service or save to localStorage
+    // Save or send appointment data here
   }
 
 }
