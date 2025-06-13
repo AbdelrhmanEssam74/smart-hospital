@@ -20,11 +20,16 @@ export class AddSlotComponent implements OnInit {
   constructor(private service: AppointmentsService) {}
 
   ngOnInit() {
-    const storedDoctorId = localStorage.getItem('doctor_id');
-    if (storedDoctorId) {
-      this.slot.doctor_id = storedDoctorId;
+    const currentUser = localStorage.getItem('current_user');
+    if (currentUser) {
+      const userObj = JSON.parse(currentUser);
+      if (userObj.role_id === 2) {
+        this.slot.doctor_id = userObj.id.toString();
+      } else {
+        alert('You are not authorized to add slots.');
+      }
     } else {
-      alert('Doctor ID not found in localStorage.');
+      alert('Doctor information not found in localStorage.');
     }
   }
 
@@ -37,7 +42,7 @@ export class AddSlotComponent implements OnInit {
     this.service.addSlot(this.slot);
     alert('Time slot added successfully!');
     this.slot = {
-      doctor_id: this.slot.doctor_id, 
+      doctor_id: this.slot.doctor_id,
       slot_date: '',
       start_time: '',
       end_time: ''

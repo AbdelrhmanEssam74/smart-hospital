@@ -16,7 +16,7 @@ export class ListDoctorComponent implements OnInit {
   searchTerm: string = '';
   searchForm: FormGroup;
 
-  constructor(private doctorService: DoctorService, 
+  constructor(private doctorService: DoctorService,
     private fb: FormBuilder
   ) {
      this.searchForm = this.fb.group({
@@ -26,8 +26,8 @@ export class ListDoctorComponent implements OnInit {
   }
 
  ngOnInit(): void {
-    this.doctors = this.doctorService.getDoctors();
-    this.filteredDoctors = [...this.doctors]; 
+    this.doctors = this.doctorService.getDoctorDisplayList();
+    this.filteredDoctors = [...this.doctors];
   }
 filterDoctors() {
   const term = this.searchTerm.toLowerCase();
