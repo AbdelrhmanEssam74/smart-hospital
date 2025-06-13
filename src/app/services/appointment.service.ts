@@ -17,11 +17,12 @@ export class AppointmentService {
     existing.push(appointment);
     localStorage.setItem(this.storageKey, JSON.stringify(existing));
   }
-
-  getAppointmentsByUserId(userId: number): any[] {
+  getAppointmentsByUserId(userId: string): any[] {
     const allAppointments = JSON.parse(localStorage.getItem(this.storageKey) || '[]');
-    return allAppointments.filter((a: any) => a.userId === userId);
+    return allAppointments.filter((a: any) => a.patient_id === userId);
   }
+
+
 
 
   sendAppointmentToBackend(appointment: any): Observable<any> {
