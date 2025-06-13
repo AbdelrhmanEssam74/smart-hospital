@@ -1,9 +1,3 @@
-// patient_profile
-import { Component , HostListener  } from '@angular/core';
-import {RouterLink, RouterLinkActive} from '@angular/router';
-import {NgClass} from '@angular/common';
-import { AuthService } from '../../services/auth.service';
-
 import { Component, HostListener, OnInit } from '@angular/core';
 import {Router, RouterLink, RouterLinkActive} from '@angular/router';
 import { AuthService, User } from '../../services/auth.service';
@@ -22,19 +16,12 @@ export class NavbarComponent implements OnInit{
 //  patient_profile
     currentUser: any = null;
 
-    constructor(private authService: AuthService) {
-    this.currentUser = this.authService.getCurrentUser();
-  }
-  logout() {
-    this.authService.logout();
-    this.currentUser = null;
-    window.location.reload(); 
-  }
-
   login: boolean | null = false;
   userInitial: string = '';
 
-  constructor(private router: Router, private authService: AuthService) {}
+  constructor(private router: Router, private authService: AuthService) {
+    this.currentUser = this.authService.getCurrentUser();
+  }
 //  master
 
   @HostListener('window:scroll', [])
