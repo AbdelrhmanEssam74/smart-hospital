@@ -48,14 +48,31 @@ export class AuthService {
 
     const user = users.find(u => u.email === email.toLowerCase() && u.password === password);
     if (user) {
+// patient_profile
+      localStorage.setItem('current_user', JSON.stringify(user));
+
       localStorage.setItem(this.currentUserKey, JSON.stringify(user));
       this.currentUserSubject.next(user);
+//  master
       return user;
     }
     return null;
   }
 
   logout(): void {
+//  patient_profile
+    localStorage.removeItem('current_user');
+  }
+
+getCurrentUser(): User | null {
+  const userString = localStorage.getItem('auth_currentUser');
+  console.log('User from localStorage:', userString);
+  return userString ? JSON.parse(userString) : null;
+}
+
+  isLoggedIn(): boolean {
+    return !!localStorage.getItem('current_user');
+
     localStorage.removeItem(this.currentUserKey);
     this.currentUserSubject.next(null);
   }
@@ -66,5 +83,6 @@ export class AuthService {
 
   isLoggedIn(): boolean {
     return !!this.getCurrentUser();
+//  master
   }
 }

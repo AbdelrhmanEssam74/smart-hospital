@@ -11,6 +11,9 @@ import { ProfileEditComponent } from './components/dashboards/doctor/profile-edi
 import { PatientProfilesComponent } from './components/dashboards/doctor/patient-profiles/patient-profiles.component';
 import { AuthGuard } from './guards/auth.guard';
 import {UserAppointmentsComponent} from './components/user-appointments/user-appointments.component';
+import { PatientProfileComponent } from './components/dashboards/patient/patient-profile/patient-profile.component';
+import { EditProfileComponent } from './components/dashboards/patient/edit-profile/edit-profile.component';
+
 export const routes: Routes = [
   {path: '', component: HomeComponent},
   {path: 'login', component: LoginComponent , canActivate: [AuthGuard]},
@@ -27,4 +30,10 @@ export const routes: Routes = [
 ]},
   {path:'my-appointments' , component:UserAppointmentsComponent},
   {path: "**", redirectTo: "404", pathMatch: "full"}
+  {path: "**", redirectTo: "404", pathMatch: "full"},
+  {path: "patient_profile", component:PatientProfileComponent,
+    children:[]
+  },
+  { path: 'profile_edit', component: EditProfileComponent },
+    // { path: 'appointments', component: AppointmentsComponent, }
 ]

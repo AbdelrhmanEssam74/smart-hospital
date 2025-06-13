@@ -1,1 +1,26 @@
-<h3>Patient Profiles</h3>
+<div class="patient-profiles-container">
+  <h2>Patient Profiles</h2>
+  
+  <div class="patient-cards">
+    @for (patient of patients; track patient.id) {
+      <div class="patient-card">
+        <img [src]="patient.user?.image " 
+             alt="{{ patient.user?.name}}" 
+             class="patient-image">
+        
+        <div class="patient-info">
+          <h3>{{ patient.user?.name || 'Patient ' + patient.id }}</h3>
+          
+          <div class="patient-details">
+            <p><strong>MRN:</strong> {{ patient.medical_record_number }}</p>
+            <p><strong>Gender:</strong> {{ patient.gender }}</p>
+            <p><strong>Phone:</strong> {{ patient.phone }}</p>
+            <p><strong>Address:</strong> {{ patient.address }}</p>
+          </div>
+          
+         
+        </div>
+      </div>
+    }
+  </div>
+</div>
