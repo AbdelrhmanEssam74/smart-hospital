@@ -72,7 +72,6 @@ getCurrentUser(): User | null {
 
   isLoggedIn(): boolean {
     return !!localStorage.getItem('current_user');
-
     localStorage.removeItem(this.currentUserKey);
     this.currentUserSubject.next(null);
   }
