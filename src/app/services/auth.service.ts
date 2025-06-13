@@ -42,22 +42,23 @@ export class AuthService {
 
     const user = users.find(u => u.email === email.toLowerCase() && u.password === password);
     if (user) {
-      localStorage.setItem('auth_currentUser', JSON.stringify(user));
+      localStorage.setItem('current_user', JSON.stringify(user));
       return user;
     }
     return null;
   }
 
   logout(): void {
-    localStorage.removeItem('auth_currentUser');
+    localStorage.removeItem('current_user');
   }
 
-  getCurrentUser(): User | null {
-    const userString = localStorage.getItem('auth_currentUser');
-    return userString ? JSON.parse(userString) : null;
-  }
+getCurrentUser(): User | null {
+  const userString = localStorage.getItem('auth_currentUser');
+  console.log('User from localStorage:', userString);
+  return userString ? JSON.parse(userString) : null;
+}
 
   isLoggedIn(): boolean {
-    return !!localStorage.getItem('auth_currentUser');
+    return !!localStorage.getItem('current_user');
   }
 }
