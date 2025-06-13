@@ -1,12 +1,11 @@
 import { Component } from '@angular/core';
-import {AppointmentFormComponent} from '../appointment-form/appointment-form.component';
 
 @Component({
   selector: 'app-hero',
   standalone: true,
   templateUrl: './hero.component.html',
   imports: [
-    AppointmentFormComponent
+
   ],
   styleUrl: './hero.component.css'
 })
