@@ -71,7 +71,7 @@
             <!-- Name -->
             <div class="col-md-6">
               <input type="text" class="form-control form-input" placeholder="Your Name"
-                     [(ngModel)]="appointment.name" name="name" required #name="ngModel"/>
+                     [(ngModel)]="appointment.patientName" name="name" required #name="ngModel"/>
               @if (name.invalid && name.touched) {
                 <div class="text-danger">Name is required</div>
               }

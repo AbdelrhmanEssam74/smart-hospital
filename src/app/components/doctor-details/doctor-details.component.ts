@@ -4,7 +4,8 @@ import {DoctorService} from '../../services/doctor.service';
 import {FormsModule} from '@angular/forms';
 import {NotificationService} from '../../services/notification.service';
 import {NgForm} from '@angular/forms';
-
+import {Appointment} from '../../interfaces/appointment';
+import {AppointmentService} from '../../services/appointment.service';
 
 @Component({
   selector: 'app-doctor-details',
@@ -18,17 +19,22 @@ export class DoctorDetailsComponent {
   currentUser: any = null;
   doctorId: number | null = null;
   doctor: any;
-  appointment = {
-    name: '',
+  appointment: Appointment = {
+    patient_id: '',
+    patientName: '',
+    doctor_id: '',
     gender: '',
-    phone: '',
-    email: '',
+    email:'',
+    phone:'',
     date: '',
     time: '',
+    status: 'pending',
     message: ''
   };
+
   dateError: string | null = null;
   timeError: string | null = null;
+
   validateDateAndTime(): void {
     this.dateError = null;
     this.timeError = null;
@@ -69,7 +75,8 @@ export class DoctorDetailsComponent {
   constructor(
     private route: ActivatedRoute,
     private doctorService: DoctorService,
-    private notifications: NotificationService
+    private notifications: NotificationService,
+    private appointmentService:AppointmentService
   ) {
   }
 
@@ -90,24 +97,38 @@ export class DoctorDetailsComponent {
   // send an appointment
   submitForm(form: NgForm) {
     const currentUser = JSON.parse(localStorage.getItem('current_user') || '{}');
-    if (!currentUser || !currentUser.id) {
+
+    if (!currentUser?.id) {
       this.notifications.error("You must be logged in to book an appointment.");
       return;
     }
 
-    if (!(!form.valid || this.validateDateAndTime())) {
-      const appointmentData = {
-        ...this.appointment,
-        doctorId: this.doctorId,
-        userId: currentUser.id
-      };
-      this.notifications.success("Your Appointment Sent Successfully");
-      console.log('Sending appointment:', appointmentData);
-    } else {
-      this.notifications.error("Please fix the errors before submitting.");
+    if (!form.valid || this.dateError || this.timeError) {
+      this.notifications.error("Please fill in all required fields.");
       return;
     }
-    // Save or send appointment data here
+
+    // Construct valid Appointment object
+    const appointment: Appointment = {
+      patient_id: currentUser.id.toString(),
+      patientName: currentUser.name,
+      doctor_id: this.doctorId?.toString() || '',
+      gender: this.appointment.gender,
+      email:this.appointment.email,
+      phone:this.appointment.phone,
+      date: this.appointment.date,
+      time: this.appointment.time,
+      status: 'pending',
+      message: this.appointment.message,
+    };
+
+    // Save to localStorage via service
+    this.appointmentService.saveAppointmentToLocal(appointment);
+    this.notifications.success("Appointment saved!");
+
+    // Optionally reset form
+    form.resetForm();
   }
+
 
 }
