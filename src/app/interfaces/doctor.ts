@@ -13,9 +13,15 @@ export interface Specialty {
   name: string;
 }
 
+
 export interface Doctor {
   id: number;
   user_id: number;
+  name?: string;
+  email?: string;
+  phone?: string;
+  image?: string;
+  profile_description?: string;
   specialty_id: number;
   license_number: string;
   years_of_experience: number;
@@ -23,4 +29,17 @@ export interface Doctor {
   updated_at: string;
   user?: User;
   specialty?: Specialty;
+}
+
+export interface DoctorDisplay {
+  id: number;
+  user_id: number;
+  name?: string;
+  email?: string;
+  phone?: string;
+  image?: string;
+  profile_description?: string;
+  specialty?: string;
+  license_number: string;
+  years_of_experience: number;
 }

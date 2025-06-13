@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 
 export interface User {
   id: number;
@@ -14,13 +15,18 @@ export interface User {
   providedIn: 'root'
 })
 export class AuthService {
-  isAuthenticated(): boolean {
-    throw new Error('Method not implemented.');
-  }
-
   private localStorageKey = 'auth_users';
+  private currentUserKey = 'current_user';
 
-  constructor() { }
+  private currentUserSubject = new BehaviorSubject<User | null>(this.getStoredUser());
+  currentUser$ = this.currentUserSubject.asObservable();
+
+  constructor() {}
+
+  private getStoredUser(): User | null {
+    const userString = localStorage.getItem(this.currentUserKey);
+    return userString ? JSON.parse(userString) : null;
+  }
 
   register(newUser: User): boolean {
     const usersString = localStorage.getItem(this.localStorageKey);
@@ -42,13 +48,19 @@ export class AuthService {
 
     const user = users.find(u => u.email === email.toLowerCase() && u.password === password);
     if (user) {
+// patient_profile
       localStorage.setItem('current_user', JSON.stringify(user));
+
+      localStorage.setItem(this.currentUserKey, JSON.stringify(user));
+      this.currentUserSubject.next(user);
+//  master
       return user;
     }
     return null;
   }
 
   logout(): void {
+//  patient_profile
     localStorage.removeItem('current_user');
   }
 
@@ -60,5 +72,17 @@ getCurrentUser(): User | null {
 
   isLoggedIn(): boolean {
     return !!localStorage.getItem('current_user');
+
+    localStorage.removeItem(this.currentUserKey);
+    this.currentUserSubject.next(null);
+  }
+
+  getCurrentUser(): User | null {
+    return this.currentUserSubject.value;
+  }
+
+  isLoggedIn(): boolean {
+    return !!this.getCurrentUser();
+//  master
   }
 }

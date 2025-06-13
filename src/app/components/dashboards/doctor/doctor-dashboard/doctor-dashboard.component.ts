@@ -1,12 +1,28 @@
-import { Component } from '@angular/core';
-import {RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { Doctor, DoctorDisplay } from '../../../../interfaces/doctor';
+import { DoctorService } from '../../../../services/doctor.service';
+import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-doctor-dashboard',
-  imports: [RouterOutlet,RouterLinkActive,RouterLink],
+  imports: [RouterOutlet,RouterLink,RouterLinkActive],
   templateUrl: './doctor-dashboard.component.html',
-  styleUrl: './doctor-dashboard.component.css'
+  styleUrls: ['./doctor-dashboard.component.css']
 })
-export class DoctorDashboardComponent {
+export class DoctorDashboardComponent implements OnInit {
+    displayDoctor?: DoctorDisplay;
 
+  constructor(private doctorService: DoctorService) {}
+
+  ngOnInit(): void {
+    const currentUser = localStorage.getItem('current_user');
+    if (currentUser) {
+      const user = JSON.parse(currentUser);
+      if (user.role_id === 2) {
+        this.displayDoctor = this.doctorService.getDoctorDisplayByUserId(user.id);
+      }
+    }
+  }
 }
+
+

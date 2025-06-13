@@ -2,7 +2,10 @@ import {Component} from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {Router, RouterLink} from '@angular/router';
 import {users} from '../../../data/data.json';
+// patient_profile
 import { AuthService } from '../../services/auth.service';
+import {NotificationService} from '../../services/notification.service';
+//  master
 
 
 @Component({
@@ -21,11 +24,14 @@ export class LoginComponent {
   errorMessage: string = '';
   
 
+// patient_profile
   constructor(private fb: FormBuilder,
     private authServ: AuthService,
     private router: Router
 
   ) {
+  constructor(private fb: FormBuilder, private notificationService: NotificationService) {
+//  master
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
@@ -51,6 +57,7 @@ export class LoginComponent {
     );
 
     if (user) {
+// patient_profile
     if (user.role_id === 2) {
       console.log(user);
     this.router.navigateByUrl('/doctor');
@@ -59,14 +66,22 @@ export class LoginComponent {
     this.router.navigateByUrl('/patient_profile');
 }
       alert('Login successful!');
+
+      this.notificationService.success("Form submitted successfully!");
+//  master
       this.errorMessage = '';
       const currentUser = {
         id: user.id,
         role_id: user.role_id,
         name: user.name
       };
+// patient_profile
 
     localStorage.setItem('auth_currentUser', JSON.stringify(user));
+
+      window.location.href = "/";
+      localStorage.setItem('current_user', JSON.stringify(currentUser));
+//  master
     } else {
       this.errorMessage = 'Invalid email or password!';
     }

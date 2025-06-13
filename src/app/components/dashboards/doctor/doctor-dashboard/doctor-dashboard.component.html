@@ -4,8 +4,8 @@
     <!-- Sidebar -->
     <nav class="col-md-3 col-lg-2 d-md-block  sidebar text-white vh-100">
       <div class="position-sticky p-3">
-        <img src="assets/images/doctors/doctor2.jpg" class="image text-center" alt="">
-        <h4 class="text-white mb-4">Dr. Emily Johnson</h4>
+        <img [src]="displayDoctor?.image" class="image text-center" alt="">
+        <h5 class="text-white mb-4 mx-1">{{ displayDoctor?.name }}</h5>
         <ul class="nav flex-column">
           <li class="nav-item">
             <a class="nav-link text-white" routerLink="/doctor/appointments" routerLinkActive="active">Upcoming Appointments</a>

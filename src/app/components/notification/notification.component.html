@@ -1,0 +1,7 @@
+<div class="notification-container">
+  @for (n of notifications ; track n) {
+    <div class="notification" [ngClass]="n.type">
+      {{ n.message }}
+    </div>
+  }
+</div>

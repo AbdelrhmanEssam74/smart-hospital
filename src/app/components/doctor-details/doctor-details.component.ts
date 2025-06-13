@@ -23,7 +23,7 @@ export class DoctorDetailsComponent {
       this.doctorId = idParam ? +idParam : null;
 
       if (this.doctorId !== null) {
-        const allDoctors = this.doctorService.getDoctors();
+        const allDoctors = this.doctorService.getDoctorDisplayList();
         this.doctor = allDoctors.find(d => d.id === this.doctorId);
       }
     });
