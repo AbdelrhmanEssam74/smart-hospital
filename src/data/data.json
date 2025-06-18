@@ -24,22 +24,23 @@
 "users": [
 
 {
-
     "id": 1,
     "name": "Dr. Nada Smith",
     "email": "nadas@hospital.com",
     "password": "$2a$10$hashedpassword",
     "phone": "966501234567",
     "image": "assets/images/doctors/doctor1.jpg",
-"profile_description": "Experienced cardiologist with over 10 years in patient care.",
-
-
-
+    "profile_description": "Experienced cardiologist with over 10 years in patient care.",
     "role_id": 2,
     "created_at": "2023-01-01T08:00:00Z",
-    "updated_at": "2023-01-01T08:00:00Z"
-},
-{
+    "updated_at": "2023-01-01T08:00:00Z",
+    "slots": [
+      { "date": "2025-06-18", "time": "09:00" },
+      { "date": "2025-06-19", "time": "11:00" },
+      { "date": "2025-06-20", "time": "14:30" }
+    ]
+  },
+  {
     "id": 2,
     "name": "Dr. Emily Johnson",
     "email": "emily.johnson@hospital.com",
@@ -47,65 +48,84 @@
     "phone": "966502345678",
     "image": "assets/images/doctors/doctor2.jpg",
     "profile_description": "Experienced cardiologist with over 10 years in patient care.",
-
-
     "role_id": 2,
     "created_at": "2023-01-02T09:00:00Z",
-    "updated_at": "2023-01-02T09:00:00Z"
-}, {
+    "updated_at": "2023-01-02T09:00:00Z",
+    "slots": [
+      { "date": "2025-06-19", "time": "10:00" },
+      { "date": "2025-06-20", "time": "13:00" },
+      { "date": "2025-06-21", "time": "15:00" }
+    ]
+  },
+  {
     "id": 3,
     "name": "Dr. Michael Brown",
     "email": "michael.brown@hospital.com",
     "password": "$2a$10$hashedpassword",
     "phone": "966502345478",
-        "image": "assets/images/doctors/doctor3.webp",
-        "profile_description": "Experienced cardiologist with over 10 years in patient care.",
-
-
+    "image": "assets/images/doctors/doctor3.webp",
+    "profile_description": "Experienced cardiologist with over 10 years in patient care.",
     "role_id": 2,
     "created_at": "2023-01-02T09:00:00Z",
-    "updated_at": "2023-01-02T09:00:00Z"
-}, {
+    "updated_at": "2023-01-02T09:00:00Z",
+    "slots": [
+      { "date": "2025-06-18", "time": "10:30" },
+      { "date": "2025-06-19", "time": "12:00" },
+      { "date": "2025-06-21", "time": "16:00" }
+    ]
+  },
+  {
     "id": 4,
     "name": "Dr. Sarah Davis",
     "email": "Sarah.Davis@hospital.com",
     "password": "$2a$10$hashedpassword",
     "phone": "966502365679",
-        "image": "assets/images/doctors/doctor4.webp",
-        "profile_description": "Experienced cardiologist with over 10 years in patient care.",
-
-
+    "image": "assets/images/doctors/doctor4.webp",
+    "profile_description": "Experienced cardiologist with over 10 years in patient care.",
     "role_id": 2,
     "created_at": "2023-01-02T09:00:00Z",
-    "updated_at": "2023-01-02T09:00:00Z"
-}, {
+    "updated_at": "2023-01-02T09:00:00Z",
+    "slots": [
+      { "date": "2025-06-20", "time": "09:30" },
+      { "date": "2025-06-21", "time": "11:30" },
+      { "date": "2025-06-22", "time": "14:00" }
+    ]
+  },
+  {
     "id": 5,
     "name": "Dr. William Wilson",
     "email": "William@hospital.com",
     "password": "$2a$10$hashedpassword",
     "phone": "966502345679",
-        "image": "assets/images/doctors/doctor5.webp",
-        "profile_description": "Experienced cardiologist with over 10 years in patient care.",
-
-
+    "image": "assets/images/doctors/doctor5.webp",
+    "profile_description": "Experienced cardiologist with over 10 years in patient care.",
     "role_id": 2,
     "created_at": "2023-01-02T09:00:00Z",
-    "updated_at": "2023-01-02T09:00:00Z"
-},
- {
+    "updated_at": "2023-01-02T09:00:00Z",
+    "slots": [
+      { "date": "2025-06-18", "time": "08:30" },
+      { "date": "2025-06-19", "time": "10:30" },
+      { "date": "2025-06-21", "time": "13:30" }
+    ]
+  },
+  {
     "id": 6,
     "name": "Dr. Linda Martinez",
     "email": "Linda@hospital.com",
     "password": "$2a$10$hashedpassword",
     "phone": "966502345679",
-        "image": "assets/images/doctors/doctor6.webp",
-        "profile_description": "Experienced cardiologist with over 10 years in patient care.",
-
-
+    "image": "assets/images/doctors/doctor6.webp",
+    "profile_description": "Experienced cardiologist with over 10 years in patient care.",
     "role_id": 2,
     "created_at": "2023-01-02T09:00:00Z",
-    "updated_at": "2023-01-02T09:00:00Z"
-}, {
+    "updated_at": "2023-01-02T09:00:00Z",
+    "slots": [
+      { "date": "2025-06-19", "time": "09:00" },
+      { "date": "2025-06-20", "time": "11:00" },
+      { "date": "2025-06-22", "time": "14:00" }
+    ]
+  },
+  {
     "id": 7,
     "name": "Dr. James Anderson",
     "email": "James@hospital.com",
@@ -113,25 +133,33 @@
     "phone": "966502345679",
     "image": "assets/images/doctors/doctor7.webp",
     "profile_description": "Experienced cardiologist with over 10 years in patient care.",
-
     "role_id": 2,
     "created_at": "2023-01-02T09:00:00Z",
-    "updated_at": "2023-01-02T09:00:00Z"
-}, {
+    "updated_at": "2023-01-02T09:00:00Z",
+    "slots": [
+      { "date": "2025-06-18", "time": "10:00" },
+      { "date": "2025-06-20", "time": "12:30" },
+      { "date": "2025-06-21", "time": "15:30" }
+    ]
+  },
+  {
     "id": 8,
     "name": "Dr. Barbara Thomas",
     "email": "Barbara@hospital.com",
     "password": "$2a$10$hashedpassword",
     "phone": "966502345679",
-        "image": "assets/images/doctors/doctor8.webp",
-        "profile_description": "Experienced cardiologist with over 10 years in patient care.",
-
-
+    "image": "assets/images/doctors/doctor8.webp",
+    "profile_description": "Experienced cardiologist with over 10 years in patient care.",
     "role_id": 2,
     "created_at": "2023-01-02T09:00:00Z",
-    "updated_at": "2023-01-02T09:00:00Z"
-},
-{
+    "updated_at": "2023-01-02T09:00:00Z",
+    "slots": [
+      { "date": "2025-06-18", "time": "09:30" },
+      { "date": "2025-06-20", "time": "13:30" },
+      { "date": "2025-06-21", "time": "16:30" }
+    ]
+  },
+  {
     "id": 9,
     "name": "Dr. Christopher Taylor",
     "email": "Christopher@hospital.com",
@@ -139,25 +167,32 @@
     "phone": "966502345679",
     "image": "assets/images/doctors/doctor9.jpg",
     "profile_description": "Experienced cardiologist with over 10 years in patient care.",
-
-
     "role_id": 2,
     "created_at": "2023-01-02T09:00:00Z",
-    "updated_at": "2023-01-02T09:00:00Z"
-}, {
+    "updated_at": "2023-01-02T09:00:00Z",
+    "slots": [
+      { "date": "2025-06-19", "time": "09:00" },
+      { "date": "2025-06-20", "time": "10:30" },
+      { "date": "2025-06-22", "time": "13:00" }
+    ]
+  },
+  {
     "id": 10,
     "name": "Dr. Patricia Moore",
     "email": "Patricia@hospital.com",
     "password": "$2a$10$hashedpassword",
     "phone": "966502345679",
-        "image": "assets/images/doctors/doctor10.webp",
-        "profile_description": "Experienced cardiologist with over 10 years in patient care.",
-
-
+    "image": "assets/images/doctors/doctor10.webp",
+    "profile_description": "Experienced cardiologist with over 10 years in patient care.",
     "role_id": 2,
     "created_at": "2023-01-02T09:00:00Z",
-    "updated_at": "2023-01-02T09:00:00Z"
-},
+    "updated_at": "2023-01-02T09:00:00Z",
+    "slots": [
+      { "date": "2025-06-18", "time": "08:00" },
+      { "date": "2025-06-19", "time": "12:30" },
+      { "date": "2025-06-21", "time": "14:00" }
+    ]
+  },
  {
     "id": 11,
     "name": "mariam",
@@ -491,7 +526,9 @@
 
   }
 ],
-  "slots": [],
+  "slots": [
+
+  ],
 
 "medical_records": [
 {
