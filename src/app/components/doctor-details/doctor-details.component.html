@@ -5,7 +5,9 @@
     </div>
 
     <nav class="breadcrumb fw-bold">
-      <a class="fw-bold" href="#">Home &raquo; </a> <a class="fw-bold" href="#">Doctor's &raquo;</a>Doctor Details
+      <a class="fw-bold" href="#">Home &raquo; </a>
+      <a class="fw-bold" href="#">Doctors &raquo;</a>
+      Doctor Details
     </nav>
   </div>
 </section>
@@ -14,140 +16,160 @@
   <div class="text-center">
     <h6 class="section-title">Our <span class="highlight">Doctor Details</span></h6>
     <p class="section-subtitle">Who is behind the best medical service in our clinic?</p>
-    <i class="icon  bi bi-droplet-fill "></i>
+    <i class="icon bi bi-droplet-fill"></i>
     <hr class="line_down"/>
   </div>
-  <div class="row bg-white  mt-5 box">
+
+  <div class="row bg-white mt-5 box">
+    <!-- Doctor Profile Section -->
     <div class="col-md-4 p-4 border-end">
-      <img [src]="doctor.image" alt="Doctor" class="profile-img">
-      <div class="profile-name mb-1">{{ doctor.name }}</div>
-      <hr class="text-primary">
+      @if (isLoading) {
+        <div class="text-center">
+          <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </div>
+      } @else {
+        <img [src]="doctor.image" alt="Doctor" class="profile-img">
+        <div class="profile-name mb-1">{{ doctor.name }}</div>
+        <hr class="text-primary">
 
-      <div class="profile-details mb-3">
-        <p><strong>Speciality</strong>:{{ doctor.specialty }}</p>
-        <hr class="text-primary">
-        <p><strong>Education</strong>: MD, OB/GYN</p>
-        <hr class="text-primary">
-        <p><strong>Work Days</strong>: Monday, Wednesday, Thursday</p>
-        <hr class="text-primary">
-        <p><strong>E-mail:</strong>: {{ doctor.email }}</p>
-        <hr class="text-primary">
-        <p><strong>Phone:</strong>: {{ doctor.phone }}</p>
-        <hr class="text-primary">
-      </div>
+        <div class="profile-details mb-3">
+          <p><strong>Speciality</strong>: {{ doctor.specialty }}</p>
+          <hr class="text-primary">
+          <p><strong>Education</strong>: MD, OB/GYN</p>
+          <hr class="text-primary">
+          <p><strong>Available Slots</strong>: {{ availableSlots.length }} available</p>
+          <hr class="text-primary">
+          <p><strong>E-mail</strong>: {{ doctor.email }}</p>
+          <hr class="text-primary">
+          <p><strong>Phone</strong>: {{ doctor.phone }}</p>
+          <hr class="text-primary">
+        </div>
 
-      <div class="profile-social">
-        <a href="#"><i class="fab fa-twitter"></i></a>
-        <a href="#"><i class="fab fa-facebook-f"></i></a>
-        <a href="#"><i class="fab fa-google"></i></a>
-        <a href="#"><i class="fab fa-linkedin-in"></i></a>
-        <a href="#"><i class="fab fa-skype"></i></a>
-      </div>
+        <div class="profile-social">
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-google"></i></a>
+          <a href="#"><i class="fab fa-linkedin-in"></i></a>
+          <a href="#"><i class="fab fa-skype"></i></a>
+        </div>
+      }
     </div>
 
+    <!-- Doctor Details and Appointment Form -->
     <div class="col-md-8 p-4">
-      <h4 class="mb-4">{{ doctor.name }}</h4>
-
-      <div class="experience mb-4">
-        <h5>Rprofile_description</h5>
-        <p>{{ doctor.profile_description }}</p>
-      </div>
-
-      <div class="experience mb-4">
-        <h5>Experience</h5>
-        <p>{{ doctor.years_of_experience }} -Years</p>
-      </div>
-
-      <div class="experience">
-        <h5>St Vincents Hospital – Sydney</h5>
-        <div class="date">Aug 2011 to Present</div>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore...</p>
-      </div>
-      <div class="container py-5">
-        <h2 class="mb-4 fw-normal">Book An Appointment</h2>
-
-        <form #appointmentForm="ngForm" (ngSubmit)="submitForm(appointmentForm)">
-          <div class="row g-3">
-            <!-- Name -->
-            <div class="col-md-6">
-              <input type="text" class="form-control form-input" placeholder="Your Name"
-                     [(ngModel)]="appointment.patientName" name="name" required #name="ngModel"/>
-              @if (name.invalid && name.touched) {
-                <div class="text-danger">Name is required</div>
-              }
-            </div>
-
-            <!-- Gender -->
-            <div class="col-md-6">
-              <select class="form-control form-input" [(ngModel)]="appointment.gender" name="gender" required
-                      #gender="ngModel">
-                <option value="" disabled selected>Select Gender</option>
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-              </select>
-              @if (gender.invalid && gender.touched) {
-                <div class="text-danger">Gender is required</div>
-              }
-            </div>
-
-            <!-- Phone -->
-            <div class="col-md-6">
-              <input type="tel" class="form-control form-input" placeholder="Phone Number"
-                     [(ngModel)]="appointment.phone" name="phone" required pattern="^[0-9]{11}$" #phone="ngModel"/>
-              @if (phone.invalid && phone.touched) {
-                <div class="text-danger">Phone must be 11 digits</div>
-              }
-            </div>
-
-            <!-- Email -->
-            <div class="col-md-6">
-              <input type="email" class="form-control form-input" placeholder="Your Email"
-                     [(ngModel)]="appointment.email" name="email" required email #email="ngModel"/>
-              @if (email.invalid && email.touched) {
-                <div class="text-danger">Valid email is required</div>
-              }
-            </div>
-
-            <!-- Date -->
-            <div class="col-md-6">
-              <input type="date" class="form-control form-input"
-                     [(ngModel)]="appointment.date" name="date" required #date="ngModel"
-                     (ngModelChange)="validateDateAndTime()" />
-              @if (dateError) {
-                <div class="text-danger">{{ dateError }}</div>
-              }
-            </div>
-
-            <!-- Time -->
-            <div class="col-md-6">
-              <input type="time" class="form-control form-input"
-                     [(ngModel)]="appointment.time" name="time" required #time="ngModel"
-                     min="08:00" max="20:00"
-                     (ngModelChange)="validateDateAndTime()" />
-              @if (timeError) {
-                <div class="text-danger">{{ timeError }}</div>
-              }
-            </div>
-
-            <!-- Message -->
-            <div class="col-12">
-      <textarea class="form-control form-input" rows="5" placeholder="Your Message"
-                [(ngModel)]="appointment.message" name="message"></textarea>
-            </div>
-
-            <!-- Submit -->
-            <div class="col-12">
-              <button type="submit" class="btn px-4"
-                      [disabled]="appointmentForm.invalid || dateError || timeError">
-                SEND MESSAGE
-              </button>
-
-            </div>
+      @if (isLoading) {
+        <div class="text-center">
+          <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
           </div>
-        </form>
+        </div>
+      } @else {
+        <h4 class="mb-4">{{ doctor.name }}</h4>
 
-      </div>
+        <div class="experience mb-4">
+          <h5>Profile Description</h5>
+          <p>{{ doctor.profile_description }}</p>
+        </div>
 
+        <div class="experience mb-4">
+          <h5>Experience</h5>
+          <p>{{ doctor.years_of_experience }} Years</p>
+        </div>
+
+        <!-- Appointment Booking Form -->
+        <div class="container py-3">
+          <h2 class="mb-4 fw-normal">Book An Appointment</h2>
+
+          <form #appointmentForm="ngForm" (ngSubmit)="submitForm(appointmentForm)">
+            <div class="row g-3">
+              <!-- Name -->
+              <div class="col-md-6">
+                <input type="text" class="form-control" placeholder="Your Name"
+                       [(ngModel)]="appointment.patientName" name="name" required #name="ngModel">
+                @if (name.invalid && name.touched) {
+                  <div class="text-danger">Name is required</div>
+                }
+              </div>
+
+              <!-- Gender -->
+              <div class="col-md-6">
+                <select class="form-control form-select" [(ngModel)]="appointment.gender" name="gender" required #gender="ngModel">
+                  <option value="" disabled selected>Select Gender</option>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                </select>
+                @if (gender.invalid && gender.touched) {
+                  <div class="text-danger">Gender is required</div>
+                }
+              </div>
+
+              <!-- Phone -->
+              <div class="col-md-6">
+                <input type="tel" class="form-control" placeholder="Phone Number"
+                       [(ngModel)]="appointment.phone" name="phone" required pattern="^[0-9]{11}$" #phone="ngModel">
+                @if (phone.invalid && phone.touched) {
+                  <div class="text-danger">Valid phone number is required</div>
+                }
+              </div>
+
+              <!-- Email -->
+              <div class="col-md-6">
+                <input type="email" class="form-control" placeholder="Your Email"
+                       [(ngModel)]="appointment.email" name="email" required #email="ngModel">
+                @if (email.invalid && email.touched) {
+                  <div class="text-danger">Valid email is required</div>
+                }
+              </div>
+
+              <!-- Date Selection -->
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="date">Select Date</label>
+                  <select class="form-control" id="date" [(ngModel)]="selectedDate" (change)="onDateChange()" name="date" required>
+                    <option value="">Select a date</option>
+                    <option *ngFor="let date of availableDates" [value]="date">
+                      {{ formatDisplayDay(date) }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Time Selection -->
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="time">Select Time</label>
+                  <select class="form-control" id="time" [(ngModel)]="selectedTime" [disabled]="!selectedDate" name="time" required>
+                    <option value="">Select a time</option>
+                    <option *ngFor="let time of availableTimes" [value]="time">
+                      {{ time }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Message -->
+              <div class="col-12">
+                <textarea class="form-control" rows="3" placeholder="Your Message"
+                          [(ngModel)]="appointment.message" name="message"></textarea>
+              </div>
+
+              <!-- Submit Button -->
+              <div class="col-12 text-center mt-4">
+                <button type="submit" class="btn btn-primary px-5 py-2"
+                        [disabled]="appointmentForm.invalid || !selectedDate || !selectedTime || isLoading">
+                  @if (isLoading) {
+                    <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                  }
+                  <i class="bi bi-calendar-check me-2"></i>
+                  BOOK APPOINTMENT
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      }
     </div>
   </div>
 </div>
