@@ -1,51 +1,44 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import {Router, RouterLink, RouterLinkActive} from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService, User } from '../../services/auth.service';
-import { NgClass } from '@angular/common';
-//  master
+import {NgClass, NgIf} from '@angular/common';
 
 @Component({
   selector: 'app-navbar',
-  standalone: true,
   templateUrl: './navbar.component.html',
-  imports: [NgClass, RouterLink, RouterLinkActive],
-  styleUrl: './navbar.component.css'
+  imports: [NgClass, RouterLink, RouterLinkActive, NgIf],
+  styleUrls: ['./navbar.component.css']
 })
-export class NavbarComponent implements OnInit{
+export class NavbarComponent implements OnInit {
   isScrolled = false;
-//  patient_profile
-    currentUser: any = null;
-
-  login: boolean | null = false;
+  login: boolean = false;
   userInitial: string = '';
 
-  constructor(private router: Router, private authService: AuthService) {
-    this.currentUser = this.authService.getCurrentUser();
-  }
-//  master
+  constructor(private router: Router, private authService: AuthService) {}
 
   @HostListener('window:scroll', [])
   onWindowScroll() {
     this.isScrolled = window.pageYOffset > 50;
   }
+
   ngOnInit() {
-    const user = JSON.parse(localStorage.getItem('current_user') || "{}");
-    if (user && user.name) {
-      this.login = true;
-      this.userInitial = user.name.charAt(0).toUpperCase();
-      // Check user role and navigate doctor or patient
-      if (user.role_id === 2) {
-      this.router.navigate(['/doctor']);
-    }
-    }
+    this.authService.currentUser$.subscribe(user => {
+      this.login = !!user;
+      if (user) {
+        const name = user.firstName || user.lastName || '';
+        this.userInitial = name.trim().charAt(0).toUpperCase();
+        if (user.role === 'doctor') {
+          this.router.navigate(['/doctor']);
+        }
+      } else {
+        this.userInitial = '';
+      }
+    });
   }
 
 
   logout() {
     this.authService.logout();
-    this.login = false;
-    this.userInitial = '';
     this.router.navigate(['/login']);
   }
-
 }
