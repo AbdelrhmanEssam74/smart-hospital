@@ -48,14 +48,8 @@ export class LoginComponent {
     );
 
     if (user) {
-      const currentUser = {
-        id: user.id,
-        role_id: user.role_id,
-        name: user.name
-      };
-
       localStorage.setItem('auth_currentUser', JSON.stringify(user));
-      localStorage.setItem('current_user', JSON.stringify(currentUser));
+      // localStorage.setItem('current_user', JSON.stringify(currentUser));
 
       if (user.role_id === 2) {
         this.router.navigateByUrl('/doctor');

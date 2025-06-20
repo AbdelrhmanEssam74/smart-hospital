@@ -27,27 +27,43 @@
                [(ngModel)]="searchTerm"
                (input)="filterDoctors()"
                placeholder="Search by name or specialty">
-        <button class="btn"
-                type="button"
-                (click)="searchTerm = ''; filterDoctors()">
-          Clear
-        </button>
+        <button class="btn" type="button" (click)="clearSearch()">Clear</button>
       </div>
     </div>
   </div>
-  @if (filteredDoctors.length === 0) {
-      <div class="col-12 text-center py-5">
-        <div class="alert alert-info">
-          No doctors found matching your search.
-        </div>
-      </div>
-    }
+
+  <!-- No Results -->
+  <div *ngIf="filteredDoctors.length === 0" class="col-12 text-center py-5">
+    <div class="alert alert-info">
+      No doctors found matching your search.
+    </div>
+  </div>
+
+  <!-- Doctors Grid -->
   <div class="row g-4 m-5">
-    @for(doctor of filteredDoctors; track doctor.id) {
-      <div class="col-md-3">
+    @for (doctor of paginatedDoctors; track doctor.id) {
+      <div class="col-md-4">
         <app-doctor [doctor]="doctor"></app-doctor>
       </div>
     }
+  </div>
 
+  <!-- Pagination -->
+  <div class="d-flex align-items-center justify-content-center my-4">
+    <nav *ngIf="totalPages > 1">
+      <ul class="pagination">
+        <li class="page-item" [class.disabled]="currentPage === 1">
+          <button class="page-link" (click)="changePage(currentPage - 1)">Previous</button>
+        </li>
+        <li *ngFor="let page of [].constructor(totalPages); let i = index" class="page-item" [class.active]="currentPage === (i + 1)">
+          <button class="page-link" (click)="changePage(i + 1)">
+            {{ i + 1 }}
+          </button>
+        </li>
+        <li class="page-item" [class.disabled]="currentPage === totalPages">
+          <button class="page-link" (click)="changePage(currentPage + 1)">Next</button>
+        </li>
+      </ul>
+    </nav>
   </div>
 </div>

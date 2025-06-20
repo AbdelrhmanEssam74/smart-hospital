@@ -16,7 +16,7 @@ export interface User {
 })
 export class AuthService {
   private localStorageKey = 'auth_users';
-  private currentUserKey = 'current_user';
+  private currentUserKey = 'auth_currentUser';
 
   private currentUserSubject = new BehaviorSubject<User | null>(this.getStoredUser());
   currentUser$ = this.currentUserSubject.asObservable();
@@ -49,7 +49,7 @@ export class AuthService {
     const user = users.find(u => u.email === email.toLowerCase() && u.password === password);
     if (user) {
 // patient_profile
-      localStorage.setItem('current_user', JSON.stringify(user));
+//       localStorage.setItem('current_user', JSON.stringify(user));
 
       localStorage.setItem(this.currentUserKey, JSON.stringify(user));
       this.currentUserSubject.next(user);
@@ -60,9 +60,10 @@ export class AuthService {
   }
 
   logout(): void {
-//  patient_profile
-    localStorage.removeItem('current_user');
+    localStorage.removeItem(this.currentUserKey);
+    this.currentUserSubject.next(null);
   }
+
 
 getCurrentUser(): User | null {
   const userString = localStorage.getItem('auth_currentUser');
@@ -71,9 +72,8 @@ getCurrentUser(): User | null {
 }
 
   isLoggedIn(): boolean {
-    return !!localStorage.getItem('current_user');
-    localStorage.removeItem(this.currentUserKey);
-    this.currentUserSubject.next(null);
+    const userString = localStorage.getItem(this.currentUserKey);
+    return userString !== null;
   }
 
 }
