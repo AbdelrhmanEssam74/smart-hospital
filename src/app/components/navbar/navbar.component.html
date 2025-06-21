@@ -74,12 +74,15 @@
         </ul>
 
         <!-- If Not Logged In -->
-        <a *ngIf="!login" routerLink="/login" class="btn btn-outline-primary me-2">
+                  @if(!login){
+
+        <a  routerLink="/login" class="btn btn-outline-primary me-2">
           <i class="fa-solid fa-lock me-2"></i> Login
-        </a>
+        </a>}
 
         <!-- If Logged In -->
-        <div *ngIf="login" class="dropdown">
+         @if(login){
+        <div  class="dropdown">
           <button
             class="btn btn-outline-secondary dropdown-toggle rounded-circle d-flex align-items-center justify-content-center"
             type="button"
@@ -89,13 +92,33 @@
             {{ userInitial }}
           </button>
           <ul class="dropdown-menu dropdown-menu-end">
-            <li><a class="dropdown-item" routerLink="/profile">Profile</a></li>
+              <!-- Doctor -->
+
+            @if(userRole === 'doctor') {
+            <li><a class="dropdown-item" routerLink="/doctor">Dashboard</a></li>
             <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" routerLink="/appointments">Appointments</a></li>
+            <li><a class="dropdown-item" routerLink="/doctor/edit-profile">Profile</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" routerLink="doctor/appointments">Appointments</a></li>
             <li><hr class="dropdown-divider"></li>
             <li><button class="dropdown-item" (click)="logout()">Logout</button></li>
+            }
+              <!-- patient -->
+
+             @else if(userRole === 'patient') {
+              <li><a class="dropdown-item" routerLink="/patient_profile">Dashboard</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" routerLink="/patient_profile/profile_edit">Profile</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" routerLink="/patient_profile">Appointments</a></li>
+              <li><button class="dropdown-item" (click)="logout()">Logout</button></li>
+            } @else {
+              <li><a class="dropdown-item" routerLink="/profile">Profile</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><button class="dropdown-item" (click)="logout()">Logout</button></li>
+            }
           </ul>
-        </div>
+        </div>}
       </div>
     </div>
   </nav>
