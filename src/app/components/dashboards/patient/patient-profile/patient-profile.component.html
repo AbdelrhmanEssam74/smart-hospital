@@ -13,7 +13,7 @@
             <h4 class="mb-1">{{ currentUser?.name }}</h4>
             <p class="text-muted mb-3">Patient</p>
             <hr>
-            
+
             <ul class="nav flex-column">
               <li class="nav-item">
                 <a class="nav-link active" routerLink="/profile_edit"><i class="fas fa-user me-2"></i> My Profile</a>
@@ -21,8 +21,8 @@
               <li class="nav-item">
                 <a class="nav-link"><i class="fas fa-calendar-check me-2"></i> Appointments</a>
               </li>
-             
-             
+
+
               <li class="nav-item">
                 <a class="nav-link" (click)="authService.logout()" routerLink="/"><i class="fas fa-sign-out-alt me-2"></i> Logout</a>
               </li>
@@ -35,7 +35,7 @@
           <div class="card-header bg-white border-bottom">
             <h5 class="mb-0"><i class="fas fa-calendar-check me-2"></i> My Appointments</h5>
           </div>
-          
+
           <div class="card-body">
             <div class="table-responsive">
               <table class="table table-hover">
@@ -44,41 +44,44 @@
                     <th>Doctor</th>
                     <th>Specialty</th>
                     <th>Date</th>
-                    <th>Time</th>
+                    <th>StateTime</th>
+                    <th>EndTime</th>
+                    <th>Gender</th>
                     <th>Status</th>
                     <th>Action</th>
                   </tr>
                 </thead>
 
 <tbody>
-  @for (appointment of appointments; track appointment.id) {
+        @for(appt of filteredAppointments; track appt.id) {
     <tr>
       <td>
         <div class="d-flex align-items-center">
-          <img [src]="appointment.photo" class="rounded-circle me-3" width="40" height="40" alt="Doctor">
-          <div>{{ appointment.doctor }}</div>
+          <div>{{ appt.doctorname }}</div>
         </div>
       </td>
-      <td>{{ appointment.specialty }}</td>
-      <td>{{ appointment.date }}</td>
-      <td>{{ appointment.time }}</td>
+      <td>{{ appt.Specialty }}</td>
+      <td>{{ appt.date }}</td>
+      <td>{{ appt.startTime }}</td>
+      <td>{{ appt.endTime }}</td>
+      <td>{{ appt.gender }}</td>
       <td>
-        @switch (appointment.status) {
+        @switch (appt.status) {
           @case ('Confirmed') {
-            <span class="badge bg-success">{{ appointment.status }}</span>
+            <span class="badge bg-success">{{ appt.status }}</span>
           }
-          @case ('Pending') {
-            <span class="badge bg-warning">{{ appointment.status }}</span>
+          @case ('pending') {
+            <span class="badge bg-warning">{{ appt.status }}</span>
           }
           @case ('Completed') {
-            <span class="badge bg-secondary">{{ appointment.status }}</span>
+            <span class="badge bg-secondary">{{ appt.status }}</span>
           }
         }
       </td>
       <td>
-        <button class="btn btn-sm btn-outline-primary me-2">View</button>
-        @if (appointment.status === 'Pending') {
-          <button class="btn btn-sm btn-outline-danger">Cancel</button>
+              <a class="action-btn view-btn" (click)="viewAppointment(appt.id)"><i class="fas fa-eye"></i></a>
+        @if (appt.status === 'pending') {
+              <a class="action-btn delete-btn" (click)="deleteAppointment(appt.id)"><i class="fas fa-times"></i></a>
         }
       </td>
     </tr>
@@ -89,3 +92,20 @@
                 <i class="fas fa-plus me-2"></i> Book New Appointment
               </button>
             </div>
+
+@if(showPopup){
+<div class="popup-overlay" >
+  <div class="popup-box">
+    <h3 class="text-primary">Appointment Details</h3>
+    <p><strong>Doctor:</strong> {{ selectedAppointment?.doctorname }}</p>
+    <p><strong>Specialty:</strong> {{ selectedAppointment?.specialty }}</p>
+    <p><strong>Gender:</strong> {{ selectedAppointment?.gender }}</p>
+     <p><strong>Date:</strong> {{ selectedAppointment?.date }}</p>
+    <p><strong>From:</strong> {{ selectedAppointment?.startTime }}</p>
+    <p><strong>To:</strong> {{ selectedAppointment?.endTime }}</p>
+    <p><strong>Notes:</strong> {{ selectedAppointment?.notes }}</p>
+    <p><strong>Status:</strong> {{ selectedAppointment?.status }}</p>
+    <button (click)="closePopup()">Close</button>
+  </div>
+</div>
+}
