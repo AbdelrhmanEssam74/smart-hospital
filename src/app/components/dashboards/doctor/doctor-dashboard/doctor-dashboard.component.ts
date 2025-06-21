@@ -15,10 +15,10 @@ export class DoctorDashboardComponent implements OnInit {
   constructor(private doctorService: DoctorService) {}
 
   ngOnInit(): void {
-    const currentUser = localStorage.getItem('current_user');
+    const currentUser = localStorage.getItem('auth_currentUser');
     if (currentUser) {
       const user = JSON.parse(currentUser);
-      if (user.role_id === 2) {
+      if (user.role_id == 2) {
         this.displayDoctor = this.doctorService.getDoctorDisplayByUserId(user.id);
       }
     }

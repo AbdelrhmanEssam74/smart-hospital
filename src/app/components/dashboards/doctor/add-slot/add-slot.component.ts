@@ -20,10 +20,10 @@ export class AddSlotComponent implements OnInit {
   constructor(private service: AppointmentsService) {}
 
   ngOnInit() {
-    const currentUser = localStorage.getItem('current_user');
+    const currentUser = localStorage.getItem('auth_currentUser');
     if (currentUser) {
       const userObj = JSON.parse(currentUser);
-      if (userObj.role_id === 2) {
+      if (userObj.role_id == 2) {
         this.slot.doctor_id = userObj.id.toString();
       } else {
         alert('You are not authorized to add slots.');
