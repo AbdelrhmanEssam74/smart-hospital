@@ -13,7 +13,7 @@ export class PatientService {
     getPatients(): Patient[] {
     return this.data.patients.map(patient => {
       const user = patient.user_id ? this.data.users.find(u => u.id === patient.user_id) : null;
-       
+
       return {
         ...patient,
         user: user ? {

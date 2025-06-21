@@ -144,7 +144,7 @@ export class DoctorDetailsComponent implements OnInit {
   submitForm(form: NgForm) {
     if (this.isLoading) return;
 
-    const currentUser = JSON.parse(localStorage.getItem('current_user') || '{}');
+    const currentUser = JSON.parse(localStorage.getItem('auth_currentUser') || '{}');
 
     if (!currentUser?.id) {
       this.notifications.error("You must be logged in to book an appointment.");
