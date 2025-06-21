@@ -1,5 +1,6 @@
 export interface Patient {
   id: number;
+  user_id:number;
   medical_record_number: string;
   gender: string;
   address: string;
