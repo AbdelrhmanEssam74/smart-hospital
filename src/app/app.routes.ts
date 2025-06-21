@@ -33,9 +33,9 @@ export const routes: Routes = [
   {path: 'my-appointments', component: UserAppointmentsComponent},
   {
     path: "patient_profile", component: PatientProfileComponent,
-    children: []
+    children: [  {path: 'profile_edit', component: EditProfileComponent},
+]
   },
-  {path: 'profile_edit', component: EditProfileComponent},
   // { path: 'appointments', component: AppointmentsComponent, }
   {path: "**", redirectTo: "404", pathMatch: "full"}
 ]
