@@ -86,7 +86,7 @@ export class RegisterComponent {
       next: (res) => {
         this.auth.saveToken(res.token);
         this.auth.saveUser(res.user); 
-        this.router.navigate(['/home']);
+        this.router.navigate(['/login']);
       },
       error: (err) => {
         this.errorMessage = err.error?.message || 'Registration failed';
