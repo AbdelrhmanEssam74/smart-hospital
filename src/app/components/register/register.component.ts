@@ -1,75 +1,96 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  ReactiveFormsModule,
+  AbstractControl,
+} from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { AuthService, User } from '../../services/auth.service';
+import { CommonModule } from '@angular/common';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-register',
+  standalone: true,
   templateUrl: './register.component.html',
-  imports: [
-    ReactiveFormsModule,
-    RouterLink
-  ],
-  styleUrls: ['./register.component.css']
+  styleUrls: ['./register.component.css'],
+  imports: [ReactiveFormsModule, RouterLink, CommonModule],
 })
 export class RegisterComponent {
-  registerForm: FormGroup;
-  errorMessage: string | null = null;
-  roles = ['doctor', 'patient', 'user', 'admin'];
+  registerForm!: FormGroup;
+  errorMessage: string = '';
+  selectedImage: File | null = null;
 
   constructor(
     private fb: FormBuilder,
-    private authService: AuthService,
+    private auth: AuthService,
     private router: Router
-  ) {
-    this.registerForm = this.fb.group({
-      firstName: ['', [Validators.required, Validators.minLength(2)]],
-      lastName: ['', [Validators.required, Validators.minLength(2)]],
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
-      confirmPassword: ['', Validators.required],
-      phone: ['', [Validators.required, Validators.pattern(/^[0-9]{10,15}$/)]],
-      role: ['', Validators.required]
-    }, { validators: this.passwordMatchValidator });
+  ) {}
+
+  ngOnInit(): void {
+    this.registerForm = this.fb.group(
+      {
+        name: ['', [Validators.required, Validators.minLength(2)]],
+        email: ['', [Validators.required, Validators.email]],
+        password: ['', [Validators.required, Validators.minLength(6)]],
+        confirmPassword: ['', [Validators.required]],
+        phone: [
+          '',
+          [Validators.required, Validators.pattern(/^[0-9]{10,15}$/)],
+        ],
+        role_id: ['', Validators.required],
+        profile_description: [''],
+      },
+      { validators: this.passwordMatchValidator }
+    );
+  }
+
+  get f(): { [key: string]: AbstractControl } {
+    return this.registerForm.controls;
   }
 
   passwordMatchValidator(form: FormGroup) {
     return form.get('password')?.value === form.get('confirmPassword')?.value
-      ? null : { mismatch: true };
+      ? null
+      : { mismatch: true };
   }
 
-  onSubmit() {
+  onFileChange(event: any): void {
+    const file = event.target.files[0];
+    if (file) {
+      this.selectedImage = file;
+    }
+  }
+
+  register(): void {
     if (this.registerForm.invalid) {
+      this.registerForm.markAllAsTouched();
       return;
     }
 
-    const formValue = this.registerForm.value;
+    const formData = new FormData();
+    formData.append('name', this.f['name'].value);
+    formData.append('email', this.f['email'].value);
+    formData.append('password', this.f['password'].value);
+    formData.append('password_confirmation', this.f['confirmPassword'].value);
+    formData.append('phone', this.f['phone'].value);
+    formData.append('role_id', this.f['role_id'].value);
+    formData.append('profile_description', this.f['profile_description'].value || '');
 
-    const usersString = localStorage.getItem('auth_users');
-const users: User[] = usersString ? JSON.parse(usersString) : [];
-
-const newId = users.length > 0 ? Math.max(...users.map(u => u.id || 0)) + 1 : 1;
-
-const user: User = {
-  id: newId,
-  firstName: formValue.firstName,
-  lastName: formValue.lastName,
-  email: formValue.email.toLowerCase(),
-  password: formValue.password,
-  phone: formValue.phone,
-  role: formValue.role
-};
-
-    const registered = this.authService.register(user);
-
-    if (registered) {
-      this.router.navigate(['/login']);
-    } else {
-      this.errorMessage = 'Email already registered';
+    if (this.selectedImage) {
+      formData.append('image', this.selectedImage);
     }
-  }
 
-  get f() {
-    return this.registerForm.controls;
+    this.auth.register(formData).subscribe({
+      next: (res) => {
+        this.auth.saveToken(res.token);
+        this.auth.saveUser(res.user); 
+        this.router.navigate(['/home']);
+      },
+      error: (err) => {
+        this.errorMessage = err.error?.message || 'Registration failed';
+      },
+    });
   }
 }

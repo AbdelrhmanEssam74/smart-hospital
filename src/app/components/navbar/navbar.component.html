@@ -1,124 +1,200 @@
-  <!-- Top Bar -->
-  <div class="top-bar bg-light py-2 border-bottom">
-    <div class="container d-flex justify-content-between gap-4 flex-wrap p-2">
-      <div class="logo">
-        <a class="navbar-brand d-flex align-items-center" routerLink="/">
-          <img src="/assets/images/logo.webp" alt="Logo" height="40" class="me-2" />
-        </a>
-      </div>
-      <div class="d-flex justify-content-center justify-content-md-start gap-3">
-        <div class="d-flex align-items-center gap-3 text-secondary">
-          <i class="fa-light fa-clock-two fs-2"></i>
-          <div class="d-flex flex-column text-secondary">
-            <span>Monday - Friday 08:00 - 19:00</span>
-            <span class="d-none d-md-inline">Saturday and Sunday - CLOSED</span>
-          </div>
+<!-- Top Bar -->
+<div class="top-bar bg-light py-2 border-bottom">
+  <div class="container d-flex justify-content-between gap-4 flex-wrap p-2">
+    <div class="logo">
+      <a class="navbar-brand d-flex align-items-center" routerLink="/">
+        <img
+          src="/assets/images/logo.webp"
+          alt="Logo"
+          height="40"
+          class="me-2"
+        />
+      </a>
+    </div>
+    <div class="d-flex justify-content-center justify-content-md-start gap-3">
+      <div class="d-flex align-items-center gap-3 text-secondary">
+        <i class="fa-light fa-clock-two fs-2"></i>
+        <div class="d-flex flex-column text-secondary">
+          <span>Monday - Friday 08:00 - 19:00</span>
+          <span class="d-none d-md-inline">Saturday and Sunday - CLOSED</span>
         </div>
-        <div class="d-flex align-items-center gap-3 text-secondary">
-          <i class="fa-light fa-mobile-notch fs-2"></i>
-          <div class="d-flex flex-column text-secondary">
-            <div>(+001) 321-125-152</div>
-            <div>contact prolexe.com</div>
-          </div>
+      </div>
+      <div class="d-flex align-items-center gap-3 text-secondary">
+        <i class="fa-light fa-mobile-notch fs-2"></i>
+        <div class="d-flex flex-column text-secondary">
+          <div>(+001) 321-125-152</div>
+          <div>contact prolexe.com</div>
         </div>
       </div>
     </div>
   </div>
+</div>
 
-  <!-- Main Navbar -->
-  <nav [ngClass]="{
-        'navbar': true,
-        'navbar-expand-lg': true,
-        'navbar-light': true,
-        'bg-white': true,
-        'shadow-sm': isScrolled,
-        'fixed-top': isScrolled,
-        'animate-navbar': isScrolled
-      }">
-    <div class="container">
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#mainNavbar"
-        aria-controls="mainNavbar"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span class="navbar-toggler-icon"></span>
-      </button>
+<!-- Main Navbar -->
+<nav
+  [ngClass]="{
+    navbar: true,
+    'navbar-expand-lg': true,
+    'navbar-light': true,
+    'bg-white': true,
+    'shadow-sm': isScrolled,
+    'fixed-top': isScrolled,
+    'animate-navbar': isScrolled
+  }"
+>
+  <div class="container">
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#mainNavbar"
+      aria-controls="mainNavbar"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
-      <div class="collapse navbar-collapse" id="mainNavbar">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0 fw-semibold">
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">HOME</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/service" routerLinkActive="active-link">SERVICE</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/doctors" routerLinkActive="active-link">DOCTORS</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/blog" routerLinkActive="active-link">BLOG</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/gallery" routerLinkActive="active-link">GALLERY</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/shop" routerLinkActive="active-link">SHOP</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" routerLink="/contact" routerLinkActive="active-link">CONTACT</a>
-          </li>
-        </ul>
+    <div class="collapse navbar-collapse" id="mainNavbar">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0 fw-semibold">
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            routerLink="/"
+            routerLinkActive="active-link"
+            [routerLinkActiveOptions]="{ exact: true }"
+            >HOME</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            routerLink="/service"
+            routerLinkActive="active-link"
+            >SERVICE</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            routerLink="/doctors"
+            routerLinkActive="active-link"
+            >DOCTORS</a
+          >
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/blog" routerLinkActive="active-link"
+            >BLOG</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            routerLink="/gallery"
+            routerLinkActive="active-link"
+            >GALLERY</a
+          >
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/shop" routerLinkActive="active-link"
+            >SHOP</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            routerLink="/contact"
+            routerLinkActive="active-link"
+            >CONTACT</a
+          >
+        </li>
+      </ul>
 
-        <!-- If Not Logged In -->
-                  @if(!login){
+      <!-- If Not Logged In -->
+      @if(!login){
 
-        <a  routerLink="/login" class="btn btn-outline-primary me-2">
-          <i class="fa-solid fa-lock me-2"></i> Login
-        </a>}
+      <a routerLink="/login" class="btn btn-outline-primary me-2">
+        <i class="fa-solid fa-lock me-2"></i> Login </a
+      >}
 
-        <!-- If Logged In -->
-         @if(login){
-        <div  class="dropdown">
-          <button
-            class="btn btn-outline-secondary dropdown-toggle rounded-circle d-flex align-items-center justify-content-center"
-            type="button"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-            style="width: 40px; height: 40px;">
+      <!-- If Logged In -->
+      @if(login){
+      <div class="dropdown">
+        <button
+          class="btn btn-outline-secondary dropdown-toggle rounded-circle p-0"
+          type="button"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+          style="width: 40px; height: 40px; overflow: hidden"
+        >
+          <img
+            *ngIf="userImage"
+            [src]="userImage"
+            alt="User"
+            class="w-100 h-100"
+            style="object-fit: cover"
+            (error)="userImage = ''"
+          />
+          <span
+            *ngIf="!userImage"
+            class="d-flex align-items-center justify-content-center w-100 h-100"
+          >
             {{ userInitial }}
-          </button>
-          <ul class="dropdown-menu dropdown-menu-end">
-              <!-- Doctor -->
+          </span>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end">
+          <!-- Doctor -->
 
-            @if(userRole === 'doctor') {
-            <li><a class="dropdown-item" routerLink="/doctor">Dashboard</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" routerLink="/doctor/edit-profile">Profile</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" routerLink="doctor/appointments">Appointments</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><button class="dropdown-item" (click)="logout()">Logout</button></li>
-            }
-              <!-- patient -->
+          @if(userRole === 'doctor') {
+          <li><a class="dropdown-item" routerLink="/doctor">Dashboard</a></li>
+          <li><hr class="dropdown-divider" /></li>
+          <li>
+            <a class="dropdown-item" routerLink="/doctor/edit-profile"
+              >Profile</a
+            >
+          </li>
+          <li><hr class="dropdown-divider" /></li>
+          <li>
+            <a class="dropdown-item" routerLink="doctor/appointments"
+              >Appointments</a
+            >
+          </li>
+          <li><hr class="dropdown-divider" /></li>
+          <li>
+            <button class="dropdown-item" (click)="logout()">Logout</button>
+          </li>
+          }
+          <!-- patient -->
 
-             @else if(userRole === 'patient') {
-              <li><a class="dropdown-item" routerLink="/patient_profile">Dashboard</a></li>
-              <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item" routerLink="/patient_profile/profile_edit">Profile</a></li>
-              <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item" routerLink="/patient_profile">Appointments</a></li>
-              <li><button class="dropdown-item" (click)="logout()">Logout</button></li>
-            } @else {
-              <li><a class="dropdown-item" routerLink="/profile">Profile</a></li>
-              <li><hr class="dropdown-divider"></li>
-              <li><button class="dropdown-item" (click)="logout()">Logout</button></li>
-            }
-          </ul>
-        </div>}
+          @else if(userRole === 'patient') {
+          <li>
+            <a class="dropdown-item" routerLink="/patient_profile">Dashboard</a>
+          </li>
+          <li><hr class="dropdown-divider" /></li>
+          <li>
+            <a class="dropdown-item" routerLink="/patient_profile/profile_edit"
+              >Profile</a
+            >
+          </li>
+          <li><hr class="dropdown-divider" /></li>
+          <li>
+            <a class="dropdown-item" routerLink="/patient_profile"
+              >Appointments</a
+            >
+          </li>
+          <li>
+            <button class="dropdown-item" (click)="logout()">Logout</button>
+          </li>
+          } @else {
+          <li><a class="dropdown-item" routerLink="/profile">Profile</a></li>
+          <li><hr class="dropdown-divider" /></li>
+          <li>
+            <button class="dropdown-item" (click)="logout()">Logout</button>
+          </li>
+          }
+        </ul>
       </div>
+      }
     </div>
-  </nav>
+  </div>
+</nav>

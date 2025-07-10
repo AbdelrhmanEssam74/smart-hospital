@@ -33,9 +33,9 @@ export class PatientProfileComponent {
   showPopup: boolean = false;
 
 
-  constructor(public authService: AuthService) {
-    this.currentUser = this.authService.getCurrentUser();
-  }
+  // constructor(public authService: AuthService) {
+  //   this.currentUser = this.authService.getCurrentUser();
+  // }
     ngOnInit() {
     const CurrentUser = localStorage.getItem('auth_currentUser');
     if (CurrentUser) {
@@ -84,7 +84,7 @@ closePopup(): void {
 
 
 
-   logout(): void {
-    this.authService.logout();
-  }
+  //  logout(): void {
+  //   this.authService.logout();
+  // }
   }

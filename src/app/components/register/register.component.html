@@ -1,164 +1,232 @@
-<section class="doctors-hero"
-         style="background-image: url('/assets/images/auth-image.jpeg');
-                background-size: cover; background-position: center;
-                height: 60vh; display: flex; align-items: center; justify-content: center;">
-  <div class="hero-content">
+<!-- Hero Section -->
+<section
+  class="doctors-hero"
+  style="
+    background-image: url('/assets/images/auth-image.jpeg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  "
+>
+  <div class="hero-content ">
     <div>
       <small>Register</small>
       <h1>Register Now</h1>
     </div>
-    <nav class="breadcrumb">
-      <a href="#">Home &raquo; </a> Register
-    </nav>
+    <nav class="breadcrumb"><a href="#">Home &raquo; </a> Register</nav>
   </div>
 </section>
 
+<!-- Form Section -->
 <div class="container my-5">
   <div class="row align-items-center">
+    <!-- Form Column -->
     <div class="col-md-6">
       <div class="auth-form">
         <h2>Register an Account</h2>
 
-        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-          @if (errorMessage) {
-            <div class="alert alert-danger">{{ errorMessage }}</div>
-          }
-
-          <!-- First Name -->
-          <div class="form-group">
-            <label>First Name</label>
-            <input type="text" formControlName="firstName"
-                   [class.is-invalid]="f['firstName'].invalid && (f['firstName'].touched || f['firstName'].dirty)"
-                   placeholder="Enter your first name">
-            @if (f['firstName'].invalid && (f['firstName'].touched || f['firstName'].dirty)) {
-              <div class="invalid-feedback">
-                @if (f['firstName'].errors?.['required']) {
-                  <div>First name is required</div>
-                }
-                @if (f['firstName'].errors?.['minlength']) {
-                  <div>Minimum length is 2 characters</div>
-                }
-              </div>
-            }
+        <form
+          [formGroup]="registerForm"
+          (ngSubmit)="register()"
+          enctype="multipart/form-data"
+        >
+          <!-- Error Message -->
+          <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
+            {{ errorMessage }}
           </div>
 
-          <!-- Last Name -->
+          <!-- Name -->
           <div class="form-group">
-            <label>Last Name</label>
-            <input type="text" formControlName="lastName"
-                   [class.is-invalid]="f['lastName'].invalid && (f['lastName'].touched || f['lastName'].dirty)"
-                   placeholder="Enter your last name">
-            @if (f['lastName'].invalid && (f['lastName'].touched || f['lastName'].dirty)) {
-              <div class="invalid-feedback">
-                @if (f['lastName'].errors?.['required']) {
-                  <div>Last name is required</div>
-                }
-                @if (f['lastName'].errors?.['minlength']) {
-                  <div>Minimum length is 2 characters</div>
-                }
+            <label>Full Name</label>
+            <input
+              type="text"
+              formControlName="name"
+              [class.is-invalid]="
+                f['name'].invalid && (f['name'].touched || f['name'].dirty)
+              "
+              placeholder="Enter your full name"
+            />
+            <div
+              *ngIf="
+                f['name'].invalid && (f['name'].touched || f['name'].dirty)
+              "
+              class="text-danger"
+            >
+              <div *ngIf="f['name'].errors?.['required']">Name is required</div>
+              <div *ngIf="f['name'].errors?.['minlength']">
+                Minimum length is 2 characters
               </div>
-            }
+            </div>
           </div>
 
           <!-- Email -->
           <div class="form-group">
             <label>Email Address</label>
-            <input type="email" formControlName="email"
-                   [class.is-invalid]="f['email'].invalid && (f['email'].touched || f['email'].dirty)"
-                   placeholder="Enter your email">
-            @if (f['email'].invalid && (f['email'].touched || f['email'].dirty)) {
-              <div class="invalid-feedback">
-                @if (f['email'].errors?.['required']) {
-                  <div>Email is required</div>
-                }
-                @if (f['email'].errors?.['email']) {
-                  <div>Please enter a valid email</div>
-                }
+            <input
+              type="email"
+              formControlName="email"
+              [class.is-invalid]="
+                f['email'].invalid && (f['email'].touched || f['email'].dirty)
+              "
+              placeholder="Enter your email"
+            />
+            <div
+              *ngIf="
+                f['email'].invalid && (f['email'].touched || f['email'].dirty)
+              "
+              class="text-danger"
+            >
+              <div *ngIf="f['email'].errors?.['required']">
+                Email is required
               </div>
-            }
+              <div *ngIf="f['email'].errors?.['email']">
+                Please enter a valid email
+              </div>
+            </div>
           </div>
 
           <!-- Password -->
           <div class="form-group">
             <label>Password</label>
-            <input type="password" formControlName="password"
-                   [class.is-invalid]="f['password'].invalid && (f['password'].touched || f['password'].dirty)"
-                   placeholder="Enter your password">
-            @if (f['password'].invalid && (f['password'].touched || f['password'].dirty)) {
-              <div class="invalid-feedback">
-                @if (f['password'].errors?.['required']) {
-                  <div>Password is required</div>
-                }
-                @if (f['password'].errors?.['minlength']) {
-                  <div>Minimum length is 6 characters</div>
-                }
+            <input
+              type="password"
+              formControlName="password"
+              [class.is-invalid]="
+                f['password'].invalid &&
+                (f['password'].touched || f['password'].dirty)
+              "
+              placeholder="Enter your password"
+            />
+            <div
+              *ngIf="
+                f['password'].invalid &&
+                (f['password'].touched || f['password'].dirty)
+              "
+              class="text-danger"
+            >
+              <div *ngIf="f['password'].errors?.['required']">
+                Password is required
               </div>
-            }
+              <div *ngIf="f['password'].errors?.['minlength']">
+                Minimum length is 6 characters
+              </div>
+            </div>
           </div>
 
           <!-- Confirm Password -->
           <div class="form-group">
             <label>Confirm Password</label>
-            <input type="password" formControlName="confirmPassword"
-                   [class.is-invalid]="(f['confirmPassword'].invalid || registerForm.errors?.['mismatch']) && (f['confirmPassword'].touched || f['confirmPassword'].dirty)"
-                   placeholder="Confirm your password">
-            @if (registerForm.errors?.['mismatch'] && (f['confirmPassword'].touched || f['confirmPassword'].dirty)) {
-              <div class="invalid-feedback">Passwords do not match</div>
-            }
-            @if (f['confirmPassword'].errors?.['required'] && (f['confirmPassword'].touched || f['confirmPassword'].dirty)) {
-              <div class="invalid-feedback">Confirm password is required</div>
-            }
+            <input
+              type="password"
+              formControlName="confirmPassword"
+              [class.is-invalid]="(f['confirmPassword'].invalid || registerForm.errors?.['mismatch']) && (f['confirmPassword'].touched || f['confirmPassword'].dirty)"
+              placeholder="Confirm your password"
+            />
+            <div
+              *ngIf="f['confirmPassword'].touched || f['confirmPassword'].dirty"
+              class="text-danger"
+            >
+              <div *ngIf="f['confirmPassword'].errors?.['required']">
+                Confirm password is required
+              </div>
+              <div *ngIf="registerForm.errors?.['mismatch']">
+                Passwords do not match
+              </div>
+            </div>
           </div>
 
           <!-- Phone -->
           <div class="form-group">
             <label>Phone</label>
-            <input type="tel" formControlName="phone"
-                   [class.is-invalid]="f['phone'].invalid && (f['phone'].touched || f['phone'].dirty)"
-                   placeholder="Enter your phone number">
-            @if (f['phone'].invalid && (f['phone'].touched || f['phone'].dirty)) {
-              <div class="invalid-feedback">
-                @if (f['phone'].errors?.['required']) {
-                  <div>Phone is required</div>
-                }
-                @if (f['phone'].errors?.['pattern']) {
-                  <div>Please enter a valid phone number (10-15 digits)</div>
-                }
+            <input
+              type="tel"
+              formControlName="phone"
+              [class.is-invalid]="
+                f['phone'].invalid && (f['phone'].touched || f['phone'].dirty)
+              "
+              placeholder="Enter your phone number"
+            />
+            <div
+              *ngIf="
+                f['phone'].invalid && (f['phone'].touched || f['phone'].dirty)
+              "
+              class="text-danger"
+            >
+              <div *ngIf="f['phone'].errors?.['pattern']">
+                Phone must be numeric (10–15 digits)
               </div>
-            }
+            </div>
           </div>
 
           <!-- Role -->
           <div class="form-group">
             <label>Role</label>
-            <select class="form-control p-3" formControlName="role"
-                    [class.is-invalid]="f['role'].invalid && (f['role'].touched || f['role'].dirty)">
-              <option value="" disabled selected>Select a role</option>
-              <option value="user">User</option>
-               <option value="admin">Admin</option>
-              <option value="doctor">Doctor</option>
-              <option value="patient">Patient</option>
+            <select
+              class="form-control p-3"
+              formControlName="role_id"
+              [class.is-invalid]="
+                f['role_id'].invalid &&
+                (f['role_id'].touched || f['role_id'].dirty)
+              "
+            >
+              <option value="" disabled>Select a role</option>
+              <option [value]="1">Admin</option>
+              <option [value]="2">Doctor</option>
+              <option [value]="3">Patient</option>
+              <option [value]="4">User</option>
             </select>
-            @if (f['role'].invalid && (f['role'].touched || f['role'].dirty)) {
-              <div class="invalid-feedback">
-                @if (f['role'].errors?.['required']) {
-                  <div>Role is required</div>
-                }
-              </div>
-            }
+            <div
+              *ngIf="
+                f['role_id'].invalid &&
+                (f['role_id'].touched || f['role_id'].dirty)
+              "
+              class="text-danger"
+            >
+              Role is required
+            </div>
           </div>
 
-          <button type="submit" class="btn btn-primary w-100 py-3 mt-3 fw-bold">Register</button>
+          <!-- Profile Description -->
+          <div class="form-group">
+            <label>Profile Description</label>
+            <textarea
+              rows="3"
+              formControlName="profile_description"
+              placeholder="Write something about yourself..."
+              class="form-control"
+            ></textarea>
+          </div>
 
+          <!-- Image Upload -->
+          <div class="form-group">
+            <label>Upload Profile Image</label>
+            <input
+              type="file"
+              class="form-control"
+              (change)="onFileChange($event)"
+            />
+          </div>
+
+          <!-- Submit -->
+          <button type="submit" class="btn btn-primary w-100 py-3 mt-3 fw-bold">
+            Register
+          </button>
         </form>
 
+        <!-- Login Link -->
         <div class="auth-footer mt-3 text-center">
           <p>Already have an account? <a routerLink="/login">Login here</a></p>
         </div>
       </div>
     </div>
+
+    <!-- Right Image -->
     <div class="col-md-6 text-center">
-      <img src="/assets/images/thank.jpeg" class="img-fluid" alt="Form Image">
+      <img src="/assets/images/thank.jpeg" class="img-fluid" alt="Form Image" />
     </div>
   </div>
 </div>
