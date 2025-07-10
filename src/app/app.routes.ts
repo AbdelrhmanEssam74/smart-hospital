@@ -16,8 +16,8 @@ import {EditProfileComponent} from './components/dashboards/patient/edit-profile
 
 export const routes: Routes = [
   {path: '', component: HomeComponent},
-  {path: 'login', component: LoginComponent, canActivate: [AuthGuard]},
-  {path: 'register', component: RegisterComponent, canActivate: [AuthGuard]},
+  {path: 'login', component: LoginComponent},
+  {path: 'register', component: RegisterComponent},
   {path: 'home', redirectTo: '', pathMatch: 'full'},
   {path: 'doctordetails/:id', component: DoctorDetailsComponent},
   {path: 'doctors', component: ListDoctorComponent},

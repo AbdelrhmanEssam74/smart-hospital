@@ -21,7 +21,7 @@ export class EditProfileComponent {
     private fb: FormBuilder,
     private authService: AuthService
   ) {
-    this.currentUser = this.authService.getCurrentUser();
+    // this.currentUser = this.authService.getCurrentUser();
     
     this.editForm = this.fb.group({
       firstName: [this.currentUser?.firstName || '', Validators.required],

@@ -1,79 +1,88 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-
-export interface User {
-  id: number;
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-  phone: string;
-  role: string;      
-}   
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable, BehaviorSubject } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
-  private localStorageKey = 'auth_users';
-  private currentUserKey = 'auth_currentUser';
+  private apiUrl = 'http://localhost:8000/api';
+  private tokenKey = 'auth_token';
+  private userKey = 'auth_currentUser';
 
-  private currentUserSubject = new BehaviorSubject<User | null>(this.getStoredUser());
+  private currentUserSubject = new BehaviorSubject<any>(this.getUserFromStorage());
   currentUser$ = this.currentUserSubject.asObservable();
 
-  constructor() {}
+  constructor(private http: HttpClient) {}
 
-  private getStoredUser(): User | null {
-    const userString = localStorage.getItem(this.currentUserKey);
-    return userString ? JSON.parse(userString) : null;
+  register(data: FormData): Observable<any> {
+    return this.http.post(`${this.apiUrl}/register`, data);
   }
 
-  register(newUser: User): boolean {
-    const usersString = localStorage.getItem(this.localStorageKey);
-    const users: User[] = usersString ? JSON.parse(usersString) : [];
+  login(data: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/login`, data).pipe(
+      tap((res: any) => {
+        this.saveToken(res.token);
+        this.saveUser(res.user); // لو response فيه user
+      })
+    );
+  }
 
-    const emailExists = users.some(user => user.email === newUser.email.toLowerCase());
-    if (emailExists) {
-      return false;
+  logout(): Observable<any> {
+    return this.http.post(`${this.apiUrl}/logout`, {}, {
+      headers: this.getAuthHeaders(),
+    });
+  }
+
+  getProfile(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/profile`, {
+      headers: this.getAuthHeaders(),
+    });
+  }
+
+  saveToken(token: string): void {
+    localStorage.setItem(this.tokenKey, token);
+  }
+
+  getToken(): string | null {
+    return localStorage.getItem(this.tokenKey);
+  }
+
+  clearToken(): void {
+    localStorage.removeItem(this.tokenKey);
+  }
+
+  saveUser(user: any): void {
+    // تصحيح رابط الصورة إن لم يكن كاملاً
+    if (user.image && !user.image.startsWith('http')) {
+      user.image = `http://localhost:8000/storage/${user.image}`;
     }
-
-    users.push(newUser);
-    localStorage.setItem(this.localStorageKey, JSON.stringify(users));
-    return true;
+    localStorage.setItem(this.userKey, JSON.stringify(user));
+    this.currentUserSubject.next(user);
   }
 
-  login(email: string, password: string): User | null {
-    const usersString = localStorage.getItem(this.localStorageKey);
-    const users: User[] = usersString ? JSON.parse(usersString) : [];
-
-    const user = users.find(u => u.email === email.toLowerCase() && u.password === password);
-    if (user) {
-// patient_profile
-//       localStorage.setItem('current_user', JSON.stringify(user));
-
-      localStorage.setItem(this.currentUserKey, JSON.stringify(user));
-      this.currentUserSubject.next(user);
-//  master
-      return user;
-    }
-    return null;
+  getUser(): any {
+    return this.currentUserSubject.value;
   }
 
-  logout(): void {
-    localStorage.removeItem(this.currentUserKey);
+  clearUser(): void {
+    localStorage.removeItem(this.userKey);
     this.currentUserSubject.next(null);
   }
 
-
-getCurrentUser(): User | null {
-  const userString = localStorage.getItem('auth_currentUser');
-  console.log('User from localStorage:', userString);
-  return userString ? JSON.parse(userString) : null;
-}
-
-  isLoggedIn(): boolean {
-    const userString = localStorage.getItem(this.currentUserKey);
-    return userString !== null;
+  private getUserFromStorage(): any {
+    const user = localStorage.getItem(this.userKey);
+    return user ? JSON.parse(user) : null;
   }
 
+  isLoggedIn(): boolean {
+    return !!this.getToken();
+  }
+
+  getAuthHeaders(): HttpHeaders {
+    return new HttpHeaders({
+      Authorization: `Bearer ${this.getToken()}`,
+    });
+  }
 }
