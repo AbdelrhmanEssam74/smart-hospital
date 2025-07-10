@@ -45,19 +45,20 @@ export class LoginComponent {
 
     this.auth.login(this.loginForm.value).subscribe({
       next: () => {
-        // تأكد من جلب بيانات البروفايل بعد حفظ التوكن
         this.auth.getProfile().subscribe({
           next: (profile) => {
             this.auth.saveUser(profile);
             this.router.navigate(['/home']);
           },
           error: () => {
-            this.errorMessage = 'فشل تحميل بيانات المستخدم';
+            this.errorMessage = 'Failed to load user data'
+
+;
           },
         });
       },
       error: (err) => {
-        this.errorMessage = err.error.message || 'فشل تسجيل الدخول';
+        this.errorMessage = err.error.message || 'Login failed';
       },
     });
   }

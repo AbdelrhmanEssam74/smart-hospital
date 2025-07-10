@@ -24,7 +24,7 @@ export class AuthService {
     return this.http.post(`${this.apiUrl}/login`, data).pipe(
       tap((res: any) => {
         this.saveToken(res.token);
-        this.saveUser(res.user); // لو response فيه user
+        this.saveUser(res.user); 
       })
     );
   }
@@ -54,7 +54,6 @@ export class AuthService {
   }
 
   saveUser(user: any): void {
-    // تصحيح رابط الصورة إن لم يكن كاملاً
     if (user.image && !user.image.startsWith('http')) {
       user.image = `http://localhost:8000/storage/${user.image}`;
     }
