@@ -63,7 +63,7 @@
             routerLink="/"
             routerLinkActive="active-link"
             [routerLinkActiveOptions]="{ exact: true }"
-            >HOME</a
+          >HOME</a
           >
         </li>
         <li class="nav-item">
@@ -71,7 +71,7 @@
             class="nav-link"
             routerLink="/service"
             routerLinkActive="active-link"
-            >SERVICE</a
+          >SERVICE</a
           >
         </li>
         <li class="nav-item">
@@ -79,12 +79,12 @@
             class="nav-link"
             routerLink="/doctors"
             routerLinkActive="active-link"
-            >DOCTORS</a
+          >DOCTORS</a
           >
         </li>
         <li class="nav-item">
           <a class="nav-link" routerLink="/blog" routerLinkActive="active-link"
-            >BLOG</a
+          >BLOG</a
           >
         </li>
         <li class="nav-item">
@@ -92,12 +92,12 @@
             class="nav-link"
             routerLink="/gallery"
             routerLinkActive="active-link"
-            >GALLERY</a
+          >GALLERY</a
           >
         </li>
         <li class="nav-item">
           <a class="nav-link" routerLink="/shop" routerLinkActive="active-link"
-            >SHOP</a
+          >SHOP</a
           >
         </li>
         <li class="nav-item">
@@ -105,96 +105,104 @@
             class="nav-link"
             routerLink="/contact"
             routerLinkActive="active-link"
-            >CONTACT</a
+          >CONTACT</a
           >
         </li>
       </ul>
 
       <!-- If Not Logged In -->
-      @if(!login){
-
-      <a routerLink="/login" class="btn btn-outline-primary me-2">
-        <i class="fa-solid fa-lock me-2"></i> Login </a
-      >}
+        <a routerLink="/login" class="btn btn-outline-primary me-2" *ngIf="!login">
+          <i class="fa-solid fa-lock me-2"></i> Login </a>
 
       <!-- If Logged In -->
-      @if(login){
-      <div class="dropdown">
-        <button
-          class="btn btn-outline-secondary dropdown-toggle rounded-circle p-0"
-          type="button"
-          data-bs-toggle="dropdown"
-          aria-expanded="false"
-          style="width: 40px; height: 40px; overflow: hidden"
-        >
-          <img
-            *ngIf="userImage"
-            [src]="userImage"
-            alt="User"
-            class="w-100 h-100"
-            style="object-fit: cover"
-            (error)="userImage = ''"
-          />
-          <span
-            *ngIf="!userImage"
-            class="d-flex align-items-center justify-content-center w-100 h-100"
+        <div class="dropdown" *ngIf="login">
+          <button
+            class="btn btn-outline-secondary dropdown-toggle rounded-circle p-0"
+            type="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+            style="width: 40px; height: 40px; overflow: hidden"
           >
+            <img
+              *ngIf="userImage"
+              [src]="userImage"
+              alt="User"
+              class="w-100 h-100"
+              style="object-fit: cover"
+              (error)="userImage = ''"
+            />
+            <span
+              *ngIf="!userImage"
+              class="d-flex align-items-center justify-content-center w-100 h-100"
+            >
             {{ userInitial }}
           </span>
-        </button>
-        <ul class="dropdown-menu dropdown-menu-end">
-          <!-- Doctor -->
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <!-- Doctor -->
 
-          @if(userRole === 'doctor') {
-          <li><a class="dropdown-item" routerLink="/doctor">Dashboard</a></li>
-          <li><hr class="dropdown-divider" /></li>
-          <li>
-            <a class="dropdown-item" routerLink="/doctor/edit-profile"
-              >Profile</a
-            >
-          </li>
-          <li><hr class="dropdown-divider" /></li>
-          <li>
-            <a class="dropdown-item" routerLink="doctor/appointments"
-              >Appointments</a
-            >
-          </li>
-          <li><hr class="dropdown-divider" /></li>
-          <li>
-            <button class="dropdown-item" (click)="logout()">Logout</button>
-          </li>
+            @if (userRole === "Doctor") {
+              <li>
+                <a class="dropdown-item" routerLink="/doctor">Dashboard</a>
+              </li>
+              <li>
+                <hr class="dropdown-divider"/>
+              </li>
+              <li>
+                <a class="dropdown-item" routerLink="/doctor/edit-profile"
+                >Profile</a
+                >
+              </li>
+              <li>
+                <hr class="dropdown-divider"/>
+              </li>
+              <li>
+                <a class="dropdown-item" routerLink="doctor/appointments"
+                >Appointments</a
+                >
+              </li>
+              <li>
+                <hr class="dropdown-divider"/>
+              </li>
+              <li>
+                <button class="dropdown-item" (click)="logout()">Logout</button>
+              </li>
+            }
+            <!-- patient -->
+            @else if (userRole === 'Patient') {
+              <li>
+                <a class="dropdown-item" routerLink="/patient_profile">Dashboard</a>
+              </li>
+              <li>
+                <hr class="dropdown-divider"/>
+              </li>
+              <li>
+                <a class="dropdown-item" routerLink="/patient_profile/profile_edit"
+                >Profile</a
+                >
+              </li>
+              <li>
+                <hr class="dropdown-divider"/>
+              </li>
+              <li>
+                <a class="dropdown-item" routerLink="/patient_profile"
+                >Appointments</a
+                >
+              </li>
+              <li>
+                <button class="dropdown-item" (click)="logout()">Logout</button>
+              </li>
+            } @else {
+            <li><a class="dropdown-item" routerLink="/profile">Profile</a></li>
+            <li>
+              <hr class="dropdown-divider"/>
+            </li>
+            <li>
+              <button class="dropdown-item" (click)="logout()">Logout</button>
+            </li>
           }
-          <!-- patient -->
-
-          @else if(userRole === 'patient') {
-          <li>
-            <a class="dropdown-item" routerLink="/patient_profile">Dashboard</a>
-          </li>
-          <li><hr class="dropdown-divider" /></li>
-          <li>
-            <a class="dropdown-item" routerLink="/patient_profile/profile_edit"
-              >Profile</a
-            >
-          </li>
-          <li><hr class="dropdown-divider" /></li>
-          <li>
-            <a class="dropdown-item" routerLink="/patient_profile"
-              >Appointments</a
-            >
-          </li>
-          <li>
-            <button class="dropdown-item" (click)="logout()">Logout</button>
-          </li>
-          } @else {
-          <li><a class="dropdown-item" routerLink="/profile">Profile</a></li>
-          <li><hr class="dropdown-divider" /></li>
-          <li>
-            <button class="dropdown-item" (click)="logout()">Logout</button>
-          </li>
-          }
-        </ul>
-      </div>
-      }
+          </ul>
+        </div>
     </div>
   </div>
 </nav>
