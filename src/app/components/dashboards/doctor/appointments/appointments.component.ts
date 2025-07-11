@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import appointments from '../../../../../data/data.json';
-import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+import {Component, OnInit} from '@angular/core';
+import {DoctorAppointment} from '../../../../interfaces/doctor-appointment';
+import {FormsModule} from '@angular/forms';
+import {CommonModule} from '@angular/common';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {AuthService} from '../../../../services/auth.service';
 
 @Component({
   selector: 'app-appointments',
@@ -10,68 +12,50 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./appointments.component.css']
 })
 export class AppointmentsComponent implements OnInit {
-  appointments: any[] = [];
-  filteredAppointments: any[] = [];
-  currentDoctorId: number = 0;
-  selectedAppointment: any = null;
+  appointments: DoctorAppointment[] = [];
   showPopup: boolean = false;
-
-
-  ngOnInit() {
-    const currentUser = localStorage.getItem('auth_currentUser');
-    if (currentUser) {
-      const userObj = JSON.parse(currentUser);
-      if (userObj.role_id == 2) {
-        this.currentDoctorId = userObj.id;
-        console.log("Current User:", userObj);
-        console.log("Current Doctor ID:", this.currentDoctorId);
-      } else {
-        alert('You are not authorized to view appointments.');
-        return;
-      }
-    } else {
-      alert('Doctor information not found in localStorage.');
-      return;
-    }
-
-
-    this.appointments = appointments.appointments;
-    this.filteredAppointments = this.appointments.filter(
-      appt => appt.doctor_id === this.currentDoctorId
-
-    );
-    console.log("All Appointments:", this.appointments);
-    console.log("Filtered Appointments:", this.filteredAppointments);
-    this.filteredAppointments.forEach(appt => {
-      console.log(appt);
+  APIUrl = 'http://127.0.0.1:8000/api/doctor/'
+  trackById(index: number, item: DoctorAppointment): number {
+    return item.id;
+  }
+  constructor(private http: HttpClient , private auth:AuthService) {
+  }
+  getAuthHeaders(): HttpHeaders {
+    return new HttpHeaders({
+      'Authorization': `Bearer ${this.auth.getToken()}`
     });
+  }
+  ngOnInit() {
+    this.http.get(this.APIUrl + 'appointments', {
+      headers : this.getAuthHeaders()
+    }).subscribe(
+      (data: any) => {
+        this.appointments = data.appointments;
+        console.log(this.appointments)
+      },
+      (error)=>{
+        console.log('Error:' , error)
+      }
+    )
+
 
   }
-acceptAppointment(appointmentId: number): void {
-  const index = this.filteredAppointments.findIndex(appt => appt.id === appointmentId);
-  if (index !== -1) {
-    this.filteredAppointments[index].status = 'confirmed';
-    alert(`Appointment #${appointmentId} has been confirmed.`);
-  }
-}
 
-deleteAppointment(appointmentId: number): void {
-  const confirmDelete = confirm(`Are you sure you want to delete appointment #${appointmentId}?`);
-  if (confirmDelete) {
-    this.filteredAppointments = this.filteredAppointments.filter(appt => appt.id !== appointmentId);
-    alert(`Appointment #${appointmentId} has been deleted.`);
+  acceptAppointment(appointmentId: number): void {
+    console.log(appointmentId)
   }
-}
-viewAppointment(appointmentId: number): void {
-  const appointment = this.filteredAppointments.find(appt => appt.id === appointmentId);
-  if (appointment) {
-    this.selectedAppointment = appointment;
-    this.showPopup = true;
-  }
-}
 
-closePopup(): void {
-  this.showPopup = false;
-  this.selectedAppointment = null;
-}
+  deleteAppointment(appointmentId: number): void {
+
+
+  }
+
+  viewAppointment(appointmentId: number): void {
+
+  }
+
+  closePopup(): void {
+    this.showPopup = false;
+    // this.selectedAppointment = null;
+  }
 }
