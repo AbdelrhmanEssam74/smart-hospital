@@ -1,7 +1,9 @@
-import { Component, HostListener, OnInit } from '@angular/core';
-import { Router, RouterLink, RouterLinkActive } from '@angular/router';
-import { AuthService } from '../../services/auth.service';
-import { CommonModule, NgClass, NgIf } from '@angular/common';
+import {Component, HostListener, OnInit} from '@angular/core';
+import {Router, RouterLink, RouterLinkActive} from '@angular/router';
+import {AuthService} from '../../services/auth.service';
+import {CommonModule, NgClass, NgIf} from '@angular/common';
+import {User} from '../../interfaces/user';
+import {timeout} from 'rxjs';
 
 @Component({
   selector: 'app-navbar',
@@ -10,13 +12,16 @@ import { CommonModule, NgClass, NgIf } from '@angular/common';
   styleUrls: ['./navbar.component.css'],
 })
 export class NavbarComponent implements OnInit {
-   isScrolled = false;
+  isScrolled = false;
   login = false;
   userInitial = '';
   userRole = '';
   userImage = '';
+  // @ts-ignore
+  user: User = {}
 
-  constructor(private router: Router, private authService: AuthService) {}
+  constructor(private router: Router, private authService: AuthService) {
+  }
 
   @HostListener('window:scroll', [])
   onWindowScroll() {
@@ -24,47 +29,40 @@ export class NavbarComponent implements OnInit {
   }
 
   ngOnInit() {
-  this.authService.currentUser$.subscribe((userWrapper) => {
-    const user = userWrapper?.data; // ← نحصل على البيانات الحقيقية من داخل data
-    if (user) {
-      this.login = true;
-      this.userInitial = user.name?.trim().charAt(0).toUpperCase() || '';
-      this.userImage = user.image || '';
+    this.authService.currentUser$.subscribe((user) => {
+      this.login = !!user;
+      this.user = user;
 
-      switch (user.role?.id || user.role_id) {
-        case 1:
-          this.userRole = 'admin';
-          break;
-        case 2:
-          this.userRole = 'doctor';
-          break;
-        case 3:
-          this.userRole = 'patient';
-          break;
-        default:
-          this.userRole = 'user';
+      if (this.login) {
+        this.userInitial = this.user.name?.trim()?.charAt(0) || '';
+        this.userImage = this.user.image || '';
+        if (this.user.role_id === 2) {
+          this.userRole = 'Doctor';
+        } else if (this.user.role_id === 5) {
+          this.userRole = 'Patient';
+        } else {
+          this.userRole = '';
+        }
+      } else {
+        this.userInitial = '';
+        this.userRole = '';
+        this.userImage = '';
       }
-    } else {
-      this.login = false;
-      this.userInitial = '';
-      this.userRole = '';
-      this.userImage = '';
-    }
-  });
-}
-
-  logout() {
-    this.authService.logout().subscribe({
-      next: () => {
-        this.authService.clearToken();
-        this.authService.clearUser();
-        this.router.navigate(['/login']);
-      },
-      error: () => {
-        this.authService.clearToken();
-        this.authService.clearUser();
-        this.router.navigate(['/login']);
-      },
     });
   }
+
+  logout() {
+    // Clear immediately to update the UI
+    this.authService.clearToken();
+    this.authService.clearUser();
+    this.router.navigate(['/login']);
+
+    // Then notify backend
+    this.authService.logout().subscribe({
+      next: () => {},
+      error: () => {}
+    });
+  }
+
+
 }
