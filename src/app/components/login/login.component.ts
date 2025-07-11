@@ -47,8 +47,13 @@ export class LoginComponent {
       next: () => {
         this.auth.getProfile().subscribe({
           next: (profile) => {
-            this.auth.saveUser(profile);
-            this.router.navigate(['/home']);
+            // check if role is doctor - Abdelrhman
+            if(profile.data.role.id === 2){
+              this.router.navigate(['/doctor/appointments']);
+            }else if(profile.data.role.id === 5){
+              this.auth.saveUser(profile);
+              this.router.navigate(['/home']);
+            }
           },
           error: () => {
             this.errorMessage = 'Failed to load user data'
