@@ -4,16 +4,18 @@
       <small>Doctor's</small>
       <h1>Meet Our Doctors</h1>
     </div>
-    <nav class="breadcrumb fw-bold">
-      <a href="#">Home &raquo;</a> Doctor's
-    </nav>
+    <nav class="breadcrumb fw-bold"><a href="#">Home &raquo;</a> Doctor's</nav>
   </div>
 </section>
 
 <div class="container py-5">
   <div class="text-center">
-    <h6 class="section-title">Qualified The <span class="highlight">Doctor's</span></h6>
-    <p class="section-subtitle">Who is behind the best medical service in our clinic?</p>
+    <h6 class="section-title">
+      Qualified The <span class="highlight">Doctor's</span>
+    </h6>
+    <p class="section-subtitle">
+      Who is behind the best medical service in our clinic?
+    </p>
     <i class="icon bi bi-droplet-fill"></i>
     <hr class="line_down" />
   </div>
@@ -22,29 +24,36 @@
   <div class="row justify-content-center mb-4 my-5">
     <div class="col-md-6">
       <div class="input-group">
-        <input type="text"
-               class="form-control"
-               [(ngModel)]="searchTerm"
-               (input)="filterDoctors()"
-               placeholder="Search by name or specialty">
-        <button class="btn" type="button" (click)="clearSearch()">Clear</button>
+        <input
+          type="text"
+          class="form-control"
+          [(ngModel)]="searchTerm"
+          (input)="filterDoctors()"
+          placeholder="Search by name or specialty"
+        />
+        <div class="d-flex">
+          <button class="btn mx-2" type="button" (click)="filterDoctors()">
+            Search
+          </button>
+          <button class="btn clear" type="button" (click)="clearSearch()">
+            Clear
+          </button>
+        </div>
       </div>
     </div>
   </div>
 
   <!-- No Results -->
   <div *ngIf="filteredDoctors.length === 0" class="col-12 text-center py-5">
-    <div class="alert alert-info">
-      No doctors found matching your search.
-    </div>
+    <div class="alert alert-info">No doctors found matching your search.</div>
   </div>
 
   <!-- Doctors Grid -->
   <div class="row g-4 m-5">
     @for (doctor of paginatedDoctors; track doctor.id) {
-      <div class="col-md-4">
-        <app-doctor [doctor]="doctor"></app-doctor>
-      </div>
+    <div class="col-md-4">
+      <app-doctor [doctor]="doctor"></app-doctor>
+    </div>
     }
   </div>
 
@@ -53,15 +62,23 @@
     <nav *ngIf="totalPages > 1">
       <ul class="pagination">
         <li class="page-item" [class.disabled]="currentPage === 1">
-          <button class="page-link" (click)="changePage(currentPage - 1)">Previous</button>
+          <button class="page-link" (click)="changePage(currentPage - 1)">
+            Previous
+          </button>
         </li>
-        <li *ngFor="let page of [].constructor(totalPages); let i = index" class="page-item" [class.active]="currentPage === (i + 1)">
+        <li
+          *ngFor="let page of [].constructor(totalPages); let i = index"
+          class="page-item"
+          [class.active]="currentPage === i + 1"
+        >
           <button class="page-link" (click)="changePage(i + 1)">
             {{ i + 1 }}
           </button>
         </li>
         <li class="page-item" [class.disabled]="currentPage === totalPages">
-          <button class="page-link" (click)="changePage(currentPage + 1)">Next</button>
+          <button class="page-link" (click)="changePage(currentPage + 1)">
+            Next
+          </button>
         </li>
       </ul>
     </nav>

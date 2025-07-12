@@ -98,9 +98,7 @@ button {
   cursor: pointer;
 }
 
-button:hover {
-  background-color: #336091;
-}
+
 
 .doctor-card {
   border: 1px solid #ddd;

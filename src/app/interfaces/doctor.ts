@@ -34,13 +34,28 @@ export interface Doctor {
 export interface DoctorDisplay {
   id: number;
   user_id: number;
-  name?: string;
-  gender?:string;
-  email?: string;
-  phone?: string;
-  image?: string;
-  profile_description?: string;
-  specialty?: string;
-  license_number: string;
+  name: string;
+  gender:string;
+  email: string;
+  phone: string;
+  image: string;
+  profile_description: string;
+  specialty: {
+    id: number;
+    name: string;
+  };  license_number: string;
   years_of_experience: number;
+  available_slots?: Array<{
+    id: number;
+    date: string;
+    start_time: string;
+    end_time: string;
+    status: string;
+  }>;
+
+}
+
+export interface ApiResponse<T> {
+  success: boolean;
+  data: T;
 }

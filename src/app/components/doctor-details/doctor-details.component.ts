@@ -1,37 +1,33 @@
 import { Component, ChangeDetectorRef, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DoctorService } from '../../services/doctor.service';
-import { FormsModule } from '@angular/forms';
+import { FormBuilder, FormsModule } from '@angular/forms';
 import { NotificationService } from '../../services/notification.service';
 import { NgForm } from '@angular/forms';
 import { Appointment } from '../../interfaces/appointment';
 import { AppointmentService } from '../../services/appointment.service';
 import { CommonModule, DatePipe } from '@angular/common';
-import data from '../../../data/data.json';
-import { User } from '../../interfaces/doctor';
+import { DoctorDisplay, User } from '../../interfaces/doctor';
 
 @Component({
   selector: 'app-doctor-details',
   standalone: true,
-  imports: [
-    FormsModule,
-    CommonModule
-  ],
+  imports: [FormsModule, CommonModule],
   templateUrl: './doctor-details.component.html',
   styleUrls: ['./doctor-details.component.css'],
-  providers: [DatePipe]
+  providers: [DatePipe],
 })
 export class DoctorDetailsComponent implements OnInit {
-  currentUser: any = null;
   doctorId: number | null = null;
-  doctor: any = {};
+  doctor: DoctorDisplay | null = null;
   availableSlots: any[] = [];
   availableDates: string[] = [];
   availableTimes: string[] = [];
   selectedDate: string | null = null;
   selectedTime: string | null = null;
   isLoading: boolean = true;
-  private data = data;
+
+
 
   appointment: Appointment = {
     patient_id: '',
@@ -52,47 +48,48 @@ export class DoctorDetailsComponent implements OnInit {
     private notifications: NotificationService,
     private appointmentService: AppointmentService,
     private datePipe: DatePipe,
-    private cdr: ChangeDetectorRef
-  ) {}
+    private cdr: ChangeDetectorRef) {}
 
+    // api
   ngOnInit() {
-    this.route.params.subscribe(params => {
+    this.route.params.subscribe((params) => {
       this.doctorId = +params['id'];
       this.loadDoctorDetails();
+      this.loadDoctorSlots(this.doctorId);
+
     });
-    this.currentUser = JSON.parse(localStorage.getItem('current_user') || 'null');
+  }
+  // doctor details data
+  loadDoctorDetails() {
+    if (!this.doctorId) return;
+    this.isLoading = true;
+    this.doctorService.getDoctorById(this.doctorId).subscribe({
+      next: (doctor) => {
+        this.doctor = doctor;
+        this.isLoading = false;
+        // console.log('id', this.doctorId);
+        // console.log('getDoctorById function', doctor);
+      },
+    });
+  }
+  // available slots
+  loadDoctorSlots(id: number) {
+    this.doctorService.getDoctorSlots(id).subscribe({
+      next: (slots) => {
+          this.availableSlots = slots;
+          this.availableDates = this.getAvailableDates();
+
+      },
+      error: (err) => {
+        this.isLoading = false;
+        console.error('Error loading slots:', err);
+      },
+    });
   }
 
-  loadDoctorDetails() {
-    this.isLoading = true;
-    try {
-      // Get doctor details
-      const doctorData = this.doctorService.getDoctorById(this.doctorId!);
-      if (doctorData) {
-        // Get user data with slots
-        const userData = this.doctorService.getDoctorDisplayByUserId(doctorData.user_id);
-        if (userData) {
-          this.doctor = userData;
-          // Get slots from the data directly
-          const user = this.data.users.find(u => u.id === doctorData.user_id);
-          if (user && 'slots' in user) {
-            this.availableSlots = user.slots || [];
-          } else {
-            this.availableSlots = [];
-          }
-          this.availableDates = this.getAvailableDates();
-          console.log('Doctor:', this.doctor);
-          console.log('Available slots:', this.availableSlots);
-          console.log('Available dates:', this.availableDates);
-        }
-      }
-    } catch (error) {
-      console.error('Error loading doctor details:', error);
-      this.notifications.error('Error loading doctor details');
-    } finally {
-      this.isLoading = false;
-      this.cdr.detectChanges();
-    }
+  // 
+  formatTime(time: string): string {
+    return time.substring(0, 5); 
   }
 
   getAvailableDates(): string[] {
@@ -100,28 +97,44 @@ export class DoctorDetailsComponent implements OnInit {
       console.log('No available slots');
       return [];
     }
-    const uniqueDates = [...new Set(this.availableSlots.map(slot => slot.date))];
-    const sortedDates = uniqueDates.sort((a, b) => new Date(a).getTime() - new Date(b).getTime());
+    const uniqueDates = [
+      ...new Set(this.availableSlots.map((slot) => slot.date)),
+    ];
+    const sortedDates = uniqueDates.sort(
+      (a, b) => new Date(a).getTime() - new Date(b).getTime()
+    );
     console.log('Available dates for doctor:', this.doctorId, sortedDates);
     return sortedDates;
   }
 
   getAvailableTimes(): string[] {
-    if (!this.selectedDate || !this.availableSlots || this.availableSlots.length === 0) {
+    if (
+      !this.selectedDate ||
+      !this.availableSlots ||
+      this.availableSlots.length === 0
+    ) {
       console.log('No available times for selected date:', this.selectedDate);
       return [];
     }
 
     const times = this.availableSlots
-      .filter(slot => slot.date === this.selectedDate)
-      .map(slot => slot.time);
+      .filter((slot) => slot.date === this.selectedDate)
+      .map((slot) => slot.time);
 
     console.log('Times for selected date:', times);
     return times;
   }
 
   formatDisplayDay(date: string): string {
-    const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    const dayNames = [
+      'Sunday',
+      'Monday',
+      'Tuesday',
+      'Wednesday',
+      'Thursday',
+      'Friday',
+      'Saturday',
+    ];
     const dayIndex = new Date(date).getDay();
     const dayName = dayNames[dayIndex];
     return `${dayName} (${date})`;
@@ -144,15 +157,17 @@ export class DoctorDetailsComponent implements OnInit {
   submitForm(form: NgForm) {
     if (this.isLoading) return;
 
-    const currentUser = JSON.parse(localStorage.getItem('auth_currentUser') || '{}');
+    const currentUser = JSON.parse(
+      localStorage.getItem('auth_currentUser') || '{}'
+    );
 
     if (!currentUser?.id) {
-      this.notifications.error("You must be logged in to book an appointment.");
+      this.notifications.error('You must be logged in to book an appointment.');
       return;
     }
 
     if (!form.valid || !this.selectedDate || !this.selectedTime) {
-      this.notifications.error("Please fill in all required fields.");
+      this.notifications.error('Please fill in all required fields.');
       return;
     }
 
@@ -170,7 +185,7 @@ export class DoctorDetailsComponent implements OnInit {
     };
 
     this.appointmentService.saveAppointmentToLocal(appointment);
-    this.notifications.success("Appointment booked successfully!");
+    this.notifications.success('Appointment booked successfully!');
 
     // Reset form
     form.resetForm();
@@ -186,10 +201,9 @@ export class DoctorDetailsComponent implements OnInit {
       date: '',
       time: '',
       status: 'pending',
-      message: ''
+      message: '',
     };
 
     this.cdr.detectChanges();
   }
 }
-
