@@ -1,102 +1,136 @@
-<h2 class="text-center my-4">Appointments List</h2>
+<h2 class="text-center my-4">Your Appointment Schedule</h2>
 <div class="container">
   <div class="container mb-4">
-    <div class="row g-3 align-items-center justify-content-between">
+    <div class="row g-3 justify-content-between">
       <div class="col-md-4">
-        <label>Date</label>
-        <input type="date" class="form-control" [(ngModel)]="filter.date">
+        <label class="form-label text-muted small">Filter by Date</label>
+        <input type="date" class="form-control border-primary" [(ngModel)]="filter.date">
       </div>
-      <div class="col-md-4">
-        <label>Time</label>
-        <input type="time" class="form-control" [(ngModel)]="filter.time">
+      <div class="col-md-3">
+        <label class="form-label text-muted small">Time Range</label>
+        <input type="time" class="form-control border-primary" [(ngModel)]="filter.time">
       </div>
-      <div class="col-md-4">
-        <label>Status</label>
-        <select class="form-control" [(ngModel)]="filter.status">
-          <option value="">All</option>
-          <option value="pending">Pending</option>
+      <div class="col-md-3">
+        <label class="form-label text-muted small">Appointment Status</label>
+        <select class="form-select border-primary" [(ngModel)]="filter.status">
+          <option value="">All Appointments</option>
+          <option value="pending">Pending Review</option>
           <option value="confirmed">Confirmed</option>
           <option value="cancelled">Cancelled</option>
           <option value="completed">Completed</option>
         </select>
       </div>
-      <div class="">
-        <button class="btn btn-secondary mt-2" (click)="filter = { date: '', time: '', status: '' }">Reset Filters</button>
+      <div class="col-md-2  d-flex align-items-end">
+        <button class="btn btn-outline-primary w-100 mt-2" (click)="filter = { date: '', time: '', status: '' }">
+          <i class="fas fa-sync-alt me-2"></i>Reset
+        </button>
       </div>
     </div>
   </div>
 
-  <div class="table-responsive">
-    <table class="table table-striped table-hover text-center">
-      <thead class="table-primary">
+  <div class="table-responsive rounded-3 shadow-sm">
+    <table class="table table-borderless table-hover align-middle">
+      <thead class="bg-light-blue">
       <tr>
-        <th>Patient</th>
-        <th>Gander</th>
+        <th class="ps-4">Patient</th>
+        <th>Gender</th>
         <th>Date</th>
-        <th>From</th>
-        <th>To</th>
-        <th>notes</th>
+        <th>Time</th>
+        <th>Duration</th>
+        <th>Notes</th>
         <th>Actions</th>
-        <th>Status</th>
+        <th class="pe-4">Status</th>
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let appt of filteredAppointments; trackBy: trackById">
-        <td>{{ appt.patient?.user?.name }}</td>
-        <td>{{ appt.patient?.gender }}</td>
-        <td>{{ appt.appointment_date }}</td>
+      <tr *ngFor="let appt of filteredAppointments; trackBy: trackById" class="border-bottom">
+        <td class="ps-4 fw-medium">{{ appt.patient?.user?.name }}</td>
+        <td><span class="badge bg-light text-dark">{{ appt.patient?.gender }}</span></td>
+        <td>{{ appt.appointment_date | date:'mediumDate' }}</td>
         <td>{{ appt.start_time }}</td>
-        <td>{{ appt.end_time }}</td>
-        <td>{{ appt.notes }}</td>
+        <td>{{ calculateDuration(appt.start_time, appt.end_time) }}</td>
         <td>
-          <a class="action-btn view-btn" (click)="viewAppointment(appt.id)"><i class="fas fa-eye"></i></a>
-          <a class="action-btn accept-btn"
-             (click)="acceptAppointment(appt.id, { id: appt.id, status: 'confirmed' }, { date: appt.appointment_date })"
-             [class.disabled]="appt.status === 'confirmed'"
-             [style.pointerEvents]="appt.status === 'confirmed' ? 'none' : 'auto'"
-             [style.opacity]="appt.status === 'confirmed' ? 0.5 : 1">
-            <i class="fas fa-check"></i>
-          </a>
-
-          <a class="action-btn delete-btn"
-             (click)="CancelledAppointment(appt.id, appt.appointment_date, appt.status)"
-             [class.disabled]="appt.status === 'confirmed' || isPastAppointment(appt.appointment_date)"
-             [style.pointerEvents]="(appt.status === 'confirmed' || isPastAppointment(appt.appointment_date)) ? 'none' : 'auto'"
-             [style.opacity]="(appt.status === 'confirmed' || isPastAppointment(appt.appointment_date)) ? 0.5 : 1">
-            <i class="fas fa-times"></i>
-          </a>
-
-
+            <span *ngIf="appt.notes" class="notes-preview" title="{{ appt.notes }}">
+              {{appt.notes}}
+            </span>
+          <span *ngIf="!appt.notes" class="text-muted">-</span>
         </td>
         <td>
-    <span class="badge" [ngClass]="{
-      'bg-success': appt.status === 'confirmed',
-      'bg-warning': appt.status === 'pending',
-      'bg-danger': appt.status === 'cancelled'
-    }">
-      {{ appt.status }}
-    </span>
+          <div class="d-flex">
+            <button class="btn btn-sm btn-outline-primary me-2" (click)="viewAppointment(appt.id)">
+              <i class="fas fa-eye"></i>
+            </button>
+            <button class="btn btn-sm btn-success me-2"
+                    (click)="acceptAppointment(appt.id, { id: appt.id, status: 'confirmed' }, { date: appt.appointment_date })"
+                    [disabled]="appt.status === 'confirmed'">
+              <i class="fas fa-check"></i>
+            </button>
+            <button class="btn btn-sm btn-outline-danger"
+                    (click)="CancelledAppointment(appt.id, appt.appointment_date, appt.status)"
+                    [disabled]="appt.status === 'confirmed' || isPastAppointment(appt.appointment_date)">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+        </td>
+        <td class="pe-4">
+            <span class="badge rounded-pill" [ngClass]="{
+              'bg-success': appt.status === 'confirmed',
+              'bg-warning text-dark': appt.status === 'pending',
+              'bg-danger': appt.status === 'cancelled',
+              'bg-secondary': appt.status === 'completed'
+            }">
+              {{ appt.status | titlecase }}
+            </span>
         </td>
       </tr>
-      <tr *ngIf="filteredAppointments.length === 0">
-        <td colspan="8">No appointments match your filters.</td>
+      <tr *ngIf="filteredAppointments.length === 0" class="border-bottom">
+        <td colspan="8" class="text-center py-4 text-muted">
+          <i class="far fa-calendar-times fa-2x mb-2"></i><br>
+          No appointments match your current filters
+        </td>
       </tr>
       </tbody>
     </table>
   </div>
 </div>
 
-<div *ngIf="showPopup" class="popup-overlay">
-  <div class="popup-box">
-    <h3 class="text-primary">Appointment Details</h3>
-    <p><strong>Patient:</strong> {{ selectedAppointment?.patientName }}</p>
-    <p><strong>Gender:</strong> {{ selectedAppointment?.gender }}</p>
-    <p><strong>Date:</strong> {{ selectedAppointment?.date }}</p>
-    <p><strong>From:</strong> {{ selectedAppointment?.startTime }}</p>
-    <p><strong>To:</strong> {{ selectedAppointment?.endTime }}</p>
-    <p><strong>Notes:</strong> {{ selectedAppointment?.notes }}</p>
-    <p><strong>Status:</strong> {{ selectedAppointment?.status }}</p>
-    <button (click)="closePopup()">Close</button>
+<div *ngIf="showPopup" class="modal-overlay">
+  <div class="modal-content">
+    <div class="modal-header bg-light-blue ">
+      <h5 class="modal-title">Appointment Details</h5>
+      <button type="button" class="btn-close btn-close-white" (click)="closePopup()"></button>
+    </div>
+    <div class="modal-body">
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <p><strong class="text-muted">Patient Name:</strong><br>{{ selectedAppointment?.patientName }}</p>
+          <p><strong class="text-muted">Gender:</strong><br>{{ selectedAppointment?.gender }}</p>
+        </div>
+        <div class="col-md-6">
+          <p><strong class="text-muted">Appointment Date:</strong><br>{{ selectedAppointment?.date | date:'fullDate' }}
+          </p>
+          <p><strong class="text-muted">Time:</strong><br>{{ selectedAppointment?.startTime }}
+            - {{ selectedAppointment?.endTime }}</p>
+        </div>
+      </div>
+      <div class="mb-3">
+        <strong class="text-muted">Notes:</strong>
+        <div class="p-3 bg-light rounded mt-2">{{ selectedAppointment?.notes || 'No notes provided' }}</div>
+      </div>
+      <div class="d-flex justify-content-between align-items-center">
+        <span>
+          <strong class="text-muted">Status:</strong>
+          <span class="badge rounded-pill ms-2" [ngClass]="{
+            'bg-success': selectedAppointment?.status === 'confirmed',
+            'bg-warning text-dark': selectedAppointment?.status === 'pending',
+            'bg-danger': selectedAppointment?.status === 'cancelled',
+            'bg-secondary': selectedAppointment?.status === 'completed'
+          }">
+            {{ selectedAppointment?.status | titlecase }}
+          </span>
+        </span>
+        <button class="btn btn-primary" (click)="closePopup()">Close</button>
+      </div>
+    </div>
   </div>
 </div>
-
