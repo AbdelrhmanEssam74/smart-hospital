@@ -29,21 +29,21 @@
             <span class="visually-hidden">Loading...</span>
           </div>
         </div>
-      } @else {
-        <img [src]="doctor.image" alt="Doctor" class="profile-img">
+      } @if(doctor) {
+        <img [src]="doctor?.image" alt="Doctor" class="profile-img">
         <div class="profile-name mb-1">{{ doctor.name }}</div>
         <hr class="text-primary">
 
         <div class="profile-details mb-3">
-          <p><strong>Speciality</strong>: {{ doctor.specialty }}</p>
+          <p><strong>Speciality</strong>: {{ doctor.specialty?.name }}</p>
           <hr class="text-primary">
           <p><strong>Education</strong>: MD, OB/GYN</p>
           <hr class="text-primary">
           <p><strong>Available Slots</strong>: {{ availableSlots.length }} available</p>
           <hr class="text-primary">
-          <p><strong>E-mail</strong>: {{ doctor.email }}</p>
+          <p><strong>E-mail</strong>: {{ doctor?.email }}</p>
           <hr class="text-primary">
-          <p><strong>Phone</strong>: {{ doctor.phone }}</p>
+          <p><strong>Phone</strong>: {{ doctor?.phone }}</p>
           <hr class="text-primary">
         </div>
 
@@ -66,16 +66,16 @@
           </div>
         </div>
       } @else {
-        <h4 class="mb-4">{{ doctor.name }}</h4>
+        <h4 class="mb-4">{{ doctor?.name }}</h4>
 
         <div class="experience mb-4">
           <h5>Profile Description</h5>
-          <p>{{ doctor.profile_description }}</p>
+          <p>{{ doctor?.profile_description }}</p>
         </div>
 
         <div class="experience mb-4">
           <h5>Experience</h5>
-          <p>{{ doctor.years_of_experience }} Years</p>
+          <p>{{ doctor?.years_of_experience }} Years</p>
         </div>
 
         <!-- Appointment Booking Form -->
@@ -87,7 +87,7 @@
               <!-- Name -->
               <div class="col-md-6">
                 <input type="text" class="form-control" placeholder="Your Name"
-                       [(ngModel)]="appointment.patientName" name="name" required #name="ngModel">
+                      [(ngModel)]="appointment.patientName" name="name" required #name="ngModel">
                 @if (name.invalid && name.touched) {
                   <div class="text-danger">Name is required</div>
                 }
@@ -140,7 +140,9 @@
               <div class="col-md-6">
                 <div class="form-group">
                   <label for="time">Select Time</label>
-                  <select class="form-control" id="time" [(ngModel)]="selectedTime" [disabled]="!selectedDate" name="time" required>
+                  <select class="form-control" id="time"
+                   [(ngModel)]="selectedTime" 
+                   [disabled]="!selectedDate" name="time" required>
                     <option value="">Select a time</option>
                     <option *ngFor="let time of availableTimes" [value]="time">
                       {{ time }}
