@@ -1,7 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import appointments from '../../../../../data/data.json';
-import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+import {Component, OnInit} from '@angular/core';
+import {DoctorAppointment} from '../../../../interfaces/doctor-appointment';
+import {FormsModule} from '@angular/forms';
+import {CommonModule} from '@angular/common';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {AuthService} from '../../../../services/auth.service';
+import {NotificationService} from '../../../../services/notification.service'
 
 @Component({
   selector: 'app-appointments',
@@ -10,68 +13,145 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./appointments.component.css']
 })
 export class AppointmentsComponent implements OnInit {
-  appointments: any[] = [];
-  filteredAppointments: any[] = [];
-  currentDoctorId: number = 0;
-  selectedAppointment: any = null;
+  appointments: DoctorAppointment[] = [];
   showPopup: boolean = false;
+  APIUrl = 'http://127.0.0.1:8000/api/doctor/'
+  selectedAppointment: any = null;
+  filter = {
+    date: '',
+    time: '',
+    status: ''
+  };
+  trackById(index: number, item: any) {
+    return item.id;
+  }
 
+  constructor(private http: HttpClient, private auth: AuthService, private notify: NotificationService) {
+  }
+
+  getAuthHeaders(): HttpHeaders {
+    return new HttpHeaders({
+      'Authorization': `Bearer ${this.auth.getToken()}`
+    });
+  }
 
   ngOnInit() {
-    const currentUser = localStorage.getItem('auth_currentUser');
-    if (currentUser) {
-      const userObj = JSON.parse(currentUser);
-      if (userObj.role_id == 2) {
-        this.currentDoctorId = userObj.id;
-        console.log("Current User:", userObj);
-        console.log("Current Doctor ID:", this.currentDoctorId);
-      } else {
-        alert('You are not authorized to view appointments.');
+    this.http.get(this.APIUrl + 'appointments', {
+      headers: this.getAuthHeaders()
+    }).subscribe(
+      (data: any) => {
+        this.appointments = data.appointments;
+        console.log(this.appointments)
+      },
+      (error) => {
+        console.log('Error:', error)
+      }
+    )
+  }
+  acceptAppointment(appointmentId: number, updatedData: any, dateData: any): void {
+    const today = new Date();
+    const selectedDate = new Date(dateData.date);
+
+    // Strip time for accurate date comparison
+    today.setHours(0, 0, 0, 0);
+    selectedDate.setHours(0, 0, 0, 0);
+
+    if (updatedData.status === 'confirmed') {
+      if (selectedDate < today) {
+        this.notify.warning("You can't confirm an appointment scheduled in the past.");
         return;
       }
+
+      this.http.put(this.APIUrl + 'appointments/' + appointmentId + '/status', updatedData, {
+        headers: this.getAuthHeaders()
+      }).subscribe(
+        (updatedAppointment: any) => {
+          const index = this.appointments.findIndex((appt: any) => appt.id === appointmentId);
+          if (index !== -1) {
+            this.appointments[index].status = updatedAppointment.appointment.status;
+          }
+          this.notify.success('Appointment confirmed successfully');
+        },
+        (error) => {
+          console.log(error);
+          this.notify.error('Failed to confirm appointment');
+        }
+      );
     } else {
-      alert('Doctor information not found in localStorage.');
+      this.notify.info('Only pending appointments can be confirmed.');
+    }
+  }
+
+  isPastAppointment(dateString: string): boolean {
+    const today = new Date();
+    const appointmentDate = new Date(dateString);
+    today.setHours(0, 0, 0, 0);
+    appointmentDate.setHours(0, 0, 0, 0);
+    return appointmentDate < today;
+  }
+
+  get filteredAppointments() {
+    return this.appointments.filter((appt: any) => {
+      const matchesDate = !this.filter.date || appt.appointment_date === this.filter.date;
+      const matchesTime = !this.filter.time || appt.start_time === this.filter.time;
+      const matchesStatus = !this.filter.status || appt.status === this.filter.status;
+      return matchesDate && matchesTime && matchesStatus;
+    });
+  }
+  CancelledAppointment(appointmentId: number, appointmentDate: string, currentStatus: string): void {
+    const today = new Date();
+    const selectedDate = new Date(appointmentDate);
+    today.setHours(0, 0, 0, 0);
+    selectedDate.setHours(0, 0, 0, 0);
+
+    if (selectedDate < today) {
+      this.notify.warning('You cannot cancel a past appointment.');
       return;
     }
 
+    if (currentStatus === 'confirmed') {
+      this.notify.info('Confirmed appointments cannot be cancelled.');
+      return;
+    }
+    const updatedData = { id: appointmentId, status: 'cancelled' };
 
-    this.appointments = appointments.appointments;
-    this.filteredAppointments = this.appointments.filter(
-      appt => appt.doctor_id === this.currentDoctorId
-
+    this.http.put(this.APIUrl + 'appointments/' + appointmentId + '/status', updatedData, {
+      headers: this.getAuthHeaders()
+    }).subscribe(
+      (updatedAppointment: any) => {
+        const index = this.appointments.findIndex((appt: any) => appt.id === appointmentId);
+        if (index !== -1) {
+          this.appointments[index].status = updatedAppointment.appointment.status;
+        }
+        this.notify.success('Appointment Cancelled Successfully');
+      },
+      (error) => {
+        console.error(error);
+        this.notify.error('Failed to Cancel Appointment');
+      }
     );
-    console.log("All Appointments:", this.appointments);
-    console.log("Filtered Appointments:", this.filteredAppointments);
-    this.filteredAppointments.forEach(appt => {
-      console.log(appt);
-    });
+  }
 
-  }
-acceptAppointment(appointmentId: number): void {
-  const index = this.filteredAppointments.findIndex(appt => appt.id === appointmentId);
-  if (index !== -1) {
-    this.filteredAppointments[index].status = 'confirmed';
-    alert(`Appointment #${appointmentId} has been confirmed.`);
-  }
-}
 
-deleteAppointment(appointmentId: number): void {
-  const confirmDelete = confirm(`Are you sure you want to delete appointment #${appointmentId}?`);
-  if (confirmDelete) {
-    this.filteredAppointments = this.filteredAppointments.filter(appt => appt.id !== appointmentId);
-    alert(`Appointment #${appointmentId} has been deleted.`);
-  }
-}
-viewAppointment(appointmentId: number): void {
-  const appointment = this.filteredAppointments.find(appt => appt.id === appointmentId);
-  if (appointment) {
-    this.selectedAppointment = appointment;
-    this.showPopup = true;
-  }
-}
 
-closePopup(): void {
-  this.showPopup = false;
-  this.selectedAppointment = null;
-}
+  viewAppointment(appointmentId: number): void {
+    const appointment = this.appointments.find((appt: any) => appt.id === appointmentId);
+    if (appointment) {
+      this.selectedAppointment = {
+        patientName: appointment.patient?.user?.name || 'N/A',
+        gender: appointment.patient?.gender || 'N/A',
+        date: appointment.appointment_date,
+        startTime: appointment.start_time,
+        endTime: appointment.end_time,
+        notes: appointment.notes,
+        status: appointment.status
+      };
+      this.showPopup = true;
+    }
+  }
+
+  closePopup(): void {
+    this.showPopup = false;
+    this.selectedAppointment = null;
+  }
 }
