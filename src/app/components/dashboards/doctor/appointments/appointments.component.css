@@ -1,86 +1,91 @@
-.head{
-  background: #51B8F2;
+/* Modern Medical Practice Styling */
+.bg-light-blue {
+  background-color: #e3f2fd;
+  color: #0d47a1;
 }
-.table{
-  border-left: 1px solid #ddd;
-  border-right: 1px solid #ddd;
+
+.table {
+  font-size: 0.9rem;
 }
-.action-btn {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  margin: 5px;
-  transition: 0.3s;
+
+.table thead th {
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  letter-spacing: 0.5px;
+  border-bottom: 2px solid #dee2e6;
+}
+
+.table tbody tr {
+  transition: all 0.2s ease;
+}
+
+.table tbody tr:hover {
+  background-color: #f8f9fa;
+}
+
+.notes-preview {
   cursor: pointer;
+  color: #0d6efd;
+  text-decoration: underline dotted;
 }
-.action-btn i {
-  font-size: 20px;
+
+.notes-preview:hover {
+  color: #0b5ed7;
 }
-.view-btn {
-  background-color: #e6f0ff;
-  color: #3366ff;
-  text-decoration: none;
-}
-.accept-btn {
-  background-color: #e6fff0;
-  color: #00cc66;
-  text-decoration: none;
-}
-.delete-btn {
-  background-color: #ffe6e6;
-  color: #ff3333;
-  text-decoration: none;
-}
-.action-btn:hover {
-  transform: scale(1.1);
-}
-.popup-overlay {
+
+.modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0,0,0,0.4);
+  background-color: rgba(0,0,0,0.5);
   display: flex;
   justify-content: center;
-  align-items: flex-start;
-  padding-top: 80px;
+  align-items: center;
   z-index: 1050;
 }
 
-.popup-box {
+.modal-content {
   background-color: white;
-  padding: 25px;
-  border-radius: 10px;
-  width: 400px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-  animation: fadeIn 0.3s ease-in-out;
+  border-radius: 0.5rem;
+  width: 100%;
+  max-width: 600px;
+  box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15);
+  animation: fadeIn 0.3s ease-out;
 }
 
-.popup-box button {
-  margin-top: 15px;
-  background-color: #3366ff;
-  color: white;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 5px;
-  cursor: pointer;
+.modal-header {
+  border-radius: 0.5rem 0.5rem 0 0;
+  padding: 1rem 1.5rem;
 }
 
-.popup-box button:hover {
-  background-color: #254eda;
+.modal-body {
+  padding: 1.5rem;
 }
 
 @keyframes fadeIn {
   from {
-    transform: translateY(-20px);
     opacity: 0;
+    transform: translateY(-20px);
   }
   to {
-    transform: translateY(0);
     opacity: 1;
+    transform: translateY(0);
   }
+}
+
+.btn-outline-primary {
+  border-color: #0d6efd;
+  color: #0d6efd;
+}
+
+.btn-outline-primary:hover {
+  background-color: #0d6efd;
+  color: white;
+}
+
+.border-primary {
+  border-color: #0d6efd !important;
 }
