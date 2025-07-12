@@ -1,9 +1,9 @@
-import {Component, HostListener, OnInit} from '@angular/core';
-import {Router, RouterLink, RouterLinkActive} from '@angular/router';
-import {AuthService} from '../../services/auth.service';
-import {CommonModule, NgClass, NgIf} from '@angular/common';
-import {User} from '../../interfaces/user';
-import {timeout} from 'rxjs';
+import { Component, HostListener, OnInit } from '@angular/core';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
+import { CommonModule, NgClass, NgIf } from '@angular/common';
+import { User } from '../../interfaces/user';
+import { timeout } from 'rxjs';
 
 @Component({
   selector: 'app-navbar',
@@ -18,10 +18,9 @@ export class NavbarComponent implements OnInit {
   userRole = '';
   userImage = '';
   // @ts-ignore
-  user: User = {}
+  user: User = {};
 
-  constructor(private router: Router, private authService: AuthService) {
-  }
+  constructor(private router: Router, private authService: AuthService) {}
 
   @HostListener('window:scroll', [])
   onWindowScroll() {
@@ -36,9 +35,9 @@ export class NavbarComponent implements OnInit {
       if (this.login) {
         this.userInitial = this.user.name?.trim()?.charAt(0) || '';
         this.userImage = this.user.image || '';
-        if (this.user.role_id === 2) {
+        if (this.user.role?.id === 2) {
           this.userRole = 'Doctor';
-        } else if (this.user.role_id === 5) {
+        } else if (this.user.role?.id === 5) {
           this.userRole = 'Patient';
         } else {
           this.userRole = '';
@@ -60,9 +59,7 @@ export class NavbarComponent implements OnInit {
     // Then notify backend
     this.authService.logout().subscribe({
       next: () => {},
-      error: () => {}
+      error: () => {},
     });
   }
-
-
 }

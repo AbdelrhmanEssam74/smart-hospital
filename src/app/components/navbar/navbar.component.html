@@ -141,7 +141,7 @@
           <ul class="dropdown-menu dropdown-menu-end">
             <!-- Doctor -->
 
-            @if (userRole === "Doctor") {
+            @if (userRole == "Doctor") {
               <li>
                 <a class="dropdown-item" routerLink="/doctor">Dashboard</a>
               </li>
@@ -169,7 +169,7 @@
               </li>
             }
             <!-- patient -->
-            @else if (userRole === "Patient") {
+            @else if (userRole == "Patient") {
               <li>
                 <a class="dropdown-item" routerLink="/patient_profile">Dashboard</a>
               </li>
