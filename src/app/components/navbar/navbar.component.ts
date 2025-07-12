@@ -31,14 +31,14 @@ export class NavbarComponent implements OnInit {
   ngOnInit() {
     this.authService.currentUser$.subscribe((user) => {
       this.login = !!user;
-      this.user = user;
+      this.user = user?.data;
 
       if (this.login) {
         this.userInitial = this.user.name?.trim()?.charAt(0) || '';
         this.userImage = this.user.image || '';
         if (this.user.role_id === 2) {
           this.userRole = 'Doctor';
-        } else if (this.user.role_id === 3) {
+        } else if (this.user.role_id === 5) {
           this.userRole = 'Patient';
         } else {
           this.userRole = '';
