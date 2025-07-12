@@ -38,7 +38,7 @@ export class NavbarComponent implements OnInit {
         this.userImage = this.user.image || '';
         if (this.user.role_id === 2) {
           this.userRole = 'Doctor';
-        } else if (this.user.role_id === 5) {
+        } else if (this.user.role_id === 3) {
           this.userRole = 'Patient';
         } else {
           this.userRole = '';
