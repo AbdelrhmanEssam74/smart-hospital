@@ -17,7 +17,12 @@ export class AppointmentsComponent implements OnInit {
   showPopup: boolean = false;
   APIUrl = 'http://127.0.0.1:8000/api/doctor/'
   selectedAppointment: any = null;
-  trackById(index: number, item: DoctorAppointment): number {
+  filter = {
+    date: '',
+    time: '',
+    status: ''
+  };
+  trackById(index: number, item: any) {
     return item.id;
   }
 
@@ -85,7 +90,14 @@ export class AppointmentsComponent implements OnInit {
     return appointmentDate < today;
   }
 
-
+  get filteredAppointments() {
+    return this.appointments.filter((appt: any) => {
+      const matchesDate = !this.filter.date || appt.appointment_date === this.filter.date;
+      const matchesTime = !this.filter.time || appt.start_time === this.filter.time;
+      const matchesStatus = !this.filter.status || appt.status === this.filter.status;
+      return matchesDate && matchesTime && matchesStatus;
+    });
+  }
   CancelledAppointment(appointmentId: number, appointmentDate: string, currentStatus: string): void {
     const today = new Date();
     const selectedDate = new Date(appointmentDate);

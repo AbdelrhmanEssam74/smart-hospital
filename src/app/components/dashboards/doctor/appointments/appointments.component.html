@@ -1,7 +1,33 @@
 <h2 class="text-center my-4">Appointments List</h2>
 <div class="container">
+  <div class="container mb-4">
+    <div class="row g-3 align-items-center justify-content-between">
+      <div class="col-md-4">
+        <label>Date</label>
+        <input type="date" class="form-control" [(ngModel)]="filter.date">
+      </div>
+      <div class="col-md-4">
+        <label>Time</label>
+        <input type="time" class="form-control" [(ngModel)]="filter.time">
+      </div>
+      <div class="col-md-4">
+        <label>Status</label>
+        <select class="form-control" [(ngModel)]="filter.status">
+          <option value="">All</option>
+          <option value="pending">Pending</option>
+          <option value="confirmed">Confirmed</option>
+          <option value="cancelled">Cancelled</option>
+          <option value="completed">Completed</option>
+        </select>
+      </div>
+      <div class="">
+        <button class="btn btn-secondary mt-2" (click)="filter = { date: '', time: '', status: '' }">Reset Filters</button>
+      </div>
+    </div>
+  </div>
+
   <div class="table-responsive">
-    <table class="table   table-striped table-hover text-center">
+    <table class="table table-striped table-hover text-center">
       <thead class="table-primary">
       <tr>
         <th>Patient</th>
@@ -15,7 +41,7 @@
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let appt of appointments; trackBy: trackById">
+      <tr *ngFor="let appt of filteredAppointments; trackBy: trackById">
         <td>{{ appt.patient?.user?.name }}</td>
         <td>{{ appt.patient?.gender }}</td>
         <td>{{ appt.appointment_date }}</td>
@@ -52,7 +78,9 @@
     </span>
         </td>
       </tr>
-
+      <tr *ngIf="filteredAppointments.length === 0">
+        <td colspan="8">No appointments match your filters.</td>
+      </tr>
       </tbody>
     </table>
   </div>
