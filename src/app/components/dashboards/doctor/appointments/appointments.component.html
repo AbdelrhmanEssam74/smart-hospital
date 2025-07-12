@@ -24,8 +24,23 @@
         <td>{{ appt.notes }}</td>
         <td>
           <a class="action-btn view-btn" (click)="viewAppointment(appt.id)"><i class="fas fa-eye"></i></a>
-          <a class="action-btn accept-btn" (click)="acceptAppointment(appt.id)"><i class="fas fa-check"></i></a>
-          <a class="action-btn delete-btn" (click)="deleteAppointment(appt.id)"><i class="fas fa-times"></i></a>
+          <a class="action-btn accept-btn"
+             (click)="acceptAppointment(appt.id, { id: appt.id, status: 'confirmed' }, { date: appt.appointment_date })"
+             [class.disabled]="appt.status === 'confirmed'"
+             [style.pointerEvents]="appt.status === 'confirmed' ? 'none' : 'auto'"
+             [style.opacity]="appt.status === 'confirmed' ? 0.5 : 1">
+            <i class="fas fa-check"></i>
+          </a>
+
+          <a class="action-btn delete-btn"
+             (click)="CancelledAppointment(appt.id, appt.appointment_date, appt.status)"
+             [class.disabled]="appt.status === 'confirmed' || isPastAppointment(appt.appointment_date)"
+             [style.pointerEvents]="(appt.status === 'confirmed' || isPastAppointment(appt.appointment_date)) ? 'none' : 'auto'"
+             [style.opacity]="(appt.status === 'confirmed' || isPastAppointment(appt.appointment_date)) ? 0.5 : 1">
+            <i class="fas fa-times"></i>
+          </a>
+
+
         </td>
         <td>
     <span class="badge" [ngClass]="{
@@ -43,18 +58,17 @@
   </div>
 </div>
 
-<!--@if(showPopup){-->
-<!--<div class="popup-overlay" >-->
-<!--  <div class="popup-box">-->
-<!--    <h3 class="text-primary">Appointment Details</h3>-->
-<!--    <p><strong>Patient:</strong> {{ selectedAppointment?.patientName }}</p>-->
-<!--    <p><strong>Gender:</strong> {{ selectedAppointment?.gender }}</p>-->
-<!--    <p><strong>Date:</strong> {{ selectedAppointment?.date }}</p>-->
-<!--    <p><strong>From:</strong> {{ selectedAppointment?.startTime }}</p>-->
-<!--    <p><strong>To:</strong> {{ selectedAppointment?.endTime }}</p>-->
-<!--    <p><strong>Notes:</strong> {{ selectedAppointment?.notes }}</p>-->
-<!--    <p><strong>Status:</strong> {{ selectedAppointment?.status }}</p>-->
-<!--    <button (click)="closePopup()">Close</button>-->
-<!--  </div>-->
-<!--</div>-->
-<!--}-->
+<div *ngIf="showPopup" class="popup-overlay">
+  <div class="popup-box">
+    <h3 class="text-primary">Appointment Details</h3>
+    <p><strong>Patient:</strong> {{ selectedAppointment?.patientName }}</p>
+    <p><strong>Gender:</strong> {{ selectedAppointment?.gender }}</p>
+    <p><strong>Date:</strong> {{ selectedAppointment?.date }}</p>
+    <p><strong>From:</strong> {{ selectedAppointment?.startTime }}</p>
+    <p><strong>To:</strong> {{ selectedAppointment?.endTime }}</p>
+    <p><strong>Notes:</strong> {{ selectedAppointment?.notes }}</p>
+    <p><strong>Status:</strong> {{ selectedAppointment?.status }}</p>
+    <button (click)="closePopup()">Close</button>
+  </div>
+</div>
+
