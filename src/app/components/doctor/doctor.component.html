@@ -1,4 +1,4 @@
-
+@if (doctor) {
 <section class="box m-1">
   <div class="doctor-img mb-2">
     <img [src]="doctor.image" alt="Dr. Andrew Berton" class="img-fluid mb-3">
@@ -14,7 +14,8 @@
 
   <div class="doctor-card">
     <h5 class="mt-3">{{ doctor.name }}</h5>
-    <p>{{ doctor.specialty }}</p>
+    <p>{{ doctor.specialty?.name }}</p>
   </div>
     </a>
 </section>
+}

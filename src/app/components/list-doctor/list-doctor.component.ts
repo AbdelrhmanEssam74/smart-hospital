@@ -3,16 +3,16 @@ import { DoctorService } from '../../services/doctor.service';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, FormsModule } from '@angular/forms';
 import { DoctorComponent } from '../doctor/doctor.component';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-list-doctor',
   standalone: true,
   imports: [CommonModule, FormsModule, DoctorComponent],
   templateUrl: './list-doctor.component.html',
-  styleUrl: './list-doctor.component.css'
+  styleUrl: './list-doctor.component.css',
 })
 export class ListDoctorComponent implements OnInit {
-  doctors: any[] = [];
   filteredDoctors: any[] = [];
   paginatedDoctors: any[] = [];
 
@@ -21,41 +21,53 @@ export class ListDoctorComponent implements OnInit {
   totalPages: number = 0;
 
   searchTerm: string = '';
-  searchForm: FormGroup;
 
-  constructor(
-    private doctorService: DoctorService,
-    private fb: FormBuilder
-  ) {
-    this.searchForm = this.fb.group({
-      name: [''],
-      specialty: ['']
-    });
-  }
+  doctors: any[] = [];
+
+  constructor(private doctorService: DoctorService, private fb: FormBuilder) {}
 
   ngOnInit(): void {
-    this.doctors = this.doctorService.getDoctorDisplayList();
+    this.filteredDoctors = [...this.doctors];
+
+    this.updatePagination();
+    // all doctors api
+    this.loadAllDoctors();
+  }
+
+  loadAllDoctors(): void {
+    this.doctorService.getAllDoctors().subscribe({
+      next: (doctors) => {
+        // console.log(doctors);
+        this.doctors = doctors;
+        this.filteredDoctors = [...this.doctors];
+        this.updatePagination();
+      },
+    });
+  }
+// manage search 
+filterDoctors(): void {
+  const searchTerm = this.searchTerm.trim();
+  if (!searchTerm) {
     this.filteredDoctors = [...this.doctors];
     this.updatePagination();
+    return;
   }
-
-  filterDoctors() {
-    const term = this.searchTerm.toLowerCase();
-    this.filteredDoctors = this.doctors.filter(doctor => {
-      const name = doctor.name?.toLowerCase() || '';
-      const specialization = doctor.specialty?.toLowerCase() || '';
-      return name.includes(term) || specialization.includes(term);
-    });
-
-    this.currentPage = 1; // نرجع لأول صفحة بعد الفلترة
-    this.updatePagination();
-  }
-
+  this.doctorService.searchDoctors(searchTerm).subscribe({
+    next: (doctors) => {
+      this.filteredDoctors = doctors;
+      this.currentPage = 1;
+      this.updatePagination();
+    }
+  });
+}
+// 
   updatePagination() {
     const start = (this.currentPage - 1) * this.itemsPerPage;
     const end = start + this.itemsPerPage;
     this.paginatedDoctors = this.filteredDoctors.slice(start, end);
-    this.totalPages = Math.ceil(this.filteredDoctors.length / this.itemsPerPage);
+    this.totalPages = Math.ceil(
+      this.filteredDoctors.length / this.itemsPerPage
+    );
   }
 
   changePage(page: number) {
