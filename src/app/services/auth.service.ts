@@ -37,8 +37,16 @@ export class AuthService {
 
   getProfile(): Observable<any> {
     return this.http.get(`${this.apiUrl}/profile`, {
-      headers: this.getAuthHeaders(),
-    });
+      headers: this.getAuthHeaders()})
+      .pipe(
+    tap((user: any) => {
+      if (user.image && !user.image.startsWith('http')) {
+        user.image = `http://localhost:8000/${user.image}`;
+      }
+      this.saveUser(user); 
+    })
+  );
+    
   }
 
   saveToken(token: string): void {
