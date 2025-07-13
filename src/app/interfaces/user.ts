@@ -6,8 +6,11 @@ export interface User {
   image:string,
   profile_description: string,
   email_verified_at: string,
-  role_id: number,
-  created_at: string,
+  role: {
+    id: number;
+    name: string;
+  };
+    created_at: string,
   updated_at: string
 }
 
