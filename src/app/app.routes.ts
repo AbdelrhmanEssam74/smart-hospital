@@ -13,6 +13,7 @@ import {AuthGuard} from './guards/auth.guard';
 import {UserAppointmentsComponent} from './components/user-appointments/user-appointments.component';
 import {PatientProfileComponent} from './components/dashboards/patient/patient-profile/patient-profile.component';
 import {EditProfileComponent} from './components/dashboards/patient/edit-profile/edit-profile.component';
+import {DoctorHomeComponent} from './components/dashboards/doctor/doctor-home/doctor-home.component';
 
 export const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -22,12 +23,13 @@ export const routes: Routes = [
   {path: 'doctordetails/:id', component: DoctorDetailsComponent},
   {path: 'doctors', component: ListDoctorComponent},
   {
-    path: 'doctor', component: DoctorDashboardComponent, children: [
+    path: 'doctor', component: DoctorHomeComponent, children: [
+      {path: 'home', component: DoctorDashboardComponent},
       {path: 'appointments', component: AppointmentsComponent},
       {path: 'add-slot', component: AddSlotComponent},
       {path: 'edit-profile', component: ProfileEditComponent},
       {path: 'patients', component: PatientProfilesComponent},
-      {path: '', redirectTo: 'appointments', pathMatch: 'full'}
+      {path: '', redirectTo: 'home', pathMatch: 'full'}
     ]
   },
   {path: 'my-appointments', component: UserAppointmentsComponent},
