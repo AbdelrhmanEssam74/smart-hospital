@@ -1,26 +1,108 @@
 <div class="patient-profiles-container">
-  <h2 class="text-center my-2 mb-2">Patient Profiles</h2>
+  <div class="header-section">
+    <h2 class="text-center fw-bold mb-3 text-primary">Patient Profiles</h2>
+    <p class="text-center text-muted mb-4">Manage and view your patient records</p>
+
+    <div class="search-filter-bar">
+      <div class="search-box">
+        <i class="fas fa-search"></i>
+        <input type="text" placeholder="Search patients..." class="search-input">
+      </div>
+      <div class="filter-dropdown">
+        <select class="form-select">
+          <option selected>Filter by</option>
+          <option>Recent</option>
+          <option>Active</option>
+          <option>Gender</option>
+        </select>
+      </div>
+    </div>
+  </div>
 
   <div class="patient-cards">
-    @for (patient of patients; track patient.id) {
+    <div *ngFor="let patient of patients; trackBy: trackById">
       <div class="patient-card">
-        <img [src]="patient.user?.image "
-             alt="{{ patient.user?.name}}"
-             class="patient-image">
-
-        <div class="patient-info">
-          <h3>{{ patient.user?.name || 'Patient ' + patient.id }}</h3>
-
-          <div class="patient-details">
-            <p><strong>MRN:</strong> {{ patient.medical_record_number }}</p>
-            <p><strong>Gender:</strong> {{ patient.gender }}</p>
-            <p><strong>Phone:</strong> {{ patient.phone }}</p>
-            <p><strong>Address:</strong> {{ patient.address }}</p>
+        <div class="card-header">
+          <div class="status-badge">
+            active
           </div>
+          <button class="card-menu-btn">
+            <i class="fas fa-ellipsis-v"></i>
+          </button>
+        </div>
 
+        <div class="card-body">
+          <img [src]="patient.user?.image || 'https://www.svgrepo.com/show/452030/avatar-default.svg'"
+               alt="{{ patient.user?.name}}"
+               class="patient-image">
 
+          <div class="patient-info">
+            <h4 class="patient-name">
+              {{ patient.user?.name || 'Patient ' + patient.id }}
+              <span class="patient-age">26</span>
+            </h4>
+
+            <div class="patient-meta">
+              <span class="badge bg-light text-dark">
+                <i class="fas fa-id-card me-1"></i> {{ patient.medical_record_number }}
+              </span>
+              <span class="badge bg-light text-dark">
+                <i class="fas fa-venus-mars me-1"></i> {{ patient.gender }}
+              </span>
+            </div>
+
+            <div class="patient-details">
+              <p><i class="fas fa-phone me-2"></i> {{ patient.phone || 'Not provided' }}</p>
+              <p><i class="fas fa-map-marker-alt me-2"></i> {{ patient.address || 'Address not available' }}</p>
+              <p><i class="fas fa-calendar-alt me-2"></i> Last visit:No visits yet </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-footer">
+          <button class="btn btn-sm btn-outline-primary">
+            <i class="fas fa-calendar-check me-1"></i> Schedule
+          </button>
+          <button class="btn btn-sm btn-primary">
+            <i class="fas fa-file-medical me-1"></i> Records
+          </button>
         </div>
       </div>
-    }
+
+  </div>
+
+  <div class="no-patients" *ngIf="patients.length === 0">
+    <div class="empty-state">
+      <i class="fas fa-user-injured fa-3x mb-3 text-muted"></i>
+      <h5>No patients found</h5>
+      <p class="text-muted">Add new patients or adjust your search criteria</p>
+      <button class="btn btn-primary mt-2">
+        <i class="fas fa-plus me-1"></i> Add Patient
+      </button>
+    </div>
+  </div>
+</div>
+  <!-- Loading skeletons -->
+  <div *ngIf="loading" class="patient-cards">
+    <div class="patient-card skeleton" *ngFor="let placeholder of [1,2,3,4]">
+      <div class="card-header">
+        <div class="status-badge placeholder-box"></div>
+        <div class="card-menu-btn placeholder-box"></div>
+      </div>
+      <div class="card-body">
+        <div class="patient-image placeholder-box"></div>
+        <div class="patient-info">
+          <div class="placeholder-line w-75 mb-2"></div>
+          <div class="placeholder-line w-50 mb-2"></div>
+          <div class="placeholder-line w-100 mb-2"></div>
+          <div class="placeholder-line w-100 mb-2"></div>
+          <div class="placeholder-line w-75"></div>
+        </div>
+      </div>
+      <div class="card-footer d-flex gap-2">
+        <div class="btn btn-sm btn-outline-secondary disabled placeholder-box" style="width: 80px; height: 30px;"></div>
+        <div class="btn btn-sm btn-secondary disabled placeholder-box" style="width: 80px; height: 30px;"></div>
+      </div>
+    </div>
   </div>
 </div>
