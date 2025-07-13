@@ -5,6 +5,7 @@ import appointments from '../../../../../data/data.json';
 
 import { AuthService } from '../../../../services/auth.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { PatientService } from '../../../../services/patient.service';
 
 interface Appointment {
   id: number;
@@ -23,45 +24,45 @@ imports: [
   styleUrl: './patient-profile.component.css'
 })
 export class PatientProfileComponent {
-  // profileForm: FormGroup;
     appointments: any[] = [];
 
-  currentUser: any;
   filteredAppointments: any[] = [];
   selectedAppointment: any = null;
   currentPatientId: number | null = null;
   showPopup: boolean = false;
+  // api
+  patientData: any; 
+ currentUser: any;
+  isLoading = true;
+  errorMessage: string = '';
 
+  constructor(
+    private authService: AuthService,
+    private patientService: PatientService,
+  ) {}
 
-  // constructor(public authService: AuthService) {
-  //   this.currentUser = this.authService.getCurrentUser();
-  // }
-    ngOnInit() {
-    const CurrentUser = localStorage.getItem('auth_currentUser');
-    if (CurrentUser) {
-      const userObj = JSON.parse(CurrentUser);
-      if (userObj.role_id == 5) {
-        this.currentPatientId = userObj.id;
-        console.log("Current User:", userObj);
-        console.log("Current Patient ID:", this.currentPatientId);
-      } else {
-        alert('You are not authorized to view appointments.');
-        return;
-      }
-    } else {
-      alert('patient information not found in localStorage.');
-      return;
-    }
-        this.appointments = appointments.appointments;
-        this.filteredAppointments = this.appointments.filter(
-          appt => appt.patient_id === this.currentPatientId
-        );
-        console.log("All Appointments:", this.appointments);
-        console.log("Filtered Appointments:", this.filteredAppointments);
-        this.filteredAppointments.forEach(appt => {
-          console.log(appt);
-        });
+  ngOnInit() {
+    this.loadPatientProfile();
   }
+
+ loadPatientProfile() {
+    this.patientService.getPatients().subscribe({
+      next: (response) => {
+        console.log('API Response:', response); 
+        
+        this.currentUser = response.User ;
+        this.patientData = this.currentUser?.patient || response.patient;
+        
+        this.isLoading = false;
+      },
+      error: (err) => {
+        console.error('API Error:', err);
+        this.errorMessage = 'Failed to load patient profile';
+        this.isLoading = false;
+      }
+    });
+  }
+  // 
   deleteAppointment(appointmentId: number): void {
   const confirmDelete = confirm(`Are you sure you want to delete appointment #${appointmentId}?`);
   if (confirmDelete) {

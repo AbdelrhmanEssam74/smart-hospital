@@ -1,3 +1,6 @@
+*{
+  font-family:Georgia, 'Times New Roman', Times, serif;
+}
 .profile-container {
   max-width: 800px;
   margin: 2rem auto;
@@ -20,6 +23,7 @@
   margin: 5px;
   transition: 0.3s;
   cursor: pointer;
+  color: #3366ff;
 }
 .action-btn i {
   font-size: 20px;
@@ -63,6 +67,17 @@
   cursor: pointer;
   display: inline;
 }
+.btn {
+
+  color: #00bbff;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  display: inline;
+}
+
+
 .popup-overlay {
   position: fixed;
   top: 0;

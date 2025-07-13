@@ -1,28 +1,34 @@
 import { Injectable } from '@angular/core';
 import data from '../../data/data.json';
 import { Patient } from '../interfaces/patient';
+import { map, Observable } from 'rxjs';
+import { AuthService } from './auth.service';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment.development';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PatientService {
-  private data = data;
+  private apiUrl = `${environment.apiUrl}/patient`;
 
-  constructor() { }
+  constructor(
+    private httpClient: HttpClient,
+    private authService: AuthService
+  ) {}
 
-    getPatients(): Patient[] {
-    return this.data.patients.map(patient => {
-      const user = patient.user_id ? this.data.users.find(u => u.id === patient.user_id) : null;
 
-      return {
-        ...patient,
-        user: user ? {
-          name: user.name,
-          email: user.email,
-          image: user.image,
-          profile_description: user.profile_description
-        } : undefined
-      };
+  
+  getPatients(): Observable<any> {
+     return this.httpClient.get(`${this.apiUrl}/profile`, {
+      headers: this.authService.getAuthHeaders()
+    });
+  }
+
+  
+  updatePatientProfile(data: any): Observable<any> {
+    return this.httpClient.put(`${this.apiUrl}/profile/update`, data, {
+      headers: this.authService.getAuthHeaders()
     });
   }
 }

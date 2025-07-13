@@ -1,39 +1,67 @@
-
 <div class="patient-profile-page py-5 bg-light">
   <div class="container">
     <div class="row">
-      <!-- Sidebar -->
-      <div class="col-lg-4 mb-4">
-        <div class="card shadow-sm border-0">
-          <div class="card-body text-center">
-            <div class="avatar-xxl mx-auto mb-3">
-             <img src="assets/images/download (1).jpg" class="rounded-circle" alt="Patient">
+      <div class="w-25 mb-4">
+        <div class="col-md-6">
+          <div><h2>Profile</h2></div>
+        </div>
+        <div class="card shadow-sm border-1">
+          <h5 class="ps-3 pt-3">General Information</h5>
 
+          <div class="p-4">
+            <div class="text-center"></div>
+            <img
+              [src]="currentUser?.image"
+              alt="patient"
+              class="profile-img"
+              class="rounded-circle w-75 m-auto"
+            />
+            <div class="profile-name mb-1"></div>
+
+            <div class="profile-details my-5">
+              <p><strong>Name</strong>: {{ currentUser?.name }}</p>
+              <hr />
+              <p><strong>Email</strong>: {{ currentUser?.email }}</p>
+              <hr />
+              <p>
+                <strong>Phone:</strong>
+                {{ patientData.phone || currentUser?.phone }}
+              </p>
+              <hr />
+              <p><strong>Gender:</strong> {{ patientData.gender }}</p>
+              <hr />
+              <p>
+                <strong>Date of Birth:</strong>
+                {{ patientData.date_of_birth }}
+              </p>
+              <hr />
+              <p><strong>Address:</strong> {{ patientData.address }}</p>
+              <hr />
+              <p>
+                <strong>Medical Record:</strong>
+                {{ patientData.medical_record_number }}
+              </p>
             </div>
-            <h4 class="mb-1">{{ currentUser?.name }}</h4>
-            <p class="text-muted mb-3">Patient</p>
-            <hr>
-
-            <ul class="nav flex-column">
-              <li class="nav-item">
-                <a class="nav-link active" routerLink="/profile_edit"><i class="fas fa-user me-2"></i> My Profile</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link"><i class="fas fa-calendar-check me-2"></i> Appointments</a>
-              </li>
-
-
-              <li class="nav-item">
-                <!-- <a class="nav-link" (click)="authService.logout()" routerLink="/"><i class="fas fa-sign-out-alt me-2"></i> Logout</a> -->
-              </li>
-            </ul>
           </div>
         </div>
       </div>
-      <div class="col-lg-8 align-self-center">
-        <div class="card shadow-sm border-0">
+      <div class="w-75 align-self-center">
+        <div class="row">
+          <div class="my-3">
+            <div class="d-flex">
+              <div class="buttons">
+                <label for="formFile" class="btn">upload files</label>
+                <input class="form-control d-none" type="file" id="formFile" />
+                <button class="btn mx-2" routerLink="/profile_edit">Edit</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card shadow-sm">
           <div class="card-header bg-white border-bottom">
-            <h5 class="mb-0"><i class="fas fa-calendar-check me-2"></i> My Appointments</h5>
+            <h5 class="mb-0">
+              <i class="fas fa-calendar-check me-2"></i> My Appointments
+            </h5>
           </div>
 
           <div class="card-body">
@@ -52,60 +80,92 @@
                   </tr>
                 </thead>
 
-<tbody>
-        @for(appt of filteredAppointments; track appt.id) {
-    <tr>
-      <td>
-        <div class="d-flex align-items-center">
-          <div>{{ appt.doctorname }}</div>
-        </div>
-      </td>
-      <td>{{ appt.specialty }}</td>
-      <td>{{ appt.date }}</td>
-      <td>{{ appt.startTime }}</td>
-      <td>{{ appt.endTime }}</td>
-      <td>{{ appt.gender }}</td>
-      <td>
-        @switch (appt.status) {
-          @case ('Confirmed') {
-            <span class="badge bg-success">{{ appt.status }}</span>
-          }
-          @case ('pending') {
-            <span class="badge bg-warning">{{ appt.status }}</span>
-          }
-          @case ('Completed') {
-            <span class="badge bg-secondary">{{ appt.status }}</span>
-          }
-        }
-      </td>
-      <td>
-              <a class="action-btn view-btn" (click)="viewAppointment(appt.id)"><i class="fas fa-eye"></i></a>
-        @if (appt.status === 'pending') {
-              <a class="action-btn delete-btn" (click)="deleteAppointment(appt.id)"><i class="fas fa-times"></i></a>
-        }
-      </td>
-    </tr>
-  }
-</tbody>
-  <div class="text-center mt-4">
-              <button class="btn btn-primary" routerLink="/appointments">
-                <i class="fas fa-plus me-2"></i> Book New Appointment
-              </button>
-            </div>
+                <tbody>
+                  @for(appt of filteredAppointments; track appt.id) {
+                  <tr>
+                    <td>
+                      <div class="d-flex align-items-center">
+                        <div>{{ appt.doctorname }}</div>
+                      </div>
+                    </td>
+                    <td>{{ appt.specialty }}</td>
+                    <td>{{ appt.date }}</td>
+                    <td>{{ appt.startTime }}</td>
+                    <td>{{ appt.endTime }}</td>
+                    <td>{{ appt.gender }}</td>
+                    <td>
+                      @switch (appt.status) { @case ('Confirmed') {
+                      <span class="badge bg-success">{{ appt.status }}</span>
+                      } @case ('pending') {
+                      <span class="badge bg-warning">{{ appt.status }}</span>
+                      } @case ('Completed') {
+                      <span class="badge bg-secondary">{{ appt.status }}</span>
+                      } }
+                    </td>
+                    <td>
+                      <a
+                        class="action-btn view-btn"
+                        (click)="viewAppointment(appt.id)"
+                        ><i class="fas fa-eye"></i
+                      ></a>
+                      @if (appt.status === 'pending') {
+                      <a
+                        class="action-btn delete-btn"
+                        (click)="deleteAppointment(appt.id)"
+                        ><i class="fas fa-times"></i
+                      ></a>
+                      }
+                    </td>
+                  </tr>
+                  }
+                </tbody>
+                <div class="text-center mt-4">
+                  <button class="btn" routerLink="/doctors">
+                    <i class="fas fa-plus me-2" style="color: #51b8f2"></i> Book
+                    Appointment
+                  </button>
+                </div>
 
-@if(showPopup){
-<div class="popup-overlay" >
-  <div class="popup-box">
-    <h3 class="text-primary">Appointment Details</h3>
-    <p><strong>Doctor:</strong> {{ selectedAppointment?.doctorname }}</p>
-    <p><strong>Specialty:</strong> {{ selectedAppointment?.specialty }}</p>
-    <p><strong>Gender:</strong> {{ selectedAppointment?.gender }}</p>
-     <p><strong>Date:</strong> {{ selectedAppointment?.date }}</p>
-    <p><strong>From:</strong> {{ selectedAppointment?.startTime }}</p>
-    <p><strong>To:</strong> {{ selectedAppointment?.endTime }}</p>
-    <p><strong>Notes:</strong> {{ selectedAppointment?.notes }}</p>
-    <p><strong>Status:</strong> {{ selectedAppointment?.status }}</p>
-    <button (click)="closePopup()">Close</button>
+                @if(showPopup){
+                <div class="popup-overlay">
+                  <div class="popup-box">
+                    <h3 class="text-primary">Appointment Details</h3>
+                    <p>
+                      <strong>Doctor:</strong>
+                      {{ selectedAppointment?.doctorname }}
+                    </p>
+                    <p>
+                      <strong>Specialty:</strong>
+                      {{ selectedAppointment?.specialty }}
+                    </p>
+                    <p>
+                      <strong>Gender:</strong> {{ selectedAppointment?.gender }}
+                    </p>
+                    <p>
+                      <strong>Date:</strong> {{ selectedAppointment?.date }}
+                    </p>
+                    <p>
+                      <strong>From:</strong>
+                      {{ selectedAppointment?.startTime }}
+                    </p>
+                    <p>
+                      <strong>To:</strong> {{ selectedAppointment?.endTime }}
+                    </p>
+                    <p>
+                      <strong>Notes:</strong> {{ selectedAppointment?.notes }}
+                    </p>
+                    <p>
+                      <strong>Status:</strong> {{ selectedAppointment?.status }}
+                    </p>
+                    <button (click)="closePopup()">Close</button>
+                  </div>
+                </div>
+                }
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
-}
