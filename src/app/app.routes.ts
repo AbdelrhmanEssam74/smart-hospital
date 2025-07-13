@@ -23,7 +23,7 @@ export const routes: Routes = [
   {path: 'doctordetails/:id', component: DoctorDetailsComponent},
   {path: 'doctors', component: ListDoctorComponent},
   {
-    path: 'doctor', component: DoctorHomeComponent, children: [
+    path: 'doctor', component: DoctorHomeComponent, canActivate: [AuthGuard], children: [
       {path: 'home', component: DoctorDashboardComponent},
       {path: 'appointments', component: AppointmentsComponent},
       {path: 'add-slot', component: AddSlotComponent},
@@ -35,8 +35,8 @@ export const routes: Routes = [
   {path: 'my-appointments', component: UserAppointmentsComponent},
   {
     path: "patient_profile", component: PatientProfileComponent,
-  
-  },
+    children: [{path: 'profile_edit', component: EditProfileComponent},
+    ]  },
   // { path: 'appointments', component: AppointmentsComponent, }
   {path: "**", redirectTo: "404", pathMatch: "full"}
 ]
