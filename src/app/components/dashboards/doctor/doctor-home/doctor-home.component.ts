@@ -23,7 +23,7 @@ export class DoctorHomeComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    this.http.get<any>(this.APIUrl + 'appointments', {
+    this.http.get<any>(this.APIUrl + 'profile', {
       headers: this.auth.getAuthHeaders()
     }).subscribe(data => {
       this.Doctor = data.doctor;
