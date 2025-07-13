@@ -1,0 +1,67 @@
+<div class="dashboard-container p-0 container-fluid">
+  <div class="row g-0">
+    <!-- Sidebar -->
+    <div class="col-md-3 col-lg-2 sidebar  text-white vh-100">
+      <div class="sidebar-content p-3">
+        <!-- Doctor Profile -->
+        <div class="doctor-profile-card text-center py-3">
+          <div class="profile-image-container position-relative">
+            <img
+              [src]=" Doctor?.user?.image || 'https://img.freepik.com/premium-vector/avatar-bearded-doctor-doctor-with-stethoscope-vector-illustrationxa_276184-31.jpg'"
+              class="profile-image rounded-circle img-fluid" alt="Doctor Profile">
+            <div class="online-status position-absolute bottom-0 end-0 bg-success rounded-circle border border-white"
+                 style="width: 12px; height: 12px;"></div>
+          </div>
+          <h5 class="doctor-name mt-3 mb-0">{{ Doctor?.user?.name }}</h5>
+          <p class="doctor-specialty small">{{ Doctor?.specialty?.name }}</p>
+        </div>
+
+        <!-- Navigation Menu -->
+        <ul class="nav flex-column sidebar-menu mt-4">
+          <li class="nav-item">
+            <a class="nav-link text-white"
+               routerLink="home"
+               routerLinkActive="active-link">
+              <i class="fa-light fa-house me-2"></i>
+              Dashboard
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white"
+               routerLink="appointments"
+               routerLinkActive="active-link">
+              <i class="fa-light fa-calendar-range me-2"></i>
+              Appointments
+              <span class="badge bg-light text-primary ms-auto">12</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white"
+               routerLink="add-slot"
+               routerLinkActive="active-link">
+              <i class="fa-light fa-square-plus me-2"></i>
+              Add Slot
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white"
+               routerLink="edit-profile"
+               routerLinkActive="active-link">
+              <i class="fa-light fa-pen-to-square me-2"></i>
+              Edit Profile
+            </a>
+          </li>
+          <li class="nav-item mt-4">
+            <a class="nav-link text-warning" (click)="logout()"><i class="fas fa-sign-out-alt me-2"></i>
+              Logout</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="col-md-9 col-lg-10 p-0">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>
