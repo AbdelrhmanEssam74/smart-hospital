@@ -27,7 +27,6 @@ export class DoctorHomeComponent implements OnInit{
       headers: this.auth.getAuthHeaders()
     }).subscribe(data => {
       this.Doctor = data.doctor;
-      console.log(this.Doctor)
     }, (error) => console.error('Error:', error))
   }
   logout(){
