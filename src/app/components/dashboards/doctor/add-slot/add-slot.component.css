@@ -1,18 +1,122 @@
-.btn{
-  background-color: #E4F5FF;
-  color: #51B8F2;
-  font-size: 14px;
-  width: 200px;
-  font-weight: 600;
-  padding: 10px;
-
-
+/* Container padding */
+.container {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
 }
-.btn:hover{
-  background-color: #51B8F2;
-  color: white;
-  font-size: 14px;
+
+/* Card customization */
+.card {
+  border-radius: 1rem;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.06);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+}
+
+/* Card headers */
+.card-header {
+  border-bottom: none;
   font-weight: 600;
+  font-size: 1.25rem;
+}
 
+/* Buttons */
+.btn-outline-primary {
+  transition: all 0.2s ease-in-out;
+  border-radius: 30px;
+}
 
+.btn-outline-primary:hover {
+  background-color: var(--bs-primary);
+  color: #fff;
+}
+
+/* Slot list item */
+.list-group-item {
+  border: none;
+  border-radius: 0.5rem;
+  margin-bottom: 0.5rem;
+  background-color: #f8f9fa;
+  transition: background-color 0.2s;
+}
+
+.list-group-item:hover {
+  background-color: #e9ecef;
+}
+
+/* Responsive tweaks */
+@media (max-width: 768px) {
+  .card-header {
+    font-size: 1.1rem;
+  }
+}
+.skeleton {
+  background: linear-gradient(90deg, #e0e0e0 25%, #f0f0f0 50%, #e0e0e0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 4px;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1050;
+}
+
+.modal-content {
+  background-color: white;
+  border-radius: 0.5rem;
+  width: 100%;
+  max-width: 600px;
+  box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15);
+  animation: fadeIn 0.3s ease-out;
+}
+
+.modal-header {
+  border-radius: 0.5rem 0.5rem 0 0;
+  padding: 1rem 1.5rem;
+}
+
+.modal-body {
+  padding: 1.5rem;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.placeholder-glow .placeholder {
+  animation: placeholder-glow 1.5s infinite;
+  background-color: #e0e0e0;
+  border-radius: 6px;
+  height: 38px;
+}
+.badge {
+  padding: 5px 10px;
+  font-size: 0.75rem;
+  text-transform: capitalize;
 }
