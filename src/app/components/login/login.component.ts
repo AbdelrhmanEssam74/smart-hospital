@@ -51,7 +51,7 @@ export class LoginComponent {
 
             // check if role is doctor - Abdelrhman
             if(profile.data.role.id === 2){
-              this.router.navigate(['/doctor/appointments']);
+              this.router.navigate(['/doctor']);
             }else if(profile.data.role.id === 5){
               this.auth.saveUser(profile);
               this.router.navigate(['/home']);
