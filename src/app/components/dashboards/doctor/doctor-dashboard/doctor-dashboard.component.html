@@ -1,53 +1,173 @@
-<div class="container-fluid">
-  <div class="row">
-
-    <!-- Sidebar -->
-    <nav class="col-md-3 col-lg-2 d-md-block  sidebar text-white vh-100">
-      <div class="position-sticky p-3">
-        <img [src]="displayDoctor?.image" class="image text-center" alt="">
-        <table class="table text-center text-light table-bordered table-responsive table-striped-columns bg-primary table-hover">
-        <tr>
-          <th>Name:</th>
-          <th>{{ displayDoctor?.name }}</th>
-        </tr>
-            <tr>
-          <td>specialty:</td>
-          <td>{{displayDoctor?.specialty}}</td>
-        </tr>
-
-        <tr>
-          <td>Email:</td>
-          <td>{{displayDoctor?.email}}</td>
-        </tr>
-        <tr>
-          <td>Phone:</td>
-          <td>{{displayDoctor?.phone}}</td>
-        </tr>
-
-
-        </table>
-        <ul class="nav flex-column">
-          <li class="nav-item">
-            <a class="nav-link text-white" routerLink="/doctor/appointments" routerLinkActive="active">Upcoming Appointments</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link text-white" routerLink="/doctor/add-slot" routerLinkActive="active">Add Available Time</a>
-          </li>
-              <li class="nav-item">
-            <a class="nav-link text-white" routerLink="/doctor/patients" routerLinkActive="active"> Patient Profiles</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link text-white" routerLink="/doctor/edit-profile" routerLinkActive="active"> Edit Profile</a>
-          </li>
-
-        </ul>
+<!-- Top Navigation -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" href="#"><i class="fas fa-bell"></i>
+            <span class="badge bg-danger notification-badge">3</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#"><i class="fas fa-envelope"></i>
+            <span class="badge bg-primary notification-badge">5</span>
+          </a>
+        </li>
+      </ul>
+      <form class="d-flex">
+        <input class="form-control me-2" type="search" placeholder="Search patients...">
+        <button class="btn btn-outline-primary" type="submit">Search</button>
+      </form>
+      <div class="ms-3">
+        <span class="fw-bold">Monday, June 12, 2023</span>
       </div>
-    </nav>
-
-    <!-- Main content -->
-    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 py-4">
-      <router-outlet></router-outlet>
-    </main>
-
+    </div>
   </div>
+</nav>
+<!-- Dashboard Content -->
+<div class="container-fluid py-4">
+  <h2 class="mb-4">Dashboard Overview</h2>
+
+  <!-- Stats Cards -->
+  <div class="row mb-4">
+    <div class="col-md-3">
+      <div class="card stat-card bg-primary text-white">
+        <div class="card-body">
+          <h5 class="card-title">Today's Appointments</h5>
+          <h2 class="card-text" id="appointments-count">{{ today_appointments_count }}</h2>
+          <i class="fas fa-calendar stat-icon"></i>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card stat-card bg-success text-white">
+        <div class="card-body">
+          <h5 class="card-title">Patients Waiting</h5>
+          <h2 class="card-text" id="waiting-count">{{ upcoming_appointments_count }}</h2>
+          <i class="fas fa-user-clock stat-icon"></i>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card stat-card bg-warning text-dark">
+        <div class="card-body">
+          <h5 class="card-title">Pending Tasks</h5>
+          <h2 class="card-text" id="tasks-count">0</h2>
+          <i class="fas fa-tasks stat-icon"></i>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card stat-card bg-danger text-white">
+        <div class="card-body">
+          <h5 class="card-title">Critical Alerts</h5>
+          <h2 class="card-text" id="alerts-count">0</h2>
+          <i class="fas fa-exclamation-triangle stat-icon"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content Row -->
+  <div class="row">
+    <!-- Today's Schedule -->
+    <div class="col-lg-6 mb-4">
+      <div class="card h-100">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <h5 class="mb-0">Today's Schedule</h5>
+          <a class="btn btn-sm btn-outline-primary" routerLink="/doctor/appointments">View All</a>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-hover" id="schedule-table">
+              <thead>
+              <tr>
+                <th>Time</th>
+                <th>Patient</th>
+                <th>Reason</th>
+                <th>Status</th>
+              </tr>
+              </thead>
+              <tbody>
+                @if (today_appointments) {
+                  <tr>
+                    @for (today_appt of today_appointments; track today_appt.id) {
+                      <th>{{today_appt.start_time}}</th>
+                      <th>{{today_appt.patient.user.name}}</th>
+                      <th>{{today_appt.notes}}</th>
+                      <th>{{today_appt.status}}</th>
+                    }
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Patient Quick View -->
+    <div class="col-lg-6 mb-4">
+      <div class="card h-100">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <h5 class="mb-0">Recent Patients</h5>
+          <button class="btn btn-sm btn-outline-primary">View All</button>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-hover" id="patients-table">
+              <thead>
+              <tr>
+                <th>Patient</th>
+                <th>Medical Record Number</th>
+                <th>Date of Birth</th>
+              </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>{{recent_patient.user.name}}</td>
+                  <td>{{recent_patient.medical_record_number}}</td>
+                  <td>{{recent_patient.date_of_birth}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Second Row -->
+<!--  <div class="row">-->
+<!--    &lt;!&ndash; Clinical Alerts &ndash;&gt;-->
+<!--    <div class="col-lg-6 mb-4">-->
+<!--      <div class="card h-100">-->
+<!--        <div class="card-header bg-danger text-white">-->
+<!--          <h5 class="mb-0">Clinical Alerts</h5>-->
+<!--        </div>-->
+<!--        <div class="card-body">-->
+<!--          <div class="alert-list" id="alerts-list">-->
+<!--            &lt;!&ndash; Filled by JavaScript &ndash;&gt;-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+
+<!--    &lt;!&ndash; Practice Metrics &ndash;&gt;-->
+<!--    <div class="col-lg-6 mb-4">-->
+<!--      <div class="card h-100">-->
+<!--        <div class="card-header">-->
+<!--          <h5 class="mb-0">Practice Metrics</h5>-->
+<!--        </div>-->
+<!--        <div class="card-body">-->
+<!--          <div class="chart-container">-->
+<!--            <canvas id="metrics-chart"></canvas>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
 </div>
