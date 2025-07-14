@@ -1,91 +1,111 @@
-import { NgClass } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { Router, RouterLink, RouterLinkActive } from '@angular/router';
-import appointments from '../../../../../data/data.json';
-
+import { AppointmentService } from '../../../../services/appointment.service';
 import { AuthService } from '../../../../services/auth.service';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { PatientService } from '../../../../services/patient.service';
-
-interface Appointment {
-  id: number;
-  date: string;
-  doctorName: string;
-  reason: string;
-  status: string;
-}
+import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-patient-profile',
-imports: [
-    RouterLink,
-    RouterLinkActive, ReactiveFormsModule,
-    NgClass],  templateUrl: './patient-profile.component.html',
-  styleUrl: './patient-profile.component.css'
+  standalone: true,
+  imports: [CommonModule, RouterLink, ReactiveFormsModule],
+  templateUrl: './patient-profile.component.html',
+  styleUrls: ['./patient-profile.component.css'],
 })
-export class PatientProfileComponent {
-    appointments: any[] = [];
-
+export class PatientProfileComponent implements OnInit {
   filteredAppointments: any[] = [];
   selectedAppointment: any = null;
-  currentPatientId: number | null = null;
   showPopup: boolean = false;
-  // api
-  patientData: any; 
- currentUser: any;
+  patientData: any;
+  currentUser: any;
   isLoading = true;
+  isAppointmentsLoading = true;
   errorMessage: string = '';
 
   constructor(
     private authService: AuthService,
     private patientService: PatientService,
+    private appointmentService: AppointmentService
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.loadPatientProfile();
   }
 
- loadPatientProfile() {
+  loadPatientProfile(): void {
     this.patientService.getPatients().subscribe({
       next: (response) => {
-        console.log('API Response:', response); 
-        
-        this.currentUser = response.User ;
+        this.currentUser = response.User;
         this.patientData = this.currentUser?.patient || response.patient;
-        
         this.isLoading = false;
+        this.loadAppointments();
       },
       error: (err) => {
         console.error('API Error:', err);
         this.errorMessage = 'Failed to load patient profile';
         this.isLoading = false;
-      }
+        this.isAppointmentsLoading = false;
+      },
     });
   }
-  // 
+
+  loadAppointments(): void {
+    this.isAppointmentsLoading = true;
+
+    this.appointmentService.getAppointmentsForCurrentPatient().subscribe({
+      next: (response: any) => {
+        const appointments = response.data; 
+
+        this.filteredAppointments = appointments.map((item: any) => ({
+          id: item.appointment?.id,
+          doctorname: item.doctor?.name,
+          specialty: item.doctor?.specialization,
+          gender: item.patient?.gender,
+          phone: item.patient?.phone,
+          date: item.appointment?.appointment_date,
+          startTime: item.appointment?.start_time,
+          endTime: item.appointment?.end_time,
+          notes: item.appointment?.notes,
+          status: item.appointment?.status,
+        }));
+
+        this.isAppointmentsLoading = false;
+      },
+      error: (error) => {
+        console.error('Failed to load appointments:', error);
+        this.isAppointmentsLoading = false;
+      },
+    });
+  }
+
+  trackById(index: number, item: any): number {
+    return item.id;
+  }
+
   deleteAppointment(appointmentId: number): void {
-  const confirmDelete = confirm(`Are you sure you want to delete appointment #${appointmentId}?`);
-  if (confirmDelete) {
-    this.filteredAppointments = this.filteredAppointments.filter(appt => appt.id !== appointmentId);
-    alert(`Appointment #${appointmentId} has been deleted.`);
+    if (confirm(`Are you sure you want to delete appointment #${appointmentId}?`)) {
+      this.appointmentService.deleteAppointment(appointmentId).subscribe({
+        next: () => {
+          this.filteredAppointments = this.filteredAppointments.filter(
+            (appt) => appt.id !== appointmentId
+          );
+        },
+        error: (err) => console.error('Failed to delete appointment:', err),
+      });
+    }
+  }
+
+  viewAppointment(appointmentId: number): void {
+    const appointment = this.filteredAppointments.find((appt) => appt.id === appointmentId);
+    if (appointment) {
+      this.selectedAppointment = appointment;
+      this.showPopup = true;
+    }
+  }
+
+  closePopup(): void {
+    this.showPopup = false;
+    this.selectedAppointment = null;
   }
 }
-viewAppointment(appointmentId: number): void {
-  const appointment = this.filteredAppointments.find(appt => appt.id === appointmentId);
-  if (appointment) {
-    this.selectedAppointment = appointment;
-    this.showPopup = true;
-  }
-}
-
-closePopup(): void {
-  this.showPopup = false;
-  this.selectedAppointment = null;
-}
-
-
-
-  //  logout(): void {
-  //   this.authService.logout();
-  // }
-  }

@@ -1,44 +1,52 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';  // for backend
-import { Observable, of } from 'rxjs';
-import {Appointment} from '../interfaces/appointment';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { Appointment } from '../interfaces/appointment';
+
 @Injectable({
   providedIn: 'root'
 })
 export class AppointmentService {
-  private storageKey = 'appointments';
+  private baseUrl = 'http://localhost:8000/api';
 
-  // Inject HttpClient if you use a real backend
   constructor(private http: HttpClient) {}
-
-  // Save to localStorage
-  saveAppointmentToLocal(appointment: any): void {
-    const existing = JSON.parse(localStorage.getItem(this.storageKey) || '[]');
-    existing.push(appointment);
-    localStorage.setItem(this.storageKey, JSON.stringify(existing));
+  //  create a new appointment => Ahmed abdelhalim
+  sendAppointmentToBackend(appointment: Appointment): Observable<any> {
+    return this.http.post(`${this.baseUrl}/appointments/patient`, appointment, {
+      withCredentials: true
+    });
   }
-  getAppointmentsByUserId(userId: string): any[] {
-    const allAppointments = JSON.parse(localStorage.getItem(this.storageKey) || '[]');
-    return allAppointments.filter((a: any) => a.patient_id === userId);
+  // get all appointments for the current patient => Ahmed abdelhalim
+    getAppointmentsForCurrentPatient(): Observable<Appointment[]> {
+    return this.http.get<Appointment[]>(`${this.baseUrl}/appointments/mine`, {
+      withCredentials: true,
+    });
   }
-  getAllAppointments(): Appointment[] {
-    return JSON.parse(localStorage.getItem(this.storageKey) || '[]');
+// get patient id from backend => Ahmed abdelhalim
+  getPatientIdFromBackend(): Observable<{ patient_id: number }> {
+    return this.http.get<{ patient_id: number }>(`${this.baseUrl}/patient/id`, {
+      withCredentials: true
+    });
+  }
+  
+// get appointments by patient id => Ahmed abdelhalim
+getAppointmentsByUserId(patientId: string): Observable<any[]> {
+  return this.http.get<any[]>(`${this.baseUrl}/appointments/patient/${patientId}`, {
+    withCredentials: true
+  });
+}
+
+// delete an appointment by id => Ahmed abdelhalim
+deleteAppointment(id: number): Observable<any> {
+    return this.http.delete(`${this.baseUrl}/appointments/patient/${id}`, {
+      withCredentials: true
+    });
   }
 
-  deleteAppointment(appointment: Appointment): void {
-    const all = this.getAllAppointments().filter(a =>
-      !(a.doctor_id === appointment.doctor_id &&
-        a.date === appointment.date &&
-        a.time === appointment.time &&
-        a.patient_id === appointment.patient_id)
-    );
-    localStorage.setItem(this.storageKey, JSON.stringify(all));
-  }
-
-
-  sendAppointmentToBackend(appointment: any): Observable<any> {
-    //  API endpoint
-    const url = 'https://your-backend-api.com/appointments';
-    return this.http.post(url, appointment);
+  // update an appointment by id => Ahmed abdelhalim
+  updateAppointment(id: number, updatedData: Partial<Appointment>): Observable<any> {
+    return this.http.put(`${this.baseUrl}/appointments/patient/${id}`, updatedData, {
+      withCredentials: true
+    });
   }
 }
