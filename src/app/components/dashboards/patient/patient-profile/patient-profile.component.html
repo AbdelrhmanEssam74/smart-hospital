@@ -1,171 +1,189 @@
 <div class="patient-profile-page py-5 bg-light">
   <div class="container">
-    <div class="row">
-      <div class="w-25 mb-4">
-        <div class="col-md-6">
-          <div><h2>Profile</h2></div>
-        </div>
-        <div class="card shadow-sm border-1">
-          <h5 class="ps-3 pt-3">General Information</h5>
-
-          <div class="p-4">
-            <div class="text-center"></div>
+    <div class="row g-4">
+      <!-- Sidebar: Patient Info -->
+      <aside class="col-lg-4">
+        <div class="card shadow profile-sidebar border-0">
+          <div class="card-body text-center">
             <img
               [src]="currentUser?.image"
               alt="patient"
-              class="profile-img"
-              class="rounded-circle w-75 m-auto"
+              class="profile-img rounded-circle mb-3"
+              style="
+                width: 120px;
+                height: 120px;
+                object-fit: cover;
+                border: 4px solid #e3f2fd;
+              "
             />
-            <div class="profile-name mb-1"></div>
-
-            <div class="profile-details my-5">
-              <p><strong>Name</strong>: {{ currentUser?.name }}</p>
-              <hr />
-              <p><strong>Email</strong>: {{ currentUser?.email }}</p>
-              <hr />
+            <h4 class="mb-1">{{ currentUser?.name }}</h4>
+            <p class="text-muted mb-3">{{ currentUser?.email }}</p>
+            <hr />
+            <div class="text-start px-2">
               <p>
                 <strong>Phone:</strong>
-                {{ patientData.phone || currentUser?.phone }}
+                {{ patientData?.phone || currentUser?.phone }}
               </p>
-              <hr />
-              <p><strong>Gender:</strong> {{ patientData.gender }}</p>
-              <hr />
+              <p><strong>Gender:</strong> {{ patientData?.gender }}</p>
               <p>
-                <strong>Date of Birth:</strong>
-                {{ patientData.date_of_birth }}
+                <strong>Date of Birth:</strong> {{ patientData?.date_of_birth }}
               </p>
-              <hr />
-              <p><strong>Address:</strong> {{ patientData.address }}</p>
-              <hr />
+              <p><strong>Address:</strong> {{ patientData?.address }}</p>
               <p>
                 <strong>Medical Record:</strong>
-                {{ patientData.medical_record_number }}
+                {{ patientData?.medical_record_number }}
               </p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="w-75 align-self-center">
-        <div class="row">
-          <div class="my-3">
-            <div class="d-flex">
-              <div class="buttons">
-                <label for="formFile" class="btn">upload files</label>
-                <input class="form-control d-none" type="file" id="formFile" />
-                <button class="btn mx-2" routerLink="/profile_edit">Edit</button>
+              <div
+                class="d-flex justify-content-between align-items-center mb-3"
+              >
+                <div>
+                  <label for="formFile" class="btn btn-outline-primary me-2"
+                    >Upload Files</label
+                  >
+                  <input
+                    class="form-control d-none"
+                    type="file"
+                    id="formFile"
+                  />
+                  <button class="btn btn-primary" routerLink="/profile_edit">
+                    Edit
+                  </button>
+                </div>
               </div>
             </div>
           </div>
         </div>
-        <div class="card shadow-sm">
-          <div class="card-header bg-white border-bottom">
+      </aside>
+
+      <!-- Main Content: Appointments -->
+      <main class="col-lg-8">
+        <div class="card shadow-sm border-0">
+          <div class="card-header bg-white border-bottom-0">
             <h5 class="mb-0">
               <i class="fas fa-calendar-check me-2"></i> My Appointments
             </h5>
           </div>
-
           <div class="card-body">
             <div class="table-responsive">
-              <table class="table table-hover">
+              <!-- Spinner أثناء التحميل -->
+              <div *ngIf="isAppointmentsLoading" class="text-center py-4">
+                <div class="spinner-border text-primary" role="status">
+                  <span class="visually-hidden">Loading...</span>
+                </div>
+              </div>
+
+              <div
+                *ngIf="
+                  !isAppointmentsLoading && filteredAppointments.length === 0
+                "
+                class="alert alert-warning"
+              >
+                No appointments found.
+              </div>
+
+              <table
+                *ngIf="
+                  !isAppointmentsLoading && filteredAppointments.length > 0
+                "
+                class="table table-hover align-middle"
+              >
                 <thead class="table-light">
                   <tr>
                     <th>Doctor</th>
                     <th>Specialty</th>
                     <th>Date</th>
-                    <th>StateTime</th>
-                    <th>EndTime</th>
+                    <th>Start Time</th>
+                    <th>End Time</th>
                     <th>Gender</th>
                     <th>Status</th>
                     <th>Action</th>
                   </tr>
                 </thead>
-
                 <tbody>
-                  @for(appt of filteredAppointments; track appt.id) {
-                  <tr>
-                    <td>
-                      <div class="d-flex align-items-center">
-                        <div>{{ appt.doctorname }}</div>
-                      </div>
-                    </td>
+                  <tr
+                    *ngFor="
+                      let appt of filteredAppointments;
+                      trackBy: trackById
+                    "
+                  >
+                    <td>{{ appt.doctorname }}</td>
                     <td>{{ appt.specialty }}</td>
                     <td>{{ appt.date }}</td>
                     <td>{{ appt.startTime }}</td>
                     <td>{{ appt.endTime }}</td>
                     <td>{{ appt.gender }}</td>
-                    <td>
-                      @switch (appt.status) { @case ('Confirmed') {
-                      <span class="badge bg-success">{{ appt.status }}</span>
-                      } @case ('pending') {
-                      <span class="badge bg-warning">{{ appt.status }}</span>
-                      } @case ('Completed') {
-                      <span class="badge bg-secondary">{{ appt.status }}</span>
-                      } }
+                    <td class="pe-4">
+                      <span
+                        class="badge rounded-pill"
+                        [ngClass]="{
+                          'bg-success': appt.status === 'confirmed',
+                          'bg-warning text-dark': appt.status === 'pending',
+                          'bg-danger': appt.status === 'cancelled',
+                          'bg-secondary': appt.status === 'completed'
+                        }"
+                      >
+                        {{ appt.status | titlecase }}
+                      </span>
                     </td>
                     <td>
                       <a
                         class="action-btn view-btn"
                         (click)="viewAppointment(appt.id)"
-                        ><i class="fas fa-eye"></i
-                      ></a>
-                      @if (appt.status === 'pending') {
+                        title="View"
+                      >
+                        <i class="fas fa-eye"></i>
+                      </a>
                       <a
+                        *ngIf="appt.status === 'pending'"
                         class="action-btn delete-btn"
                         (click)="deleteAppointment(appt.id)"
-                        ><i class="fas fa-times"></i
-                      ></a>
-                      }
+                        title="Delete"
+                      >
+                        <i class="fas fa-times"></i>
+                      </a>
                     </td>
                   </tr>
-                  }
                 </tbody>
-                <div class="text-center mt-4">
-                  <button class="btn" routerLink="/doctors">
-                    <i class="fas fa-plus me-2" style="color: #51b8f2"></i> Book
-                    Appointment
-                  </button>
-                </div>
-
-                @if(showPopup){
-                <div class="popup-overlay">
-                  <div class="popup-box">
-                    <h3 class="text-primary">Appointment Details</h3>
-                    <p>
-                      <strong>Doctor:</strong>
-                      {{ selectedAppointment?.doctorname }}
-                    </p>
-                    <p>
-                      <strong>Specialty:</strong>
-                      {{ selectedAppointment?.specialty }}
-                    </p>
-                    <p>
-                      <strong>Gender:</strong> {{ selectedAppointment?.gender }}
-                    </p>
-                    <p>
-                      <strong>Date:</strong> {{ selectedAppointment?.date }}
-                    </p>
-                    <p>
-                      <strong>From:</strong>
-                      {{ selectedAppointment?.startTime }}
-                    </p>
-                    <p>
-                      <strong>To:</strong> {{ selectedAppointment?.endTime }}
-                    </p>
-                    <p>
-                      <strong>Notes:</strong> {{ selectedAppointment?.notes }}
-                    </p>
-                    <p>
-                      <strong>Status:</strong> {{ selectedAppointment?.status }}
-                    </p>
-                    <button (click)="closePopup()">Close</button>
-                  </div>
-                </div>
-                }
               </table>
+
+              <div class="text-center mt-4">
+                <button class="btn btn-outline-primary" routerLink="/doctors">
+                  <i class="fas fa-plus me-2"></i> Book Appointment
+                </button>
+              </div>
+            </div>
+
+            <!-- Appointment Popup -->
+            <div *ngIf="showPopup" class="popup-overlay">
+              <div class="popup-box">
+                <h3 class="text-primary mb-3">Appointment Details</h3>
+                <p>
+                  <strong>Doctor:</strong> {{ selectedAppointment?.doctorname }}
+                </p>
+                <p>
+                  <strong>Specialty:</strong>
+                  {{ selectedAppointment?.specialty }}
+                </p>
+                <p>
+                  <strong>Gender:</strong> {{ selectedAppointment?.gender }}
+                </p>
+                <p><strong>Date:</strong> {{ selectedAppointment?.date }}</p>
+                <p>
+                  <strong>From:</strong> {{ selectedAppointment?.startTime }}
+                </p>
+                <p><strong>To:</strong> {{ selectedAppointment?.endTime }}</p>
+                <p><strong>Notes:</strong> {{ selectedAppointment?.notes }}</p>
+                <p>
+                  <strong>Status:</strong> {{ selectedAppointment?.status }}
+                </p>
+                <button class="btn btn-secondary mt-2" (click)="closePopup()">
+                  Close
+                </button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </main>
     </div>
   </div>
 </div>
