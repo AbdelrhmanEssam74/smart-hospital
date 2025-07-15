@@ -5,6 +5,7 @@ import { PatientService } from '../../../../services/patient.service';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
+import { PaymentService } from '../../../../services/payment.service';
 
 @Component({
   selector: 'app-patient-profile',
@@ -26,7 +27,8 @@ export class PatientProfileComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private patientService: PatientService,
-    private appointmentService: AppointmentService
+    private appointmentService: AppointmentService,
+    private paymentService: PaymentService
   ) {}
 
   ngOnInit(): void {
@@ -35,13 +37,13 @@ export class PatientProfileComponent implements OnInit {
 
   loadPatientProfile(): void {
     this.patientService.getPatients().subscribe({
-      next: (response) => {
+      next: (response: any) => {
         this.currentUser = response.User;
         this.patientData = this.currentUser?.patient || response.patient;
         this.isLoading = false;
         this.loadAppointments();
       },
-      error: (err) => {
+      error: (err: any) => {
         console.error('API Error:', err);
         this.errorMessage = 'Failed to load patient profile';
         this.isLoading = false;
@@ -52,11 +54,9 @@ export class PatientProfileComponent implements OnInit {
 
   loadAppointments(): void {
     this.isAppointmentsLoading = true;
-
     this.appointmentService.getAppointmentsForCurrentPatient().subscribe({
       next: (response: any) => {
-        const appointments = response.data; 
-
+        const appointments = response.data;
         this.filteredAppointments = appointments.map((item: any) => ({
           id: item.appointment?.id,
           doctorname: item.doctor?.name,
@@ -72,12 +72,27 @@ export class PatientProfileComponent implements OnInit {
           payment_method: item.appointment?.payment_method,
           payment_status: item.appointment?.payment_status,
         }));
-
         this.isAppointmentsLoading = false;
       },
-      error: (error) => {
+      error: (error: any) => {
         console.error('Failed to load appointments:', error);
         this.isAppointmentsLoading = false;
+      },
+    });
+  }
+
+  payWithPayPal(appointmentId: number): void {
+    this.paymentService.payWithPayPal(appointmentId).subscribe({
+      next: (res: any) => {
+        if (res.status === 'success' && res.url) {
+          window.open(res.url, '_blank');
+        } else {
+          alert(res.message || 'Failed to initiate PayPal transaction.');
+        }
+      },
+      error: (err: any) => {
+        console.error('PayPal Error:', err);
+        alert('Error occurred during PayPal payment.');
       },
     });
   }
@@ -94,7 +109,7 @@ export class PatientProfileComponent implements OnInit {
             (appt) => appt.id !== appointmentId
           );
         },
-        error: (err) => console.error('Failed to delete appointment:', err),
+        error: (err: any) => console.error('Failed to delete appointment:', err),
       });
     }
   }

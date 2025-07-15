@@ -10,45 +10,22 @@
               [src]="currentUser?.image"
               alt="patient"
               class="profile-img rounded-circle mb-3"
-              style="
-                width: 120px;
-                height: 120px;
-                object-fit: cover;
-                border: 4px solid #e3f2fd;
-              "
+              style="width: 120px; height: 120px; object-fit: cover; border: 4px solid #e3f2fd;"
             />
             <h4 class="mb-1">{{ currentUser?.name }}</h4>
             <p class="text-muted mb-3">{{ currentUser?.email }}</p>
             <hr />
             <div class="text-start px-2">
-              <p>
-                <strong>Phone:</strong>
-                {{ patientData?.phone || currentUser?.phone }}
-              </p>
+              <p><strong>Phone:</strong> {{ patientData?.phone || currentUser?.phone }}</p>
               <p><strong>Gender:</strong> {{ patientData?.gender }}</p>
-              <p>
-                <strong>Date of Birth:</strong> {{ patientData?.date_of_birth }}
-              </p>
+              <p><strong>Date of Birth:</strong> {{ patientData?.date_of_birth }}</p>
               <p><strong>Address:</strong> {{ patientData?.address }}</p>
-              <p>
-                <strong>Medical Record:</strong>
-                {{ patientData?.medical_record_number }}
-              </p>
-              <div
-                class="d-flex justify-content-between align-items-center mb-3"
-              >
+              <p><strong>Medical Record:</strong> {{ patientData?.medical_record_number }}</p>
+              <div class="d-flex justify-content-between align-items-center mb-3">
                 <div>
-                  <label for="formFile" class="btn btn-outline-primary me-2"
-                    >Upload Files</label
-                  >
-                  <input
-                    class="form-control d-none"
-                    type="file"
-                    id="formFile"
-                  />
-                  <button class="btn btn-primary" routerLink="/profile_edit">
-                    Edit
-                  </button>
+                  <label for="formFile" class="btn btn-outline-primary me-2">Upload Files</label>
+                  <input class="form-control d-none" type="file" id="formFile" />
+                  <button class="btn btn-primary" routerLink="/profile_edit">Edit</button>
                 </div>
               </div>
             </div>
@@ -72,21 +49,11 @@
                 </div>
               </div>
 
-              <div
-                *ngIf="
-                  !isAppointmentsLoading && filteredAppointments.length === 0
-                "
-                class="alert alert-warning"
-              >
+              <div *ngIf="!isAppointmentsLoading && filteredAppointments.length === 0" class="alert alert-warning">
                 No appointments found.
               </div>
 
-              <table
-                *ngIf="
-                  !isAppointmentsLoading && filteredAppointments.length > 0
-                "
-                class="table table-hover align-middle"
-              >
+              <table *ngIf="!isAppointmentsLoading && filteredAppointments.length > 0" class="table table-hover align-middle">
                 <thead class="table-light">
                   <tr>
                     <th>Doctor</th>
@@ -103,12 +70,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr
-                    *ngFor="
-                      let appt of filteredAppointments;
-                      trackBy: trackById
-                    "
-                  >
+                  <tr *ngFor="let appt of filteredAppointments; trackBy: trackById">
                     <td>{{ appt.doctorname }}</td>
                     <td>{{ appt.specialty }}</td>
                     <td>{{ appt.date }}</td>
@@ -132,19 +94,27 @@
                     </td>
 
                     <td>
-                      <button
-                        class=" btn-sm btn-light border shadow-sm w-75 d-flex align-items-center justify-content-center "
-                      >
-                        <img
-                          src="https://www.paypalobjects.com/webstatic/icon/pp258.png"
-                          width="24"
-                          height="24"
-                          alt="PayPal"
-                        />
-                        <span class="fw-bold text-primary"
-                          >Pay with PayPal</span
+                      <ng-container *ngIf="appt.status === 'confirmed'; else noButton">
+                        <button
+                          class="btn-sm btn-light border shadow-sm w-100 d-flex align-items-center justify-content-center"
+                          (click)="payWithPayPal(appt.id)"
+                          [disabled]="appt.payment_status === 'paid'"
                         >
-                      </button>
+                          <img
+                            src="https://www.paypalobjects.com/webstatic/icon/pp258.png"
+                            width="24"
+                            height="24"
+                            alt="PayPal"
+                            class="me-2"
+                          />
+                          <span class="fw-bold text-primary">
+                            {{ appt.payment_status === 'paid' ? 'Paid' : 'Pay with PayPal' }}
+                          </span>
+                        </button>
+                      </ng-container>
+                      <ng-template #noButton>
+                        <span class="text-muted small text-center">-</span>
+                      </ng-template>
                     </td>
 
                     <td>
@@ -161,11 +131,7 @@
                     </td>
 
                     <td>
-                      <a
-                        class="action-btn view-btn"
-                        (click)="viewAppointment(appt.id)"
-                        title="View"
-                      >
+                      <a class="action-btn view-btn" (click)="viewAppointment(appt.id)" title="View">
                         <i class="fas fa-eye"></i>
                       </a>
                       <a
@@ -192,48 +158,29 @@
             <div *ngIf="showPopup" class="popup-overlay">
               <div class="popup-box">
                 <h3 class="text-primary mb-3">Appointment Details</h3>
-                <p>
-                  <strong>Doctor:</strong> {{ selectedAppointment?.doctorname }}
-                </p>
-                <p>
-                  <strong>Specialty:</strong>
-                  {{ selectedAppointment?.specialty }}
-                </p>
-                <p>
-                  <strong>Gender:</strong> {{ selectedAppointment?.gender }}
-                </p>
+                <p><strong>Doctor:</strong> {{ selectedAppointment?.doctorname }}</p>
+                <p><strong>Specialty:</strong> {{ selectedAppointment?.specialty }}</p>
+                <p><strong>Gender:</strong> {{ selectedAppointment?.gender }}</p>
                 <p><strong>Date:</strong> {{ selectedAppointment?.date }}</p>
-                <p>
-                  <strong>From:</strong> {{ selectedAppointment?.startTime }}
-                </p>
+                <p><strong>From:</strong> {{ selectedAppointment?.startTime }}</p>
                 <p><strong>To:</strong> {{ selectedAppointment?.endTime }}</p>
                 <p><strong>Notes:</strong> {{ selectedAppointment?.notes }}</p>
-                <p>
-                  <strong>Status:</strong> {{ selectedAppointment?.status }}
-                </p>
-                <p>
-                  <strong>Payment Method:</strong>
-                  {{ selectedAppointment?.payment_method || "N/A" }}
-                </p>
+                <p><strong>Status:</strong> {{ selectedAppointment?.status }}</p>
+                <p><strong>Payment Method:</strong> {{ selectedAppointment?.payment_method || 'N/A' }}</p>
                 <p>
                   <strong>Payment Status:</strong>
                   <span
                     class="badge rounded-pill"
                     [ngClass]="{
-                      'bg-success':
-                        selectedAppointment?.payment_status === 'paid',
-                      'bg-danger':
-                        selectedAppointment?.payment_status === 'unpaid',
-                      'bg-secondary':
-                        selectedAppointment?.payment_status === 'refunded'
+                      'bg-success': selectedAppointment?.payment_status === 'paid',
+                      'bg-danger': selectedAppointment?.payment_status === 'unpaid',
+                      'bg-secondary': selectedAppointment?.payment_status === 'refunded'
                     }"
                   >
                     {{ selectedAppointment?.payment_status | titlecase }}
                   </span>
                 </p>
-                <button class="btn btn-secondary mt-2" (click)="closePopup()">
-                  Close
-                </button>
+                <button class="btn btn-secondary mt-2" (click)="closePopup()">Close</button>
               </div>
             </div>
           </div>
