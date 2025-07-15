@@ -8,4 +8,5 @@ export interface Appointment {
   status: 'pending' | 'confirmed' | 'cancelled';
   notes?: string;
   message?: string;
+  appointment_fee?: number;
 }

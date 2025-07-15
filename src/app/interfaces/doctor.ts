@@ -29,6 +29,7 @@ export interface Doctor {
   updated_at: string;
   user?: User;
   specialty?: Specialty;
+  appointment_fee?: number;
 }
 
 export interface DoctorDisplay {
@@ -39,6 +40,8 @@ export interface DoctorDisplay {
   email: string;
   phone: string;
   image: string;
+ appointment_fee?: number;
+
   profile_description: string;
   specialty: {
     id: number;

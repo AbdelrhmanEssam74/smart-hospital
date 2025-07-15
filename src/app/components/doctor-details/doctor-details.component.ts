@@ -33,6 +33,7 @@ export class DoctorDetailsComponent implements OnInit {
     start_time: '',
     end_time: '',
     status: 'pending',
+    appointment_fee: this.doctor?.appointment_fee || 0,
     notes: '',
   };
 
@@ -140,6 +141,7 @@ export class DoctorDetailsComponent implements OnInit {
           start_time: this.formatTime(this.selectedSlot?.start_time),
           end_time: this.formatTime(this.selectedSlot?.end_time),
           status: 'pending',
+          appointment_fee: this.doctor?.appointment_fee || 0,
           notes: this.appointment.notes,
         };
 

@@ -1,10 +1,11 @@
+<!-- patient-profile.component.html -->
 <div class="patient-profile-page py-5 bg-light">
-  <div class="container">
-    <div class="row g-4">
-      <!-- Sidebar: Patient Info -->
-      <aside class="col-lg-4">
+  <div class="container-fluid my-5">
+    <div class="row g-4 mx-2">
+      <!-- Sidebar -->
+      <aside class="col-lg-3">
         <div class="card shadow profile-sidebar border-0">
-          <div class="card-body text-center">
+          <div class="card-body text-center mb-5">
             <img
               [src]="currentUser?.image"
               alt="patient"
@@ -55,8 +56,8 @@
         </div>
       </aside>
 
-      <!-- Main Content: Appointments -->
-      <main class="col-lg-8">
+      <!-- Main Content -->
+      <main class="col-lg-9">
         <div class="card shadow-sm border-0">
           <div class="card-header bg-white border-bottom-0">
             <h5 class="mb-0">
@@ -65,7 +66,6 @@
           </div>
           <div class="card-body">
             <div class="table-responsive">
-              <!-- Spinner أثناء التحميل -->
               <div *ngIf="isAppointmentsLoading" class="text-center py-4">
                 <div class="spinner-border text-primary" role="status">
                   <span class="visually-hidden">Loading...</span>
@@ -95,7 +95,10 @@
                     <th>Start Time</th>
                     <th>End Time</th>
                     <th>Gender</th>
+                    <th>Fee</th>
                     <th>Status</th>
+                    <th>Payment Method</th>
+                    <th>Payment Status</th>
                     <th>Action</th>
                   </tr>
                 </thead>
@@ -112,6 +115,8 @@
                     <td>{{ appt.startTime }}</td>
                     <td>{{ appt.endTime }}</td>
                     <td>{{ appt.gender }}</td>
+                    <td>{{ appt.appointment_fee }} EGP</td>
+
                     <td class="pe-4">
                       <span
                         class="badge rounded-pill"
@@ -125,6 +130,36 @@
                         {{ appt.status | titlecase }}
                       </span>
                     </td>
+
+                    <td>
+                      <button
+                        class=" btn-sm btn-light border shadow-sm w-75 d-flex align-items-center justify-content-center "
+                      >
+                        <img
+                          src="https://www.paypalobjects.com/webstatic/icon/pp258.png"
+                          width="24"
+                          height="24"
+                          alt="PayPal"
+                        />
+                        <span class="fw-bold text-primary"
+                          >Pay with PayPal</span
+                        >
+                      </button>
+                    </td>
+
+                    <td>
+                      <span
+                        class="badge rounded-pill"
+                        [ngClass]="{
+                          'bg-success': appt.payment_status === 'paid',
+                          'bg-danger': appt.payment_status === 'unpaid',
+                          'bg-secondary': appt.payment_status === 'refunded'
+                        }"
+                      >
+                        {{ appt.payment_status | titlecase }}
+                      </span>
+                    </td>
+
                     <td>
                       <a
                         class="action-btn view-btn"
@@ -175,6 +210,26 @@
                 <p><strong>Notes:</strong> {{ selectedAppointment?.notes }}</p>
                 <p>
                   <strong>Status:</strong> {{ selectedAppointment?.status }}
+                </p>
+                <p>
+                  <strong>Payment Method:</strong>
+                  {{ selectedAppointment?.payment_method || "N/A" }}
+                </p>
+                <p>
+                  <strong>Payment Status:</strong>
+                  <span
+                    class="badge rounded-pill"
+                    [ngClass]="{
+                      'bg-success':
+                        selectedAppointment?.payment_status === 'paid',
+                      'bg-danger':
+                        selectedAppointment?.payment_status === 'unpaid',
+                      'bg-secondary':
+                        selectedAppointment?.payment_status === 'refunded'
+                    }"
+                  >
+                    {{ selectedAppointment?.payment_status | titlecase }}
+                  </span>
                 </p>
                 <button class="btn btn-secondary mt-2" (click)="closePopup()">
                   Close
