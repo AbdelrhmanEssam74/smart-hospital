@@ -1,1 +1,107 @@
-<p>profile-edit works!</p>
+<!-- edit-profile.component.html -->
+<div class="edit-profile-container">
+  <div class="card shadow">
+    <div class="card-header bg-primary text-white">
+      <h2 class="card-title mb-0">
+        <i class="fas fa-user-edit me-2"></i>Edit Profile
+      </h2>
+    </div>
+    <div class="card-body">
+      <form #profileForm="ngForm" (ngSubmit)="saveProfile()">
+        <div class="row">
+          <!-- Profile Picture Column -->
+          <div class="col-md-4 text-center">
+            <div class="profile-picture-container mb-4">
+              <img [src]="profileImage || 'assets/images/default-doctor.png'"
+                   class="profile-picture"
+                   alt="Profile Picture">
+              <div class="upload-overlay" (click)="fileInput.click()">
+                <i class="fas fa-camera"></i>
+                <span>Change Photo</span>
+              </div>
+              <input #fileInput type="file" class="d-none"
+                     accept="image/*"
+                     (change)="handleFileInput($event)">
+            </div>
+            <div class="text-muted small">
+              Recommended size: 300x300 px<br>
+              Max file size: 2MB
+            </div>
+          </div>
+
+          <!-- Form Fields Column -->
+          <div class="col-md-8">
+            <!-- Personal Information Section -->
+            <div class="mb-4">
+              <h5 class="section-title">
+                <i class="fas fa-id-card me-2"></i>Personal Information
+              </h5>
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label for="name" class="form-label">Name</label>
+                  <input type="text" class="form-control" id="name"
+                         [(ngModel)]="profileDoctor.user.name" name="name" required>
+                </div>
+                <div class="col-md-6">
+                  <label for="email" class="form-label">Email</label>
+                  <input type="email" class="form-control" id="email"
+                         [(ngModel)]="profileDoctor.user.email" name="email" required email>
+                </div>
+                <div class="col-md-6">
+                  <label for="phone" class="form-label">Phone Number</label>
+                  <input type="tel" class="form-control" id="phone"
+                         [(ngModel)]="profileDoctor.user.phone" name="phone" required>
+                </div>
+              </div>
+            </div>
+
+            <!-- Professional Information Section -->
+            <div class="mb-4">
+              <h5 class="section-title">
+                <i class="fas fa-briefcase-medical me-2"></i>Professional Information
+              </h5>
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label for="specialty" class="form-label">Specialty</label>
+                    <input type="text" class="form-control" id="specialty" readonly [value]="profileDoctor.specialty.name"/>
+
+                </div>
+<!--                <div class="col-md-6">-->
+<!--                  <label for="license" class="form-label">License Number</label>-->
+<!--                  <input type="text" class="form-control" id="license"-->
+<!--                         [(ngModel)]="doctor.licenseNumber" name="licenseNumber" required>-->
+<!--                </div>-->
+<!--                <div class="col-12">-->
+<!--                  <label for="qualifications" class="form-label">Qualifications</label>-->
+<!--                  <textarea class="form-control" id="qualifications" rows="2"-->
+<!--                            [(ngModel)]="doctor.qualifications" name="qualifications"></textarea>-->
+<!--                </div>-->
+                <div class="col-12">
+                  <label for="bio" class="form-label">Professional Bio</label>
+                  <textarea class="form-control" id="bio" rows="3"
+                            [(ngModel)]="profileDoctor  .user.profile_description" name="bio"></textarea>
+                  <div class="form-text">This will be displayed on your public profile</div>
+                </div>
+              </div>
+            </div>
+            <!-- Form Actions -->
+            <div class="d-flex justify-content-between border-top pt-3">
+              <button type="button" class="btn btn-outline-secondary" (click)="cancel()">
+                <i class="fas fa-times me-2"></i>Cancel
+              </button>
+              <button type="submit" class="btn btn-primary" [disabled]="!profileForm.valid || isSaving">
+                <span *ngIf="!isSaving">
+                  <i class="fas fa-save me-2"></i>Save Changes
+                </span>
+                <span *ngIf="isSaving">
+                  <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                  Saving...
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
