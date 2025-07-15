@@ -61,6 +61,7 @@ export class PatientProfileComponent implements OnInit {
           id: item.appointment?.id,
           doctorname: item.doctor?.name,
           specialty: item.doctor?.specialization,
+          appointment_fee: item.doctor?.appointment_fee,
           gender: item.patient?.gender,
           phone: item.patient?.phone,
           date: item.appointment?.appointment_date,
@@ -68,6 +69,8 @@ export class PatientProfileComponent implements OnInit {
           endTime: item.appointment?.end_time,
           notes: item.appointment?.notes,
           status: item.appointment?.status,
+          payment_method: item.appointment?.payment_method,
+          payment_status: item.appointment?.payment_status,
         }));
 
         this.isAppointmentsLoading = false;
