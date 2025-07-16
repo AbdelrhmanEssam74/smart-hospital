@@ -10,22 +10,35 @@
               [src]="currentUser?.image"
               alt="patient"
               class="profile-img rounded-circle mb-3"
-              style="width: 120px; height: 120px; object-fit: cover; border: 4px solid #e3f2fd;"
+              style="
+                width: 120px;
+                height: 120px;
+                object-fit: cover;
+                border: 4px solid #e3f2fd;
+              "
             />
             <h4 class="mb-1">{{ currentUser?.name }}</h4>
             <p class="text-muted mb-3">{{ currentUser?.email }}</p>
             <hr />
             <div class="text-start px-2">
-              <p><strong>Phone:</strong> {{ patientData?.phone || currentUser?.phone }}</p>
+              <p>
+                <strong>Phone:</strong>
+                {{ patientData?.phone || currentUser?.phone }}
+              </p>
               <p><strong>Gender:</strong> {{ patientData?.gender }}</p>
-              <p><strong>Date of Birth:</strong> {{ patientData?.date_of_birth }}</p>
+              <p>
+                <strong>Date of Birth:</strong> {{ patientData?.date_of_birth }}
+              </p>
               <p><strong>Address:</strong> {{ patientData?.address }}</p>
-              <p><strong>Medical Record:</strong> {{ patientData?.medical_record_number }}</p>
-              <div class="d-flex justify-content-between align-items-center mb-3">
+              <p>
+                <strong>Medical Record:</strong>
+                {{ patientData?.medical_record_number }}
+              </p>
+              <div class="d-flex justify-content-center align-items-center">
                 <div>
-                  <label for="formFile" class="btn btn-outline-primary me-2">Upload Files</label>
-                  <input class="form-control d-none" type="file" id="formFile" />
-                  <button class="btn btn-primary" routerLink="/profile_edit">Edit</button>
+                  <button class="btn btn-primary" routerLink="/profile_edit">
+                    Edit
+                  </button>
                 </div>
               </div>
             </div>
@@ -49,11 +62,21 @@
                 </div>
               </div>
 
-              <div *ngIf="!isAppointmentsLoading && filteredAppointments.length === 0" class="alert alert-warning">
+              <div
+                *ngIf="
+                  !isAppointmentsLoading && filteredAppointments.length === 0
+                "
+                class="alert alert-warning"
+              >
                 No appointments found.
               </div>
 
-              <table *ngIf="!isAppointmentsLoading && filteredAppointments.length > 0" class="table table-hover align-middle">
+              <table
+                *ngIf="
+                  !isAppointmentsLoading && filteredAppointments.length > 0
+                "
+                class="table table-hover align-middle"
+              >
                 <thead class="table-light">
                   <tr>
                     <th>Doctor</th>
@@ -70,7 +93,12 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let appt of filteredAppointments; trackBy: trackById">
+                  <tr
+                    *ngFor="
+                      let appt of filteredAppointments;
+                      trackBy: trackById
+                    "
+                  >
                     <td>{{ appt.doctorname }}</td>
                     <td>{{ appt.specialty }}</td>
                     <td>{{ appt.date }}</td>
@@ -94,7 +122,9 @@
                     </td>
 
                     <td>
-                      <ng-container *ngIf="appt.status === 'confirmed'; else noButton">
+                      <ng-container
+                        *ngIf="appt.status === 'confirmed'; else noButton"
+                      >
                         <button
                           class="btn-sm btn-light border shadow-sm w-100 d-flex align-items-center justify-content-center"
                           (click)="payWithPayPal(appt.id)"
@@ -108,12 +138,18 @@
                             class="me-2"
                           />
                           <span class="fw-bold text-primary">
-                            {{ appt.payment_status === 'paid' ? 'Paid' : 'Pay with PayPal' }}
+                            {{
+                              appt.payment_status === "paid"
+                                ? "Paid"
+                                : "Pay with PayPal"
+                            }}
                           </span>
                         </button>
                       </ng-container>
                       <ng-template #noButton>
-                        <span class="badge text-muted fw-bold text-center">-</span>
+                        <span class="badge text-muted fw-bold text-center"
+                          >-</span
+                        >
                       </ng-template>
                     </td>
 
@@ -131,7 +167,11 @@
                     </td>
 
                     <td>
-                      <a class="action-btn view-btn" (click)="viewAppointment(appt.id)" title="View">
+                      <a
+                        class="action-btn view-btn"
+                        (click)="viewAppointment(appt.id)"
+                        title="View"
+                      >
                         <i class="fas fa-eye"></i>
                       </a>
                       <a
@@ -154,33 +194,200 @@
               </div>
             </div>
 
+            <!-- Medical Reports Section -->
+            <div class="card shadow-sm border-0 mt-4">
+              <div class="card-header bg-white border-bottom-0">
+                <h5 class="mb-0">
+                  <i class="fas fa-file-medical me-2"></i> Medical Reports
+                </h5>
+              </div>
+              <div class="card-body">
+                <button
+                  class="btn btn-primary mb-3"
+                  (click)="showReportModal = true"
+                >
+                  <i class="fas fa-plus me-2"></i> Add New Report
+                </button>
+
+                <div *ngIf="isReportsLoading" class="text-center py-4">
+                  <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                  </div>
+                </div>
+
+                <div
+                  *ngIf="!isReportsLoading && medicalReports.length === 0"
+                  class="alert alert-info"
+                >
+                  No medical reports found.
+                </div>
+
+                <div
+                  *ngIf="!isReportsLoading && medicalReports.length > 0"
+                  class="table-responsive"
+                >
+                  <table class="table table-hover align-middle">
+                    <thead class="table-light">
+                      <tr>
+                        <th>Title</th>
+                        <th>Date</th>
+                        <th>Description</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let report of medicalReports">
+                        <td>{{ report.title }}</td>
+                        <td>{{ report.report_date | date }}</td>
+                        <td>{{ report.description }}</td>
+                        <td>
+                          <button
+                            (click)="deleteMedicalReport(report.id)"
+                            class="btn btn-sm btn-danger"
+                          >
+                            <i class="fas fa-trash"></i> Delete
+                          </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <!-- Medical Report Modal -->
+            <div
+              *ngIf="showReportModal"
+              class="modal fade show"
+              style="display: block; background: rgba(0, 0, 0, 0.5)"
+            >
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title">Upload Medical Report</h5>
+                    <button
+                      type="button"
+                      class="btn-close"
+                      (click)="showReportModal = false; resetReportForm()"
+                    ></button>
+                  </div>
+                  <div class="modal-body">
+                    <form [formGroup]="reportForm">
+                      <div class="mb-3">
+                        <label class="form-label">Title</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          formControlName="title"
+                          required
+                        />
+                      </div>
+                      <div class="mb-3">
+                        <label class="form-label">Description</label>
+                        <textarea
+                          class="form-control"
+                          formControlName="description"
+                          rows="3"
+                        ></textarea>
+                      </div>
+                      <div class="mb-3">
+                        <label class="form-label">Report Date</label>
+                        <input
+                          type="date"
+                          class="form-control"
+                          formControlName="report_date"
+                        />
+                      </div>
+                      <div class="mb-3">
+                        <label class="form-label">File</label>
+                        <input
+                          type="file"
+                          class="form-control"
+                          (change)="onFileChange($event)"
+                          accept=".pdf,.jpg,.jpeg,.png,.doc,.docx"
+                        />
+                        <small class="text-muted"
+                          >Allowed formats: PDF, JPG, JPEG, PNG, DOC, DOCX (max
+                          2MB)</small
+                        >
+                      </div>
+                    </form>
+                  </div>
+                  <div class="modal-footer">
+                    <button
+                      type="button"
+                      class="btn btn-secondary"
+                      (click)="showReportModal = false; resetReportForm()"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      type="button"
+                      class="btn btn-primary"
+                      (click)="uploadMedicalReport()"
+                      [disabled]="!reportForm.valid || isUploading"
+                    >
+                      <span *ngIf="!isUploading">Upload Report</span>
+                      <span *ngIf="isUploading">
+                        <span
+                          class="spinner-border spinner-border-sm"
+                          role="status"
+                          aria-hidden="true"
+                        ></span>
+                        Uploading...
+                      </span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             <!-- Appointment Popup -->
             <div *ngIf="showPopup" class="popup-overlay">
               <div class="popup-box">
                 <h3 class="text-primary mb-3">Appointment Details</h3>
-                <p><strong>Doctor:</strong> {{ selectedAppointment?.doctorname }}</p>
-                <p><strong>Specialty:</strong> {{ selectedAppointment?.specialty }}</p>
-                <p><strong>Gender:</strong> {{ selectedAppointment?.gender }}</p>
+                <p>
+                  <strong>Doctor:</strong> {{ selectedAppointment?.doctorname }}
+                </p>
+                <p>
+                  <strong>Specialty:</strong>
+                  {{ selectedAppointment?.specialty }}
+                </p>
+                <p>
+                  <strong>Gender:</strong> {{ selectedAppointment?.gender }}
+                </p>
                 <p><strong>Date:</strong> {{ selectedAppointment?.date }}</p>
-                <p><strong>From:</strong> {{ selectedAppointment?.startTime }}</p>
+                <p>
+                  <strong>From:</strong> {{ selectedAppointment?.startTime }}
+                </p>
                 <p><strong>To:</strong> {{ selectedAppointment?.endTime }}</p>
                 <p><strong>Notes:</strong> {{ selectedAppointment?.notes }}</p>
-                <p><strong>Status:</strong> {{ selectedAppointment?.status }}</p>
-                <p><strong>Payment Method:</strong> {{ selectedAppointment?.payment_method || 'N/A' }}</p>
+                <p>
+                  <strong>Status:</strong> {{ selectedAppointment?.status }}
+                </p>
+                <p>
+                  <strong>Payment Method:</strong>
+                  {{ selectedAppointment?.payment_method || "N/A" }}
+                </p>
                 <p>
                   <strong>Payment Status:</strong>
                   <span
                     class="badge rounded-pill"
                     [ngClass]="{
-                      'bg-success': selectedAppointment?.payment_status === 'paid',
-                      'bg-danger': selectedAppointment?.payment_status === 'unpaid',
-                      'bg-secondary': selectedAppointment?.payment_status === 'refunded'
+                      'bg-success':
+                        selectedAppointment?.payment_status === 'paid',
+                      'bg-danger':
+                        selectedAppointment?.payment_status === 'unpaid',
+                      'bg-secondary':
+                        selectedAppointment?.payment_status === 'refunded'
                     }"
                   >
                     {{ selectedAppointment?.payment_status | titlecase }}
                   </span>
                 </p>
-                <button class="btn btn-secondary mt-2" (click)="closePopup()">Close</button>
+                <button class="btn btn-secondary mt-2" (click)="closePopup()">
+                  Close
+                </button>
               </div>
             </div>
           </div>
