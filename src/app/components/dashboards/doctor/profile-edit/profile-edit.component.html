@@ -7,14 +7,15 @@
       </h2>
     </div>
     <div class="card-body">
-      <form #profileForm="ngForm" (ngSubmit)="saveProfile()">
+      <form #profileForm="ngForm" (ngSubmit)="onSubmit(profileForm)">
         <div class="row">
           <!-- Profile Picture Column -->
           <div class="col-md-4 text-center">
             <div class="profile-picture-container mb-4">
               <img [src]="profileImage || 'assets/images/default-doctor.png'"
                    class="profile-picture"
-                   alt="Profile Picture">
+                   [alt]="profileDoctor.user.name || 'Profile Picture'"
+                   [title]="profileDoctor.user.name || 'Profile Picture'">
               <div class="upload-overlay" (click)="fileInput.click()">
                 <i class="fas fa-camera"></i>
                 <span>Change Photo</span>
@@ -40,6 +41,7 @@
                 <div class="col-md-6">
                   <label for="name" class="form-label">Name</label>
                   <input type="text" class="form-control" id="name"
+                         [value]="profileDoctor.user.name"
                          [(ngModel)]="profileDoctor.user.name" name="name" required>
                 </div>
                 <div class="col-md-6">
@@ -63,23 +65,19 @@
               <div class="row g-3">
                 <div class="col-md-6">
                   <label for="specialty" class="form-label">Specialty</label>
-                    <input type="text" class="form-control" id="specialty" readonly [value]="profileDoctor.specialty.name"/>
-
+                  <input type="text" class="form-control" id="specialty" disabled
+                         [value]="profileDoctor.specialty.name"/>
+                  <div id="emailHelp" class="form-text">Can't be edit</div>
                 </div>
-<!--                <div class="col-md-6">-->
-<!--                  <label for="license" class="form-label">License Number</label>-->
-<!--                  <input type="text" class="form-control" id="license"-->
-<!--                         [(ngModel)]="doctor.licenseNumber" name="licenseNumber" required>-->
-<!--                </div>-->
-<!--                <div class="col-12">-->
-<!--                  <label for="qualifications" class="form-label">Qualifications</label>-->
-<!--                  <textarea class="form-control" id="qualifications" rows="2"-->
-<!--                            [(ngModel)]="doctor.qualifications" name="qualifications"></textarea>-->
-<!--                </div>-->
+                  <div class="col-md-6">
+                    <label for="Fee" class="form-label">Appointment Fee</label>
+                    <input type="text" class="form-control" id="Fee"
+                           [(ngModel)]="profileDoctor.appointment_fee" name="appointment_fee" required />
+                  </div>
                 <div class="col-12">
                   <label for="bio" class="form-label">Professional Bio</label>
                   <textarea class="form-control" id="bio" rows="3"
-                            [(ngModel)]="profileDoctor  .user.profile_description" name="bio"></textarea>
+                            [(ngModel)]="profileDoctor.user.profile_description" name="bio"></textarea>
                   <div class="form-text">This will be displayed on your public profile</div>
                 </div>
               </div>
