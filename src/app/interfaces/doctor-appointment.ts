@@ -8,6 +8,7 @@ export interface DoctorAppointment {
   appointment_date: string;
   start_time: string;
   end_time: string;
+  payment_status: 'paid' | 'unpaid' | 'refunded';
   notes: string;
   patient: {
     id: number;

@@ -40,6 +40,7 @@
         <th>Notes</th>
         <th>Actions</th>
         <th class="pe-4">Status</th>
+        <th class="pe-4">Payment Status</th>
       </tr>
       </thead>
       <tbody>
@@ -62,12 +63,12 @@
             </button>
             <button class="btn btn-sm btn-success me-2"
                     (click)="acceptAppointment(appt.id, { id: appt.id, status: 'confirmed' }, { date: appt.appointment_date })"
-                    [disabled]="appt.status === 'confirmed'">
+                    [disabled]="appt.status === 'confirmed' || appt.status === 'completed' || appt.status === 'cancelled'">
               <i class="fas fa-check"></i>
             </button>
             <button class="btn btn-sm btn-outline-danger"
                     (click)="CancelledAppointment(appt.id, appt.appointment_date, appt.status)"
-                    [disabled]="appt.status === 'confirmed' || isPastAppointment(appt.appointment_date)">
+                    [disabled]="appt.payment_status === 'paid' || isPastAppointment(appt.appointment_date)">
               <i class="fas fa-times"></i>
             </button>
           </div>
@@ -82,6 +83,16 @@
               {{ appt.status | titlecase }}
             </span>
         </td>
+             <td class="pe-4">
+            <span class="badge rounded-pill" [ngClass]="{
+              'bg-success': appt.payment_status === 'paid',
+              'bg-warning text-dark': appt.payment_status === 'refunded',
+              'bg-danger': appt.payment_status === 'unpaid',
+            }">
+              {{ appt.payment_status | titlecase }}
+            </span>
+        </td>
+        
       </tr>
       <tr *ngIf="filteredAppointments.length === 0" class="border-bottom">
         <td colspan="8" class="text-center py-4 text-muted">

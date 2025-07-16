@@ -23,6 +23,15 @@ body, .patient-profile-page {
   font-size: 1rem;
   color: #555;
 }
+.badge {
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+ 
+  transition: background 0.2s, color 0.2s;
+
+}
 
 .card {
   border-radius: 18px !important;

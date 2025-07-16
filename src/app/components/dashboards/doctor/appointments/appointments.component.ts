@@ -111,11 +111,12 @@ export class AppointmentsComponent implements OnInit {
       this.notify.warning('You cannot cancel a past appointment.');
       return;
     }
-
-    if (currentStatus === 'confirmed') {
-      this.notify.info('Confirmed appointments cannot be cancelled.');
+    if (currentStatus === 'cancelled' || currentStatus === 'completed') {
+      this.notify.info('Only confirmed or pending appointments can be cancelled.');
       return;
     }
+
+  
 
     const updatedData = { id: appointmentId, status: 'cancelled' };
     this.http.put(this.APIUrl + 'appointments/' + appointmentId + '/status', updatedData, {
@@ -144,6 +145,7 @@ export class AppointmentsComponent implements OnInit {
         date: appointment.appointment_date,
         startTime: appointment.start_time,
         endTime: appointment.end_time,
+        payment_status: appointment.payment_status,
         notes: appointment.notes,
         status: appointment.status
       };

@@ -113,13 +113,13 @@
                         </button>
                       </ng-container>
                       <ng-template #noButton>
-                        <span class="text-muted small text-center">-</span>
+                        <span class="badge text-muted fw-bold text-center">-</span>
                       </ng-template>
                     </td>
 
                     <td>
                       <span
-                        class="badge rounded-pill"
+                        class="badge rounded-pill text-center"
                         [ngClass]="{
                           'bg-success': appt.payment_status === 'paid',
                           'bg-danger': appt.payment_status === 'unpaid',
