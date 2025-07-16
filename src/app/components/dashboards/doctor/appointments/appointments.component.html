@@ -62,13 +62,13 @@
               <i class="fas fa-eye"></i>
             </button>
             <button class="btn btn-sm btn-success me-2"
-                    (click)="acceptAppointment(appt.id, { id: appt.id, status: 'confirmed' }, { date: appt.appointment_date })"
+                    (click)="acceptAppointment(appt.id, { id: appt.id, status: 'confirmed'  }, { date: appt.appointment_date })"
                     [disabled]="appt.status === 'confirmed' || appt.status === 'completed' || appt.status === 'cancelled'">
               <i class="fas fa-check"></i>
             </button>
             <button class="btn btn-sm btn-outline-danger"
-                    (click)="CancelledAppointment(appt.id, appt.appointment_date, appt.status)"
-                    [disabled]="appt.payment_status === 'paid' || isPastAppointment(appt.appointment_date)">
+                    (click)="CancelledAppointment(appt.id, appt.appointment_date, appt.status  ,appt.payment_status) "
+                    [disabled]="appt.payment_status === 'paid' || payment_status === 'paid' || clicked_cancel || isPastAppointment(appt.appointment_date)">
               <i class="fas fa-times"></i>
             </button>
           </div>
@@ -92,7 +92,7 @@
               {{ appt.payment_status | titlecase }}
             </span>
         </td>
-        
+
       </tr>
       <tr *ngIf="filteredAppointments.length === 0" class="border-bottom">
         <td colspan="8" class="text-center py-4 text-muted">

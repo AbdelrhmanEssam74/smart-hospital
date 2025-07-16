@@ -84,6 +84,7 @@ export class PatientProfileComponent implements OnInit {
   payWithPayPal(appointmentId: number): void {
     this.paymentService.payWithPayPal(appointmentId).subscribe({
       next: (res: any) => {
+        console.log(res)
         if (res.status === 'success' && res.url) {
           window.open(res.url, '_blank');
         } else {
