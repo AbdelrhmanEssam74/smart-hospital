@@ -1,6 +1,7 @@
 export interface DoctorNew {
   user_id: number;
   specialty_id: number;
+  appointment_fee:string,
   experience_years: number;
   specialty: {
     id: number;

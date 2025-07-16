@@ -24,7 +24,7 @@ export class AuthService {
     return this.http.post(`${this.apiUrl}/login`, data).pipe(
       tap((res: any) => {
         this.saveToken(res.token);
-        this.saveUser(res.user); 
+        this.saveUser(res.user);
       })
     );
   }
@@ -43,10 +43,10 @@ export class AuthService {
       if (user.image && !user.image.startsWith('http')) {
         user.image = `http://localhost:8000/${user.image}`;
       }
-      this.saveUser(user); 
+      this.saveUser(user);
     })
   );
-    
+
   }
 
   saveToken(token: string): void {
