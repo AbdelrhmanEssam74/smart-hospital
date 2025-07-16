@@ -11,13 +11,14 @@
     </div>
 
     <!-- Gallery Section -->
-    <div class="gallery-grid">
-      @for (image of Images; track image) {
-        <div class="gallery-item" [ngClass]="image.spanClass">
-          <img [src]="image.src" [alt]="image.alt" />
-        </div>
-      }
+<div class="gallery-grid">
+  @for (image of Images; track image) {
+    <div class="gallery-item">
+      <img [src]="image.src" [alt]="image.alt" />
     </div>
+  }
+</div>
+
 
   </div>
 </div>

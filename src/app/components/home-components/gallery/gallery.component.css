@@ -1,28 +1,31 @@
-.container-fluid{
+/* الحاوية الرئيسية */
+.container-fluid {
   margin-top: 70px;
   padding: 50px 20px;
 }
 
-
+/* عنوان المعرض */
 .heading {
   font-size: 48px;
   font-family: 'main-font-light';
-
 }
+
 .heading span {
   color: #51b8f2;
   font-size: 53px;
   font-family: 'main-font-bold';
 }
-.lead{
+
+.lead {
   font-family: 'main-font-regular';
 }
+
+/* صندوق العنوان والتأثير */
 #heading-box {
   position: relative;
   font-family: sans-serif;
   text-align: center;
 }
-
 
 #heading-box::after {
   content: '';
@@ -58,77 +61,45 @@
     transform: translateX(-50%) translateY(3px);
   }
 }
+
+/* الشبكة الرئيسية للمعرض */
 .gallery-grid {
   margin-top: 70px;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  grid-auto-rows: 200px;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-auto-rows: 400px;
   gap: 16px;
+  padding: 0 16px;
 }
 
+/* كل عنصر صورة */
 .gallery-item {
-  position: relative;
   overflow: hidden;
-  border-radius: 5px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.gallery-item:hover {
+  transform: scale(1.02);
 }
 
 .gallery-item img {
-  position: relative;
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
-  cursor: pointer;
-}
-.gallery-grid img:after{
-  position: absolute;
-  content: '';
-}
-.span-3x3 {
-  grid-column: span 3;
-  grid-row: span 3;
-}
-.span-2x2 {
-  grid-column: span 2;
-  grid-row: span 2;
+  transition: transform 0.3s ease;
 }
 
-.span-2x1 {
-  grid-column: span 2;
-  grid-row: span 1;
+.gallery-item img:hover {
+  transform: scale(1.05);
 }
 
-.span-1x2 {
-  grid-column: span 1;
-  grid-row: span 2;
-}
-@media (max-width: 992px) {
-  .span-small{
-    grid-column: span 1;
-    grid-row: span 2;
-  }
-}
-@media (max-width: 600px) {
-  .span-3x3 {
-    grid-column: span 3;
-    grid-row: span 3;
-  }
-  .span-2x2 {
-    grid-column: span 2;
-    grid-row: span 2;
-  }
-
-  .span-2x1 {
-    grid-column: span 2;
-    grid-row: span 1;
-  }
-
-  .span-1x2 {
-    grid-column: span 1;
-    grid-row: span 2;
-  }
-  .span-small{
-    grid-column: span 1;
-    grid-row: span 2;
+/* ✅ responsive grid size for small screens */
+@media (max-width: 768px) {
+  .gallery-grid {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    grid-auto-rows: 200px;
   }
 }
