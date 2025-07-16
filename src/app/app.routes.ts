@@ -13,6 +13,7 @@ import {AuthGuard} from './guards/auth.guard';
 import {PatientProfileComponent} from './components/dashboards/patient/patient-profile/patient-profile.component';
 import {EditProfileComponent} from './components/dashboards/patient/edit-profile/edit-profile.component';
 import {DoctorHomeComponent} from './components/dashboards/doctor/doctor-home/doctor-home.component';
+import { GalleryComponent } from './components/home-components/gallery/gallery.component';
 
 export const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -33,6 +34,6 @@ export const routes: Routes = [
   },
   {path: "patient_profile", component: PatientProfileComponent},
   { path: 'profile_edit', component: EditProfileComponent},
-  // { path: 'appointments', component: AppointmentsComponent, }
+  {path:'gallery',component: GalleryComponent},
   {path: "**", redirectTo: "404", pathMatch: "full"}
 ]
