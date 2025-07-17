@@ -4,14 +4,10 @@ import { AuthService } from '../../../../services/auth.service';
 import { PatientService } from '../../../../services/patient.service';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { PaymentService } from '../../../../services/payment.service';
-<<<<<<< HEAD
 import { User } from '../../../../interfaces/user';
-=======
-import { FormBuilder, FormGroup } from '@angular/forms';
 import { environment } from '../../../../../environments/environment.development';
->>>>>>> ecd2704e132e7419431fe232eed52f2412f472a7
 
 @Component({
   selector: 'app-patient-profile',
@@ -29,32 +25,27 @@ export class PatientProfileComponent implements OnInit {
   isLoading = true;
   isAppointmentsLoading = true;
   errorMessage: string = '';
-<<<<<<< HEAD
-    userImage = '';
+  userImage = '';
 
-=======
-  //
   profileForm!: FormGroup;
   patient: any;
-  //  reports 
+
+  // Medical reports
   medicalReports: any[] = [];
   isReportsLoading = false;
   selectedReportFile: any | null = null;
+  selectedFile: File | null = null;
+  isUploading = false;
+
   newReport = {
     title: '',
     description: '',
-    report_date: new Date().toISOString().split('T')[0] 
+    report_date: new Date().toISOString().split('T')[0]
   };
-  selectedFile: File | null = null;
-  isUploading = false;
->>>>>>> ecd2704e132e7419431fe232eed52f2412f472a7
-
 
   showReportModal = false;
   reportForm: FormGroup;
 
-  
-// 
   constructor(
     private authService: AuthService,
     private patientService: PatientService,
@@ -63,19 +54,16 @@ export class PatientProfileComponent implements OnInit {
     private fb: FormBuilder
   ) {
     this.reportForm = this.fb.group({
-    title: ['', Validators.required],
-    description: [''],
-    report_date: [new Date().toISOString().split('T')[0]],
-    file: [null, Validators.required]
-  });
+      title: ['', Validators.required],
+      description: [''],
+      report_date: [new Date().toISOString().split('T')[0]],
+      file: [null, Validators.required]
+    });
   }
 
   ngOnInit(): void {
     this.loadPatientProfile();
-<<<<<<< HEAD
-    
-    
-=======
+
     this.profileForm = this.fb.group({
       name: [''],
       email: [''],
@@ -86,7 +74,6 @@ export class PatientProfileComponent implements OnInit {
       profile_description: [''],
       image: [null],
     });
->>>>>>> ecd2704e132e7419431fe232eed52f2412f472a7
   }
 
   loadPatientProfile(): void {
@@ -139,7 +126,6 @@ export class PatientProfileComponent implements OnInit {
   payWithPayPal(appointmentId: number): void {
     this.paymentService.payWithPayPal(appointmentId).subscribe({
       next: (res: any) => {
-        console.log(res)
         if (res.status === 'success' && res.url) {
           window.open(res.url, '_blank');
         } else {
@@ -182,26 +168,27 @@ export class PatientProfileComponent implements OnInit {
     this.showPopup = false;
     this.selectedAppointment = null;
   }
+
   // reports
- loadMedicalReports(): void {
+  loadMedicalReports(): void {
     this.isReportsLoading = true;
     this.patientService.getReports().subscribe({
-        next: (reports: any) => {
-            this.medicalReports = reports;
-            this.isReportsLoading = false;
-        },
-        error: (err) => {
-            console.error('Failed to load medical reports:', err);
-            this.isReportsLoading = false;
-        }
+      next: (reports: any) => {
+        this.medicalReports = reports;
+        this.isReportsLoading = false;
+      },
+      error: (err) => {
+        console.error('Failed to load medical reports:', err);
+        this.isReportsLoading = false;
+      }
     });
-}
+  }
 
   onReportFileChange(event: any): void {
     this.selectedReportFile = event.target.files[0];
   }
 
- uploadMedicalReport(): void {
+  uploadMedicalReport(): void {
     if (this.reportForm.invalid || !this.selectedFile) return;
 
     const formData = new FormData();
@@ -211,17 +198,16 @@ export class PatientProfileComponent implements OnInit {
     formData.append('report', this.selectedFile);
 
     this.patientService.uploadReport(formData).subscribe({
-        next: () => {
-          console.log(formData);
-            this.loadMedicalReports();
-            this.resetReportForm();
-            this.showReportModal = false;
-        },
-        error: (err) => {
-            console.error('Failed to upload report:', err);
-        }
+      next: () => {
+        this.loadMedicalReports();
+        this.resetReportForm();
+        this.showReportModal = false;
+      },
+      error: (err) => {
+        console.error('Failed to upload report:', err);
+      }
     });
-}
+  }
 
   deleteMedicalReport(reportId: number): void {
     if (confirm('Are you sure you want to delete this report?')) {
@@ -248,14 +234,15 @@ export class PatientProfileComponent implements OnInit {
   getReportUrl(path: string): string {
     return `${environment.apiUrl}/storage/${path}`;
   }
- onFileChange(event: any) {
-  if (event.target.files.length > 0) {
-    const file = event.target.files[0];
-    this.selectedFile = file;
-    this.reportForm.patchValue({
-      file: file
-    });
-    this.reportForm.get('file')?.updateValueAndValidity();
+
+  onFileChange(event: any) {
+    if (event.target.files.length > 0) {
+      const file = event.target.files[0];
+      this.selectedFile = file;
+      this.reportForm.patchValue({
+        file: file
+      });
+      this.reportForm.get('file')?.updateValueAndValidity();
+    }
   }
-}
 }
