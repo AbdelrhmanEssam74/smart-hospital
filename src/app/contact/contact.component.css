@@ -1,0 +1,133 @@
+*{
+    font-family: 'main-font-light';
+
+}
+.doctors-hero {
+  background-image: url('/assets/images/auth-image.jpeg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 400px;
+  background-attachment: fixed;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  padding-left: 50px;
+}
+
+.hero-content {
+  background-color: rgba(255, 255, 255, 0.6);
+  padding: 50px;
+  border-radius: 10px;
+  width: 80%;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  margin-bottom: 0px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.hero-content h1 {
+  font-size: 36px;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.hero-content .breadcrumb {
+  margin-top: 60px;
+
+  font-size: 14px;
+}
+
+.hero-content .breadcrumb a {
+  color: #51B8F2;
+  text-decoration: none;
+}
+.heading {
+  font-size: 48px;
+  font-family: 'main-font-light';
+    color: #51b8f2;
+
+
+}
+
+.heading span {
+  color: #51b8f2;
+  font-size: 53px;
+  font-family: 'main-font-bold';
+}
+
+.heading-box {
+  position: relative;
+  text-align: center;
+}
+
+.heading-box::after {
+  content: '';
+  position: absolute;
+  width: 200px;
+  height: 2px;
+  background-color: #51b8f2;
+  bottom: -25px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.heading-box::before {
+  content: '\f043';
+  font-family: 'Font Awesome 6 Free';
+  font-weight: 600;
+  font-size: 15px;
+  color: #51b8f2;
+  position: absolute;
+  bottom: -24px;
+  left: 50%;
+  transform: translateX(-50%);
+  animation: dropFade 1s ease-in-out infinite alternate;
+}
+
+@keyframes dropFade {
+  0% {
+    opacity: 0.8;
+    transform: translateX(-50%) translateY(0);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(3px);
+  }
+}
+.contact-section h2 {
+  font-weight: bold;
+}
+.container{
+  max-width: 1300px;
+  margin: auto;
+}
+.form-control{
+  border-radius: 0px;
+  padding: 10px 20px;
+  width: 100%;
+}
+.btn{
+  border-radius: 0px;
+  background-color: #51B8F2;
+  color: white;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+}
+.btn:hover{
+  color: black;
+}
+.bii{
+  color: #51B8F2;
+  font-size: 24px;
+  background-color: whitesmoke;
+  padding: 15px;
+  border-radius: 50%;
+}
+.media:hover .bii {
+  background-color: #51B8F2;
+  color: white;
+}

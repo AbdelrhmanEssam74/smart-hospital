@@ -14,6 +14,7 @@ import {PatientProfileComponent} from './components/dashboards/patient/patient-p
 import {EditProfileComponent} from './components/dashboards/patient/edit-profile/edit-profile.component';
 import {DoctorHomeComponent} from './components/dashboards/doctor/doctor-home/doctor-home.component';
 import { GalleryComponent } from './components/home-components/gallery/gallery.component';
+import { ContactComponent } from './contact/contact.component';
 
 export const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -35,5 +36,6 @@ export const routes: Routes = [
   {path: "patient_profile", component: PatientProfileComponent},
   { path: 'profile_edit', component: EditProfileComponent},
   {path:'gallery',component: GalleryComponent},
+  {path:'contact',component: ContactComponent},
   {path: "**", redirectTo: "404", pathMatch: "full"}
 ]

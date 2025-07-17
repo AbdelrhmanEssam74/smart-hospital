@@ -23,8 +23,7 @@ import {FooterComponent} from '../footer/footer.component';
     CounterSectionComponent,
     QualifiedDoctorComponent,
     LatestNewsComponent,
-    ContactSectionComponent,
-    FooterComponent,
+
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'

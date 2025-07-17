@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { PaymentService } from '../../../../services/payment.service';
+import { User } from '../../../../interfaces/user';
 
 @Component({
   selector: 'app-patient-profile',
@@ -23,6 +24,8 @@ export class PatientProfileComponent implements OnInit {
   isLoading = true;
   isAppointmentsLoading = true;
   errorMessage: string = '';
+    userImage = '';
+
 
   constructor(
     private authService: AuthService,
@@ -33,6 +36,8 @@ export class PatientProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadPatientProfile();
+    
+    
   }
 
   loadPatientProfile(): void {
