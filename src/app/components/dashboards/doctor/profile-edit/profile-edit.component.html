@@ -7,7 +7,7 @@
       </h2>
     </div>
     <div class="card-body">
-      <form #profileForm="ngForm" (ngSubmit)="onSubmit(profileForm)">
+      <form (ngSubmit)="profileForm()" #profileFormRef="ngForm">
         <div class="row">
           <!-- Profile Picture Column -->
           <div class="col-md-4 text-center">
@@ -16,9 +16,11 @@
                    class="profile-picture"
                    [alt]="profileDoctor.user.name || 'Profile Picture'"
                    [title]="profileDoctor.user.name || 'Profile Picture'">
-              <div class="upload-overlay" (click)="fileInput.click()">
+              <div class="upload-overlay position-absolute top-0 start-0 w-100 h-100 d-flex flex-column justify-content-center align-items-center bg-dark bg-opacity-50 text-white rounded-circle"
+                   style="cursor: pointer;"
+                   (click)="fileInput.click()">
                 <i class="fas fa-camera"></i>
-                <span>Change Photo</span>
+                <span class="small">Change Photo</span>
               </div>
               <input #fileInput type="file" class="d-none"
                      accept="image/*"
@@ -40,19 +42,34 @@
               <div class="row g-3">
                 <div class="col-md-6">
                   <label for="name" class="form-label">Name</label>
-                  <input type="text" class="form-control" id="name"
-                         [value]="profileDoctor.user.name"
-                         [(ngModel)]="profileDoctor.user.name" name="name" required>
+                  <input type="text"
+                         class="form-control"
+                         id="name"
+                         [(ngModel)]="profileDoctor.user.name"
+                         (ngModelChange)="onFieldChange()"
+                         name="name"
+                         required>
                 </div>
                 <div class="col-md-6">
                   <label for="email" class="form-label">Email</label>
-                  <input type="email" class="form-control" id="email"
-                         [(ngModel)]="profileDoctor.user.email" name="email" required email>
+                  <input type="email"
+                         class="form-control"
+                         id="email"
+                         [(ngModel)]="profileDoctor.user.email"
+                         (ngModelChange)="onFieldChange()"
+                         name="email"
+                         required
+                         email>
                 </div>
                 <div class="col-md-6">
                   <label for="phone" class="form-label">Phone Number</label>
-                  <input type="tel" class="form-control" id="phone"
-                         [(ngModel)]="profileDoctor.user.phone" name="phone" required>
+                  <input type="tel"
+                         class="form-control"
+                         id="phone"
+                         [(ngModel)]="profileDoctor.user.phone"
+                         (ngModelChange)="onFieldChange()"
+                         name="phone"
+                         required>
                 </div>
               </div>
             </div>
@@ -65,41 +82,59 @@
               <div class="row g-3">
                 <div class="col-md-6">
                   <label for="specialty" class="form-label">Specialty</label>
-                  <input type="text" class="form-control" id="specialty" disabled
+                  <input type="text"
+                         class="form-control"
+                         id="specialty"
+                         disabled
                          [value]="profileDoctor.specialty.name"/>
-                  <div id="emailHelp" class="form-text">Can't be edit</div>
+                  <div class="form-text">Can't be edited</div>
                 </div>
-                  <div class="col-md-6">
-                    <label for="Fee" class="form-label">Appointment Fee</label>
-                    <input type="text" class="form-control" id="Fee"
-                           [(ngModel)]="profileDoctor.appointment_fee" name="appointment_fee" required />
-                  </div>
+                <div class="col-md-6">
+                  <label for="Fee" class="form-label">Appointment Fee</label>
+                  <input type="text"
+                         class="form-control"
+                         id="Fee"
+                         [(ngModel)]="profileDoctor.appointment_fee"
+                         (ngModelChange)="onFieldChange()"
+                         name="appointment_fee"
+                         required/>
+                </div>
                 <div class="col-12">
                   <label for="bio" class="form-label">Professional Bio</label>
-                  <textarea class="form-control" id="bio" rows="3"
-                            [(ngModel)]="profileDoctor.user.profile_description" name="bio"></textarea>
+                  <textarea class="form-control"
+                            id="bio"
+                            rows="3"
+                            [(ngModel)]="profileDoctor.user.profile_description"
+                            (ngModelChange)="onFieldChange()"
+                            name="bio"></textarea>
                   <div class="form-text">This will be displayed on your public profile</div>
                 </div>
               </div>
             </div>
+
             <!-- Form Actions -->
             <div class="d-flex justify-content-between border-top pt-3">
-              <button type="button" class="btn btn-outline-secondary" (click)="cancel()">
+              <button type="button"
+                      class="btn btn-outline-secondary"
+                      (click)="cancel()">
                 <i class="fas fa-times me-2"></i>Cancel
               </button>
-              <button type="submit" class="btn btn-primary" [disabled]="!profileForm.valid || isSaving">
-                <span *ngIf="!isSaving">
-                  <i class="fas fa-save me-2"></i>Save Changes
-                </span>
+              <button type="submit"
+                      class="btn btn-primary"
+                      [disabled]="!isChanged || isSaving">
+          <span *ngIf="!isSaving">
+            <i class="fas fa-save me-2"></i>Save Changes
+          </span>
                 <span *ngIf="isSaving">
-                  <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-                  Saving...
-                </span>
+            <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+            Saving...
+          </span>
               </button>
             </div>
           </div>
         </div>
       </form>
+
     </div>
   </div>
 </div>
