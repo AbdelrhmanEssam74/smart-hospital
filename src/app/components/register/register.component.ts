@@ -39,8 +39,11 @@ export class RegisterComponent {
           '',
           [Validators.required, Validators.pattern(/^[0-9]{10,15}$/)],
         ],
-        role_id: ['', Validators.required],
-        profile_description: [''],
+        role_id:[5],
+        profile_description: ['patient'] ,
+        date_of_birth: [''],
+        gender: [''],
+        address: [''],
       },
       { validators: this.passwordMatchValidator }
     );
@@ -76,7 +79,13 @@ export class RegisterComponent {
     formData.append('password_confirmation', this.f['confirmPassword'].value);
     formData.append('phone', this.f['phone'].value);
     formData.append('role_id', this.f['role_id'].value);
-    formData.append('profile_description', this.f['profile_description'].value || '');
+    // formData.append(
+    //   'profile_description',
+    //   this.f['profile_description'].value || 'Patient'
+    // );
+    formData.append('date_of_birth', this.f['date_of_birth'].value);
+    formData.append('gender', this.f['gender'].value);
+    formData.append('address', this.f['address'].value);
 
     if (this.selectedImage) {
       formData.append('image', this.selectedImage);
@@ -85,8 +94,12 @@ export class RegisterComponent {
     this.auth.register(formData).subscribe({
       next: (res) => {
         this.auth.saveToken(res.token);
-        this.auth.saveUser(res.user); 
-        this.router.navigate(['/login']);
+        this.auth.saveUser(res.user);
+        if (res.user.role_id === 5) {
+          this.router.navigate(['home']);
+        } else {
+          this.router.navigate(['/login']);
+        }
       },
       error: (err) => {
         this.errorMessage = err.error?.message || 'Registration failed';

@@ -4,6 +4,7 @@ import data from '../../data/data.json';
 import { catchError, map, Observable, of } from 'rxjs';
 import { environment } from '../../environments/environment.development';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root',
@@ -20,7 +21,9 @@ export class DoctorService {
 
   httpHeaders = new HttpHeaders().set('Content-Type', 'application/json');
 
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient,
+    private authService: AuthService
+  ) {}
 
   // all doctors
   getAllDoctors(): Observable<DoctorDisplay[]> {
@@ -75,7 +78,21 @@ export class DoctorService {
   );
   }
 
-  //
+  // display  reports for doctor
+  getPatientReports(patientId: number) {
+    return this.httpClient.get(`${this.apiUrl}/patients/${patientId}/reports`, {
+      headers: this.authService.getAuthHeaders()
+    });
+  }
+
+  downloadReport(reportId: number) {
+    return this.httpClient.get(`${this.apiUrl}/reports/${reportId}`, {
+      headers: this.authService.getAuthHeaders(),
+      responseType: 'blob'
+    });
+  }
+  // 
+  
   getDoctorDisplayList() {
     return this.data.doctors.map((doctor) => {
       const user = this.data.users.find((u) => u.id === doctor.user_id);
