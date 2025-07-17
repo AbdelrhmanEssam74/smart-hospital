@@ -32,13 +32,13 @@
         </div>
 
         <div class="card-body">
-          <img [src]="patient.user?.image || 'https://www.svgrepo.com/show/452030/avatar-default.svg'"
-               alt="{{ patient.user?.name}}"
+          <img [src]="patient.user.image || 'https://www.svgrepo.com/show/452030/avatar-default.svg'"
+               alt="{{ patient.user.name}}"
                class="patient-image">
 
           <div class="patient-info">
             <h4 class="patient-name">
-              {{ patient.user?.name || 'Patient ' + patient.id }}
+              {{ patient.user.name || 'Patient ' + patient.id }}
               <span class="patient-age">26</span>
             </h4>
 
