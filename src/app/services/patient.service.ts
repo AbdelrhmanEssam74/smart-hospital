@@ -26,9 +26,26 @@ export class PatientService {
   }
 
   
-  updatePatientProfile(data: any): Observable<any> {
-    return this.httpClient.put(`${this.apiUrl}/profile/update`, data, {
+  updatePatientProfile(formData: FormData): Observable<any> {
+    return this.httpClient.put(`${this.apiUrl}/profile/update`, formData, {
       headers: this.authService.getAuthHeaders()
     });
   }
+getReports() {
+    return this.httpClient.get(`${this.apiUrl}/medical_reports`, {
+        headers: this.authService.getAuthHeaders()
+    });
+}
+
+uploadReport(formData: FormData) {
+    return this.httpClient.post(`${this.apiUrl}/medical_reports`, formData, {
+        headers: this.authService.getAuthHeaders()
+    });
+}
+
+deleteReport(reportId: number) {
+    return this.httpClient.delete(`${this.apiUrl}/medical_reports/${reportId}`, {
+        headers: this.authService.getAuthHeaders()
+    });
+}
 }

@@ -21,11 +21,13 @@
           />
           <div class="image-actions">
             <label class="btn btn-sm btn-upload">
-              <i class="fas fa-camera"></i> Change
+              Change
               <input 
+                name="image"
                 type="file" 
                 accept="image/*" 
                 style="display: none;"
+                  (change)="onFileSelected($event)"
               >
             </label>
             @if (selectedImage) {
@@ -34,7 +36,7 @@
                 class="btn btn-sm btn-remove"
                 (click)="onRemoveImage()"
               >
-                <i class="fas fa-times"></i> Remove
+               Remove
               </button>
             }
           </div>
@@ -66,6 +68,9 @@
           @if (editForm.get('email')?.errors?.['email']) {
             <div>Please enter a valid email</div>
           }
+           @if (editForm.get('email')?.errors?.['duplicate']) {
+        <div>This email is already registered with another account</div>
+      }
         </div>
       }
     </div>

@@ -163,7 +163,7 @@
           </div>
 
           <!-- Role -->
-          <div class="form-group">
+          <!-- <div class="form-group">
             <label>Role</label>
             <select
               class="form-control p-3"
@@ -189,10 +189,10 @@
             >
               Role is required
             </div>
-          </div>
+          </div> -->
 
           <!-- Profile Description -->
-          <div class="form-group">
+          <!-- <div class="form-group">
             <label>Profile Description</label>
             <textarea
               rows="3"
@@ -200,8 +200,41 @@
               placeholder="Write something about yourself..."
               class="form-control"
             ></textarea>
-          </div>
+          </div> -->
+<!--  -->
+<div class="patient-fields">
+    <!-- Date of Birth -->
+    <div class="form-group">
+        <label>Date of Birth</label>
+        <input
+            type="date"
+            formControlName="date_of_birth"
+            class="form-control"
+        />
+    </div>
 
+    <!-- Gender -->
+    <div class="form-group">
+        <label>Gender</label>
+        <select formControlName="gender" class="form-control">
+            <option value="">Select Gender</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+        </select>
+    </div>
+
+    <!-- Address -->
+    <div class="form-group">
+        <label>Address</label>
+        <textarea
+            formControlName="address"
+            rows="2"
+            class="form-control"
+            placeholder="Enter your address"
+        ></textarea>
+    </div>
+</div>
+<!--  -->
           <!-- Image Upload -->
           <div class="form-group">
             <label>Upload Profile Image</label>

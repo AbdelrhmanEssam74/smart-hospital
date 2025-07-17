@@ -25,8 +25,7 @@ export class EditProfileComponent {
   errorMessage: string = '';
     isLoading = false;
     selectedImage: File | null = null;
-  imagePreview: SafeUrl | string = '';
-
+  imagePreview: string | ArrayBuffer | null = null;
   constructor(private fb: FormBuilder, 
         private patientService: PatientService,
  private router: Router,
@@ -34,13 +33,12 @@ export class EditProfileComponent {
 ) {
 
     this.editForm = this.fb.group({
-      name: [this.currentUser?.firstName || '', Validators.required],
+      name: [this.currentUser?.name || '', Validators.required],
       email: [this.currentUser?.email || '',[Validators.required, Validators.email],],
       phone: [this.currentUser?.phone || '', Validators.required],
       gender: ['', Validators.required],
       date_of_birth: [''],
       address: ['', [Validators.maxLength(255)]],
-      image: [null]
 
     });
 
@@ -80,6 +78,9 @@ export class EditProfileComponent {
     this.successMessage = '';
 
     const formData = this.editForm.value;
+    if (this.selectedImage) {
+    formData.append('image', this.selectedImage); 
+  }
 
     this.patientService.updatePatientProfile(formData).subscribe({
       next: (response) => {
@@ -92,6 +93,8 @@ export class EditProfileComponent {
       },
       error: (err) => {
         this.errorMessage = err.error?.message || 'Failed to update profile';
+                this.editForm.get('email')?.setErrors({ duplicate: true });
+
         this.isLoading = false;
       }
     });
@@ -99,25 +102,15 @@ export class EditProfileComponent {
 
   // 
 
-   onFileSelected(event: any) {
-    const file = event.target?.files?.[0] || event.addedFiles?.[0];
-    if (file) {
-      if (file.size > 2097152) {
-        this.errorMessage = 'File size should be less than 2MB';
-        return;
-      }
-
-      this.selectedImage = file;
-      this.errorMessage = '';
-      
-      const reader = new FileReader();
-      reader.onload = () => {
-        this.imagePreview = this.sanitizer.bypassSecurityTrustUrl(reader.result as string);
-      };
-      reader.readAsDataURL(file);
-
-      this.editForm.patchValue({ image: file });
-      this.editForm.get('image')?.updateValueAndValidity();
+  onFileSelected(event: Event) {
+  const input = event.target as HTMLInputElement;
+  if (input.files && input.files.length > 0) {
+    this.selectedImage = input.files[0];
+    const reader = new FileReader();
+    reader.onload = () => {
+      this. imagePreview= reader.result;
+    };
+    reader.readAsDataURL(this.selectedImage);
     }
   }
 
