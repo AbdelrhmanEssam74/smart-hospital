@@ -15,6 +15,14 @@ import {EditProfileComponent} from './components/dashboards/patient/edit-profile
 import {DoctorHomeComponent} from './components/dashboards/doctor/doctor-home/doctor-home.component';
 import { GalleryComponent } from './components/home-components/gallery/gallery.component';
 import { ContactComponent } from './contact/contact.component';
+import { AdminHomeComponent } from './components/dashboards/admin/admin-home/admin-home.component';
+import { AdminDashboardComponent } from './components/dashboards/admin/admin-dashboard/admin-dashboard.component';
+import { AdminPatientsComponent } from './components/dashboards/admin/admin-patients/admin-patients.component';
+import { AdminAppointmentsComponent } from './components/dashboards/admin/admin-appointments/admin-appointments.component';
+import { AdminAddslotsComponent } from './components/dashboards/admin/admin-addslots/admin-addslots.component';
+import { AdminAddUserComponent } from './components/dashboards/admin/admin-add-user/admin-add-user.component';
+import { AdminDoctorsComponent } from './components/dashboards/admin/admin-doctors/admin-doctors.component';
+import { AdminEditProfileComponent } from './components/dashboards/admin/admin-edit-profile/admin-edit-profile.component';
 
 export const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -31,6 +39,17 @@ export const routes: Routes = [
       {path: 'edit-profile', component: ProfileEditComponent},
       {path: 'patients', component: PatientProfilesComponent},
       {path: '', redirectTo: 'home', pathMatch: 'full'}
+    ]
+  },
+    {
+    path: 'admin', component: AdminHomeComponent, children: [
+      {path: 'admin-home', component: AdminDashboardComponent},
+      {path: 'admin-appointments', component: AdminAppointmentsComponent},
+      {path: 'admin-add-slot', component: AdminAddslotsComponent},
+      {path: 'admin-patients', component: AdminPatientsComponent},
+      {path: 'admin-doctors', component: AdminDoctorsComponent},
+      {path: 'admin-adduser',component:AdminAddUserComponent},
+      {path: 'admin-edit-profile', component: AdminEditProfileComponent},
     ]
   },
   {path: "patient_profile", component: PatientProfileComponent},
