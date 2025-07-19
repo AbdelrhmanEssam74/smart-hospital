@@ -1,1 +1,127 @@
-<p>admin-appointments works!</p>
+<div class="container my-4">
+  <h2 class="text-center mb-4">Manage Appointments</h2>
+
+  <!-- 🔍 Search Filters -->
+  <form class="row g-3 mb-4" (ngSubmit)="onSearch()">
+    <div class="col-md-3">
+      <input
+        type="text"
+        class="form-control border-primary"
+        placeholder="Doctor Name"
+        [(ngModel)]="filters.doctor_name"
+        name="doctor_name"
+      />
+    </div>
+    <div class="col-md-3">
+      <input
+        type="text"
+        class="form-control border-primary"
+        placeholder="Patient Name"
+        [(ngModel)]="filters.patient_name"
+        name="patient_name"
+      />
+    </div>
+    <div class="col-md-3">
+      <select
+        class="form-select border-primary"
+        [(ngModel)]="filters.status"
+        name="status"
+      >
+        <option value="">All Statuses</option>
+        <option value="pending">Pending</option>
+        <option value="confirmed">Confirmed</option>
+        <option value="cancelled">Cancelled</option>
+      </select>
+    </div>
+    <div class="col-md-3 d-flex align-items-end">
+      <button type="submit" class="btn btn-outline-primary w-100">
+        Search
+      </button>
+    </div>
+  </form>
+
+  <!-- 📋 Appointments Table -->
+  <div class="table-responsive rounded shadow-sm">
+    <table class="table table-borderless table-hover align-middle">
+      <thead class="bg-light-blue">
+        <tr>
+          <th>Date</th>
+          <th>Start</th>
+          <th>End</th>
+          <th>Doctor</th>
+          <th>Patient</th>
+          <th>Status</th>
+          <th>Payment</th>
+          <th class="text-center">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let appt of appointments">
+          <td>{{ appt.appointment_date }}</td>
+          <td>{{ appt.start_time }}</td>
+          <td>{{ appt.end_time }}</td>
+
+          <td>{{ appt.doctor?.user?.name }}</td>
+          <td>{{ appt.patient?.user?.name }}</td>
+                    <td>
+            <span
+              class="badge rounded-pill"
+              [ngClass]="{
+                'bg-success': appt.status === 'confirmed',
+                'bg-warning text-dark': appt.status === 'pending',
+                'bg-danger': appt.status === 'cancelled'
+              }"
+            >
+              {{ appt.status | titlecase }}
+            </span>
+          </td>
+          <td>
+            <span
+              class="badge"
+              [ngClass]="{
+                'bg-danger': appt.payment_status === 'unpaid',
+                'bg-success': appt.payment_status === 'paid',
+                'bg-warning text-dark': appt.payment_status === 'pending'
+              }"
+            >
+              {{ appt.payment_status | titlecase }}
+            </span>
+          </td>
+          <td class="text-center">
+            <div class="btn-group" role="group">
+              <button
+                class="btn btn-sm btn-success"
+                (click)="updateStatus(appt.id, 'confirmed')"
+                [disabled]="appt.status === 'confirmed'"
+                title="Confirm"
+              >
+                <i class="fas fa-check-circle"></i>
+              </button>
+              <button
+                class="btn btn-sm text-dark"
+                (click)="updateStatus(appt.id, 'cancelled')"
+                [disabled]="appt.status === 'cancelled'"
+                title="Cancel"
+              >
+                <i class="fas fa-times-circle"></i>
+              </button>
+              <button
+                class="btn btn-sm btn-danger"
+                (click)="deleteAppointment(appt.id)"
+                title="Delete"
+              >
+                <i class="fas fa-trash-alt"></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+        <tr *ngIf="appointments.length === 0">
+          <td colspan="8" class="text-center text-muted py-4">
+            <i class="far fa-calendar-times fa-2x mb-2"></i><br />
+            No appointments match your current filters
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
