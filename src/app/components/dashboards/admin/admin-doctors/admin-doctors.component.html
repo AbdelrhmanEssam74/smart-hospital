@@ -1,1 +1,152 @@
-<p>admin-doctors works!</p>
+<div class="patient-profiles-container">
+  <div class="header-section">
+    <h2 class="text-center fw-bold mb-3 text-primary">All Doctors</h2>
+    <p class="text-center text-muted mb-4">Manage and view your doctors</p>
+
+    <div class="search-filter-bar">
+      <div class="search-box">
+        <i class="fas fa-search"></i>
+        <input
+          type="text"
+          [(ngModel)]="searchName"
+          (input)="onSearch()"
+          placeholder="Search by name"
+          class="search-input"
+        />
+      </div>
+    </div>
+  </div>
+
+  <div class="patient-cards">
+    <div *ngFor="let doctor of doctors">
+      <div class="patient-card">
+        <div class="card-header">
+          <div class="status-badge active">active</div>
+          <button class="card-menu-btn">
+            <i class="fas fa-ellipsis-v"></i>
+          </button>
+        </div>
+
+        <div class="card-body">
+          <img
+            *ngIf="doctor.user?.image?.includes('http')"
+            [src]="doctor.user?.image"
+            class="img-fluid rounded"
+            alt="doctor image"
+            style="width: 100px; height: 100px; object-fit: cover"
+          />
+          <ng-template [ngIf]="!doctor.user?.image?.includes('http')">
+            <img
+              [src]="'http://127.0.0.1:8000/' + doctor.user?.image"
+              class="img-fluid rounded"
+              alt="doctor image"
+              style="width: 100px; height: 100px; object-fit: cover"
+            />
+          </ng-template>
+
+          <div class="patient-info">
+            <h4 class="patient-name">
+              {{ doctor.user?.name }}
+            </h4>
+
+            <div class="patient-meta">
+              <span class="badge bg-light text-dark">
+                <i class="fas fa-envelope me-1"></i> {{ doctor.user?.email }}
+              </span>
+              <span class="badge bg-light text-dark">
+                <i class="fas fa-phone me-1"></i> {{ doctor.user?.phone }}
+              </span>
+            </div>
+
+            <div class="patient-details">
+              <p>
+                <strong>Description:</strong>
+                {{ doctor.user?.profile_description }}
+              </p>
+              <p>
+                <strong>Experience:</strong> {{ doctor.experience_years }} years
+              </p>
+              <p>
+                <strong>Appointment Fee:</strong> ${{ doctor.appointment_fee }}
+              </p>
+              <p>
+                <strong>Joined At:</strong>
+                {{ doctor.user?.created_at | date : "mediumDate" }}
+              </p>
+              <p><strong>Role:</strong> {{ doctor.user?.role?.name }}</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-footer">
+          <button
+            class="btn btn-sm btn-outline-info"
+            data-bs-toggle="modal"
+            data-bs-target="#slotsModal"
+            (click)="selectDoctor(doctor)"
+          >
+            <i class="fas fa-calendar-alt me-1"></i> View Slots
+          </button>
+          <button
+            class="btn btn-sm btn-danger"
+            (click)="deleteDoctor(doctor.id)"
+          >
+            <i class="fas fa-trash-alt me-1"></i> Delete
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal to Show Slots -->
+  <div
+    class="modal fade"
+    id="slotsModal"
+    tabindex="-1"
+    aria-labelledby="slotsModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="slotsModalLabel">
+            Doctor Slots - {{ selectedDoctor?.user?.name }}
+          </h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <div *ngIf="selectedDoctor?.slot?.length > 0; else noSlots">
+            <ul class="list-group">
+              <li
+                class="list-group-item"
+                *ngFor="let slot of selectedDoctor?.slot"
+              >
+                {{ slot?.date }} | {{ slot?.start_time }} - {{ slot?.end_time }}
+                <span class="badge bg-success float-end">{{
+                  slot?.status
+                }}</span>
+              </li>
+            </ul>
+          </div>
+          <ng-template #noSlots>
+            <p class="text-muted">No available slots for this doctor.</p>
+          </ng-template>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
