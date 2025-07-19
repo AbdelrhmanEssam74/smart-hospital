@@ -1,1 +1,140 @@
-<p>admin-addslots works!</p>
+<div class="container py-5">
+  <div class="row g-4">
+
+    <!-- Add Slot Form -->
+    <div class="col-lg-6">
+      <div class="card shadow-sm border-0 rounded-4">
+        <div class="card-header bg-light text-primary rounded-top-4">
+          <h5 class="mb-0 text-center">Add New Slot</h5>
+        </div>
+        <div class="card-body">
+          <form (ngSubmit)="addSlot()" #slotForm="ngForm" novalidate>
+
+            <div class="mb-3">
+              <label for="doctor" class="form-label">Doctor</label>
+              <select
+                [(ngModel)]="newSlot.doctor_id"
+                name="doctor_id"
+                id="doctor"
+                required
+                class="form-select"
+              >
+                <option value="">Select Doctor</option>
+                <option *ngFor="let doctor of doctors" [value]="doctor.id">
+                  {{ doctor.name }}
+                </option>
+              </select>
+            </div>
+
+            <div class="mb-3">
+              <label for="date" class="form-label">Date</label>
+              <input
+                type="date"
+                [(ngModel)]="newSlot.date"
+                name="date"
+                id="date"
+                required
+                class="form-control"
+              />
+            </div>
+
+            <div class="mb-3">
+              <label for="start_time" class="form-label">Start Time</label>
+              <input
+                type="time"
+                [(ngModel)]="newSlot.start_time"
+                name="start_time"
+                id="start_time"
+                required
+                class="form-control"
+              />
+            </div>
+
+            <div class="mb-3">
+              <label for="end_time" class="form-label">End Time</label>
+              <input
+                type="time"
+                [(ngModel)]="newSlot.end_time"
+                name="end_time"
+                id="end_time"
+                required
+                class="form-control"
+              />
+            </div>
+
+            <div class="mb-3">
+              <label for="status" class="form-label">Status</label>
+              <select
+                [(ngModel)]="newSlot.status"
+                name="status"
+                id="status"
+                class="form-select"
+              >
+                <option value="available">Available</option>
+                <option value="booked">Booked</option>
+                <option value="cancelled">Cancelled</option>
+              </select>
+            </div>
+
+            <div class="d-grid">
+              <button type="submit" class="btn btn-outline-primary rounded-pill" [disabled]="slotForm.invalid">
+                Add Slot
+              </button>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slot Table -->
+    <div class="col-lg-6">
+      <div class="card shadow-sm border-0 rounded-4">
+        <div class="card-header bg-light text-primary rounded-top-4">
+          <h5 class="mb-0 text-center">All Slots</h5>
+        </div>
+        <div class="card-body table-responsive">
+          <table class="table table-bordered table-hover align-middle">
+            <thead class="table-light">
+              <tr>
+                <th>Doctor</th>
+                <th>Date</th>
+                <th>Start</th>
+                <th>End</th>
+                <th>Status</th>
+                <th class="text-center">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let slot of slots">
+                <td>{{ slot.doctor_name }}</td>
+                <td>{{ slot.date }}</td>
+                <td>{{ slot.start_time }}</td>
+                <td>{{ slot.end_time }}</td>
+                <td>
+                  <span class="badge"
+                        [ngClass]="{
+                          'bg-success': slot.status === 'available',
+                          'bg-primary': slot.status === 'booked',
+                          'bg-danger': slot.status === 'cancelled'
+                        }">
+                    {{ slot.status }}
+                  </span>
+                </td>
+                <td class="text-center">
+                  <button class="btn btn-sm btn-outline-danger" (click)="deleteSlot(slot.id)">
+                    <i class="fas fa-trash-alt"></i> Delete
+                  </button>
+                </td>
+              </tr>
+              <tr *ngIf="slots.length === 0">
+                <td colspan="6" class="text-center text-muted">No slots added yet.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
