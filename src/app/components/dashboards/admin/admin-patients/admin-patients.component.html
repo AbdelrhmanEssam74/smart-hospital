@@ -1,1 +1,109 @@
-<p>admin-patients works!</p>
+<div class="patient-profiles-container">
+  <div class="header-section">
+    <h2 class="text-center fw-bold mb-3 text-primary">Patient Profiles</h2>
+    <p class="text-center text-muted mb-4">Manage and view your patient records</p>
+
+    <div class="search-filter-bar">
+      <div class="search-box">
+        <i class="fas fa-search"></i>
+        <input
+          type="text"
+          [(ngModel)]="searchName"
+          (input)="onSearch()"
+          placeholder="Search by patient name"
+          class="search-input"
+        />
+      </div>
+    </div>
+  </div>
+
+  <!-- Patient Cards -->
+  <div class="patient-cards">
+    <div *ngFor="let patient of patients; trackBy: trackById">
+      <div class="patient-card">
+        <div class="card-header">
+          <div class="status-badge active">active</div>
+          <button class="card-menu-btn">
+            <i class="fas fa-ellipsis-v"></i>
+          </button>
+        </div>
+
+        <div class="card-body">
+          <img
+            [src]="'http://127.0.0.1:8000/storage/' + patient.user?.image || 'https://www.svgrepo.com/show/452030/avatar-default.svg'"
+            alt="{{ patient.user?.name }}"
+            class="patient-image"
+          />
+
+          <div class="patient-info">
+            <h4 class="patient-name">
+              {{ patient.user?.name || 'Patient ' + patient.id }}
+              <span class="patient-age">({{ patient.date_of_birth }})</span>
+            </h4>
+
+            <div class="patient-meta">
+              <span class="badge bg-light text-dark">
+                <i class="fas fa-id-card me-1"></i> {{ patient.medical_record_number }}
+              </span>
+              <span class="badge bg-light text-dark">
+                <i class="fas fa-venus-mars me-1"></i> {{ patient.gender }}
+              </span>
+            </div>
+
+            <div class="patient-details">
+              <p><i class="fas fa-envelope me-2"></i> {{ patient.user?.email }}</p>
+              <p><i class="fas fa-phone me-2"></i> {{ patient.phone || patient.user?.phone }}</p>
+              <p><i class="fas fa-map-marker-alt me-2"></i> {{ patient.address || 'No address' }}</p>
+              <p><i class="fas fa-calendar-alt me-2"></i> {{ patient.created_at | date: 'short' }}</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-footer">
+          <button class="btn btn-sm btn-outline-primary">
+            <i class="fas fa-calendar-check me-1"></i> Records
+          </button>
+          <button class="btn btn-sm btn-danger" (click)="deletePatient(patient.id)">
+            <i class="fas fa me-1"></i> delete
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- No patients message -->
+  <div class="no-patients" *ngIf="!loading && patients.length === 0">
+    <div class="empty-state">
+      <i class="fas fa-user-injured fa-3x mb-3 text-muted"></i>
+      <h5>No patients found</h5>
+      <p class="text-muted">Try changing your search</p>
+      <button class="btn btn-primary mt-2">
+        <i class="fas fa-plus me-1"></i> Add Patient
+      </button>
+    </div>
+  </div>
+
+  <!-- Skeleton loading -->
+  <div *ngIf="loading" class="patient-cards">
+    <div class="patient-card skeleton" *ngFor="let s of [1, 2, 3, 4]">
+      <div class="card-header">
+        <div class="status-badge placeholder-box"></div>
+        <div class="card-menu-btn placeholder-box"></div>
+      </div>
+      <div class="card-body">
+        <div class="patient-image placeholder-box"></div>
+        <div class="patient-info">
+          <div class="placeholder-line w-75 mb-2"></div>
+          <div class="placeholder-line w-50 mb-2"></div>
+          <div class="placeholder-line w-100 mb-2"></div>
+          <div class="placeholder-line w-100 mb-2"></div>
+          <div class="placeholder-line w-75"></div>
+        </div>
+      </div>
+      <div class="card-footer d-flex gap-2">
+        <div class="btn btn-sm btn-outline-secondary disabled placeholder-box" style="width: 80px; height: 30px;"></div>
+        <div class="btn btn-sm btn-secondary disabled placeholder-box" style="width: 80px; height: 30px;"></div>
+      </div>
+    </div>
+  </div>
+</div>
