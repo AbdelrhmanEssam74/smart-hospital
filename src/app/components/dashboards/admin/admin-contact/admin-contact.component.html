@@ -1,0 +1,40 @@
+<div class="contact container my-4">
+  <h2 class=" text-center text-info mb-4">Manage Contact Messages</h2>
+
+  <div class="table-responsive rounded shadow-sm">
+    <table class="table table-borderless table-hover align-middle">
+      <thead class="bg-light-blue">
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Subject</th>
+          <th>Phone</th>
+          <th>Message</th>
+          <th>Created</th>
+          <th class="text-center">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let contact of contacts; let i = index">
+          <td>{{ contact.name }}</td>
+          <td>{{ contact.email }}</td>
+          <td>{{ contact.subject }}</td>
+          <td>{{ contact.phone || '-' }}</td>
+          <td>{{ contact.message }}</td>
+          <td>{{ contact.created_at | date: 'short' }}</td>
+          <td class="text-center">
+            <button class="btn btn-sm btn-danger" (click)="deleteMessage(contact.id)" title="Delete">
+              <i class="fas fa-trash-alt"></i>
+            </button>
+          </td>
+        </tr>
+        <tr *ngIf="contacts.length === 0">
+          <td colspan="8" class="text-center text-muted py-4">
+            <i class="far fa-envelope-open fa-2x mb-2"></i><br />
+            No contact messages found.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
