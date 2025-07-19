@@ -11,41 +11,67 @@ import { environment } from '../../environments/environment.development';
 })
 export class PatientService {
   private apiUrl = `${environment.apiUrl}/patient`;
+  private reportURL = `${environment.apiUrl}`;
 
   constructor(
     private httpClient: HttpClient,
     private authService: AuthService
   ) {}
 
-
-  
+  // get patient data
   getPatients(): Observable<any> {
-     return this.httpClient.get(`${this.apiUrl}/profile`, {
-      headers: this.authService.getAuthHeaders()
+    return this.httpClient.get(`${this.apiUrl}/profile`, {
+      headers: this.authService.getAuthHeaders(),
     });
   }
 
-  
+  // update data
   updatePatientProfile(formData: FormData): Observable<any> {
     return this.httpClient.put(`${this.apiUrl}/profile/update`, formData, {
-      headers: this.authService.getAuthHeaders()
+      headers: this.authService.getAuthHeaders(),
     });
   }
-getReports() {
+  // Update image
+  updateProfileImage(imageFile: File): Observable<any> {
+    const formData = new FormData();
+    formData.append('image', imageFile);
+
+    return this.httpClient.post(
+      `${this.apiUrl}/profile/update_image`,
+      formData,
+      {
+        headers: this.authService.getAuthHeaders(),
+      }
+    );
+  }
+  // medical reports
+  getReports() {
     return this.httpClient.get(`${this.apiUrl}/medical_reports`, {
-        headers: this.authService.getAuthHeaders()
+      headers: this.authService.getAuthHeaders(),
     });
-}
-
-uploadReport(formData: FormData) {
+  }
+  // uplaod
+  uploadReport(formData: FormData) {
     return this.httpClient.post(`${this.apiUrl}/medical_reports`, formData, {
-        headers: this.authService.getAuthHeaders()
+      headers: this.authService.getAuthHeaders(),
     });
-}
+  }
 
-deleteReport(reportId: number) {
-    return this.httpClient.delete(`${this.apiUrl}/medical_reports/${reportId}`, {
-        headers: this.authService.getAuthHeaders()
-    });
+  deleteReport(reportId: number) {
+    return this.httpClient.delete(
+      `${this.apiUrl}/medical_reports/${reportId}`,
+      {
+        headers: this.authService.getAuthHeaders(),
+      }
+    );
+  }
+  //  reports
+getPatientReports(patientId: number): Observable<any[]> {
+    return this.httpClient.get<any[]>(
+        `${this.reportURL}/patients/${patientId}/reports`, 
+        {
+            headers: this.authService.getAuthHeaders(),
+        }
+    )
 }
 }

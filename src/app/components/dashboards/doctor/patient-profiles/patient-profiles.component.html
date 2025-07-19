@@ -63,8 +63,8 @@
           <button class="btn btn-sm btn-outline-primary">
             <i class="fas fa-calendar-check me-1"></i> Schedule
           </button>
-          <button class="btn btn-sm btn-primary">
-            <i class="fas fa-file-medical me-1"></i> Records
+        <button class="btn btn-sm btn-primary" (click)="viewPatientReports(patient)">
+            <i class="fas fa-file-medical me-1"></i> Reports
           </button>
         </div>
       </div>
@@ -106,3 +106,71 @@
     </div>
   </div>
 </div>
+<!-- report -->
+ @if (showReportsModal) {
+  <div class="modal-backdrop fade show"></div>
+  <div class="modal fade show d-block" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header bg-primary text-white">
+          <h5 class="modal-title">
+            <i class="fas fa-file-medical me-2"></i>
+            Reports for {{ selectedPatient?.user?.name || 'Patient' }}
+          </h5>
+          <button type="button" class="btn-close btn-close-white" (click)="closeReportsModal()"></button>
+        </div>
+        <div class="modal-body">
+          @if (reportsLoading) {
+            <div class="text-center py-4">
+              <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+            </div>
+          }
+
+          @if (reportError) {
+            <div class="alert alert-danger">
+              <i class="fas fa-exclamation-circle me-2"></i>
+              {{ reportError }}
+            </div>
+          }
+
+          @if (!reportsLoading && patientReports.length === 0) {
+            <div class="text-center py-4">
+              <i class="fas fa-folder-open fa-3x text-muted mb-3"></i>
+              <p>No reports found for this patient</p>
+            </div>
+          }
+
+          @if (!reportsLoading && patientReports.length > 0) {
+            <div class="row">
+              @for (report of patientReports; track report) {
+                <div class="col-md-6 col-lg-4 mb-4">
+                  <div class="card h-100">
+                    <img [src]="report.image_url" 
+                         class="card-img-top report-image" 
+                         alt="{{ report.title }}"
+                         (click)="openImagePreview(report.image_url)">
+                    <div class="card-body">
+                      <h6 class="card-title">{{ report.title }}</h6>
+                      <p class="card-text text-muted small">
+                        <i class="fas fa-calendar-alt me-1"></i>
+                        {{ formatDate(report.report_date) }}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              }
+            </div>
+          }
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" (click)="closeReportsModal()">
+             Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+}
+  
