@@ -30,4 +30,16 @@ updateAdminProfile(profileData: any): Observable<any> {
     headers: this.authService.getAuthHeaders()
   });
 }
+updateProfileImage(imageFile: File): Observable<any> {
+    const formData = new FormData();
+    formData.append('image', imageFile);
+
+    return this.httpClient.post(
+      `${this.adminUrl}/admin/profile/update_image`,
+      formData,
+      {
+        headers: this.authService.getAuthHeaders(),
+      }
+    );
+}
 }
