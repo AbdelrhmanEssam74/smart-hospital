@@ -35,10 +35,13 @@
                 {{ patientData?.medical_record_number }}
               </p>
               <div class="d-flex justify-content-center align-items-center">
-    <button class="btn btn-outline-primary  px-4 py-1 d-flex align-items-center gap-2" routerLink="/profile_edit">
-  <i class="fas fa-edit"></i>
-  Edit Profile
-</button>
+                <button
+                  class="btn btn-outline-primary px-4 py-1 d-flex align-items-center gap-2"
+                  routerLink="/profile_edit"
+                >
+                  <i class="fas fa-edit"></i>
+                  Edit Profile
+                </button>
               </div>
             </div>
           </div>
@@ -218,6 +221,7 @@
                         <th>Title</th>
                         <th>Date</th>
                         <th>Description</th>
+                        <th>File</th>
                         <th>Actions</th>
                       </tr>
                     </thead>
@@ -226,6 +230,20 @@
                         <td>{{ report.title }}</td>
                         <td>{{ report.report_date | date }}</td>
                         <td>{{ report.description }}</td>
+                        <td>
+                          <a
+                            [href]="
+                              'http://localhost:8000/storage/' +
+                              report.file_path
+                            "
+                            target="_blank"
+                            class="btn btn-sm btn-outline-primary"
+                            title="View Report"
+                          >
+                            <i class="fas fa-file-alt"></i> View
+                          </a>
+                        </td>
+
                         <td>
                           <button
                             (click)="deleteMedicalReport(report.id)"
