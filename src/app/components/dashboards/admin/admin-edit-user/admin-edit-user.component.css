@@ -1,0 +1,78 @@
+.patient-edit-card {
+  padding: 2rem;
+  border-radius: 10px;
+  background-color: #fff;
+  margin: 1rem auto;
+  max-width: 800px;
+}
+
+.widget-title {
+  color: #2c3e50;
+  font-size: 1.5rem;
+  font-weight: 600;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #eee;
+}
+
+.form-label {
+  font-weight: 500;
+  color: #555;
+  margin-bottom: 0.5rem;
+}
+
+.form-control {
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+}
+
+.form-control:focus {
+  border-color: #4a90e2;
+  box-shadow: 0 0 0 0.2rem rgba(74, 144, 226, 0.25);
+}
+
+.custom-file-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.btn-primary {
+  background-color: #4a90e2;
+  border-color: #4a90e2;
+  padding: 0.5rem 2rem;
+  font-weight: 500;
+  border-radius: 5px;
+}
+
+.btn-primary:hover {
+  background-color: #3a7bc8;
+  border-color: #3a7bc8;
+}
+
+.btn-primary:disabled {
+  background-color: #cccccc;
+  border-color: #cccccc;
+}
+
+.custom-checkbox .custom-control-label::before {
+  border-radius: 3px;
+}
+
+.text-danger.small {
+  font-size: 0.8rem;
+  margin-top: -0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .patient-edit-card {
+    padding: 1.5rem;
+  }
+  
+  .form-group {
+    margin-bottom: 0.5rem;
+  }
+}

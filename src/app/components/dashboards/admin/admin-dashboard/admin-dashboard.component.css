@@ -1,0 +1,156 @@
+.dashboard-widgets {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.widget-container {
+  padding: 10px;
+}
+
+.widget-card {
+  display: flex;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  padding: 20px;
+  height: 100%;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.widget-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.12);
+}
+
+.widget-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  margin-right: 20px;
+  font-size: 28px;
+  color: white;
+}
+
+.patients-widget .widget-icon {
+  background-color: #ff6b6b;
+  background-image: linear-gradient(135deg, #ff6b6b 0%, #f0b9b9 100%);
+}
+
+.appointments-widget .widget-icon {
+  background-color: #4ecdc4;
+  background-image: linear-gradient(135deg, #4ecdc4 0%, #8decec 100%);
+}
+
+.doctors-widget .widget-icon {
+  background-color: #ffbe76;
+  background-image: linear-gradient(135deg, #ffbe76 0%, #f9d0a2 100%);
+}
+.slots-widget .widget-icon {
+  background-color: #4042aa;
+  background-image: linear-gradient(135deg, #4042aa 0%, #8f90e2 100%);
+}
+.users-widget .widget-icon {
+  background-color: #4a873e;
+  background-image: linear-gradient(135deg, #4a873e 0%, #85cc76 100%);
+}
+
+
+.widget-content {
+  flex: 1;
+}
+
+.widget-title {
+  margin: 0 0 5px 0;
+  font-size: 16px;
+  font-weight: 500;
+  color: #6c757d;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.widget-value {
+  font-size: 28px;
+  font-weight: 700;
+  margin: 5px 0;
+  color: #343a40;
+}
+
+.patients-widget .widget-value {
+  color: #ff6b6b;
+}
+
+.appointments-widget .widget-value {
+  color: #4ecdc4;
+}
+
+.doctors-widget .widget-value {
+  color: #ffbe76;
+}
+.slots-widget .widget-value {
+  color: #4042aa;
+}
+.users-widget .widget-value {
+  color: #4a873e;
+}
+
+.widget-trend {
+  font-size: 14px;
+  margin-top: 5px;
+  display: flex;
+  align-items: center;
+}
+
+.widget-trend i {
+  margin-right: 5px;
+  font-size: 16px;
+}
+
+@media (max-width: 992px) {
+  .dashboard-widgets {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard-widgets {
+    grid-template-columns: 1fr;
+  }
+  
+  .widget-card {
+    padding: 15px;
+  }
+  
+  .widget-icon {
+    width: 50px;
+    height: 50px;
+    font-size: 24px;
+  }
+  
+  .widget-value {
+    font-size: 24px;
+  }
+}
+
+/* edit */
+.edit-form-container {
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-control {
+  margin-bottom: 0.5rem;
+}
+
+.invalid-feedback {
+  color: #dc3545;
+  font-size: 0.875em;
+}

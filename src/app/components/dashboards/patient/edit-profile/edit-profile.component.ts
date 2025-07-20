@@ -1,15 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import {
-  FormBuilder,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
-import { AuthService } from '../../../../services/auth.service';
+import {FormBuilder,FormGroup,ReactiveFormsModule,Validators,} from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { PatientService } from '../../../../services/patient.service';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-edit-profile',
@@ -24,7 +17,7 @@ export class EditProfileComponent {
   successMessage: string = '';
   errorMessage: string = '';
   isLoading = false;
-selectedImage: File | null = null;
+  selectedImage: File | null = null;
   isImageUploading = false;
   imagePreview: string | ArrayBuffer | null = null;
 

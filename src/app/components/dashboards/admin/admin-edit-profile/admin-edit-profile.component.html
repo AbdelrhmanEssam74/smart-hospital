@@ -1,0 +1,217 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="widget-area-2 proclinic-box-shadow">
+        <h3 class="widget-title">Edit Admin Profile</h3>
+
+        <div *ngIf="errorMessage" class="alert alert-danger">
+          {{ errorMessage }}
+        </div>
+        <div *ngIf="successMessage" class="alert alert-success">
+          {{ successMessage }}
+        </div>
+
+        <div *ngIf="isLoading" class="text-center">
+          <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+          <p>Loading profile data...</p>
+        </div>
+      </div>
+      <!--  -->
+      <div class="profile-image-container position-relative">
+        <img
+          [src]="currentUser?.image || 'assets/images/default-profile.png'"
+          alt="patient"
+          class="profile-img rounded-circle mb-3"
+          style="
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border: 4px solid #e3f2fd;
+          "
+        />
+        <div class="image-upload-controls mt-2">
+          <input
+            type="file"
+            id="profileImage"
+            accept="image/*"
+            (change)="onImageSelected($event)"
+            style="display: none"
+          />
+          <label for="profileImage" class="btn btn-sm btn-outline-primary me-2">
+            Change
+          </label>
+          <button
+            class="btn btn-sm btn-primary"
+            (click)="uploadImage()"
+            [disabled]="!selectedImage || isImageUploading"
+          >
+            <span *ngIf="!isImageUploading">Upload</span>
+            <span *ngIf="isImageUploading">
+              <span
+                class="spinner-border spinner-border-sm"
+                role="status"
+              ></span>
+              Uploading...
+            </span>
+          </button>
+        </div>
+      </div>
+      <!--  -->
+      <div *ngIf="!isLoading" class="row">
+        <div class="col-md-8">
+          <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="name">Name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="name"
+                  formControlName="name"
+                />
+                <div
+                  *ngIf="
+                    profileForm.get('name')?.invalid &&
+                    profileForm.get('name')?.touched
+                  "
+                  class="text-danger small"
+                >
+                  Name is required
+                </div>
+              </div>
+
+              <div class="form-group col-md-6">
+                <label for="email">Email</label>
+                <input
+                  type="email"
+                  class="form-control"
+                  id="email"
+                  formControlName="email"
+                />
+                <div
+                  *ngIf="
+                    profileForm.get('email')?.invalid &&
+                    profileForm.get('email')?.touched
+                  "
+                  class="text-danger small"
+                >
+                  Valid email is required
+                </div>
+              </div>
+
+              <div class="form-group col-md-6">
+                <label for="phone">Phone</label>
+                <input
+                  type="tel"
+                  class="form-control"
+                  id="phone"
+                  formControlName="phone"
+                />
+              </div>
+
+              <div class="form-group col-md-12">
+                <label for="profile_description">Profile Description</label>
+                <textarea
+                  class="form-control"
+                  id="profile_description"
+                  formControlName="profile_description"
+                  rows="3"
+                ></textarea>
+              </div>
+
+              <div class="form-group col-md-12 mt-3">
+                <button
+                  type="button"
+                  class="btn btn-outline-primary mb-3"
+                  (click)="togglePasswordFields()"
+                >
+                  {{
+                    showPasswordFields
+                      ? "Hide Password Change"
+                      : "Change Password"
+                  }}
+                </button>
+              </div>
+
+              <div *ngIf="showPasswordFields" class="form-group col-md-12">
+                <div class="card card-body bg-light">
+                  <h5 class="card-title">Change Password</h5>
+
+                  <div class="form-group">
+                    <label for="current_password">Current Password</label>
+                    <input
+                      type="password"
+                      class="form-control"
+                      id="current_password"
+                      formControlName="current_password"
+                    />
+                  </div>
+
+                  <div class="form-group">
+                    <label for="new_password">New Password</label>
+                    <input
+                      type="password"
+                      class="form-control"
+                      id="new_password"
+                      formControlName="new_password"
+                      [class.is-invalid]="
+                        profileForm.get('new_password')?.invalid &&
+                        profileForm.get('new_password')?.touched
+                      "
+                    />
+                    <div
+                      *ngIf="
+                        profileForm.get('new_password')?.invalid &&
+                        profileForm.get('new_password')?.touched
+                      "
+                      class="invalid-feedback"
+                    >
+                      Password must be at least 8 characters
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="new_password_confirmation"
+                      >Confirm New Password</label
+                    >
+                    <input
+                      type="password"
+                      class="form-control"
+                      id="new_password_confirmation"
+                      formControlName="new_password_confirmation"
+                      [class.is-invalid]="
+                        profileForm.hasError('mismatch') &&
+                        profileForm.get('new_password_confirmation')?.touched
+                      "
+                    />
+                    <div
+                      *ngIf="
+                        profileForm.hasError('mismatch') &&
+                        profileForm.get('new_password_confirmation')?.touched
+                      "
+                      class="invalid-feedback"
+                    >
+                      Passwords do not match
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group col-md-12 mt-3">
+                <button
+                  type="submit"
+                  class="btn btn-outline-primary"
+                  [disabled]="profileForm.invalid"
+                >
+                  Update Profile
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

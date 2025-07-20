@@ -1,1 +1,198 @@
-<p>admin-dashboard works!</p>
+<div class="dashboard-widgets">
+  <div *ngIf="isLoading" class="loading-overlay">
+    <div class="spinner"></div>
+    <p>Loading dashboard data...</p>
+  </div>
+
+  <!-- Patients  -->
+  <div class="widget-container">
+    <div class="widget-card patients-widget">
+      <div class="widget-icon">
+        <i class="ti-user"></i>
+      </div>
+      <div class="widget-content">
+        <h3 class="widget-title">Patients</h3>
+        <div class="widget-value">
+          {{ formatNumber(dashboardData?.patients_count) }}
+        </div>
+        <div class="widget-trend">
+          <i></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Appointments  -->
+  <div class="widget-container">
+    <div class="widget-card appointments-widget">
+      <div class="widget-icon">
+        <i class="ti-bar-chart"></i>
+      </div>
+      <div class="widget-content">
+        <h3 class="widget-title">Today's Appointments</h3>
+        <div class="widget-value">
+          {{ formatNumber(dashboardData?.appointments_today) }}
+        </div>
+        <div class="widget-trend">
+          <i></i>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- doctors -->
+  <div class="widget-container">
+    <div class="widget-card doctors-widget">
+      <div class="widget-icon">
+        <i class="ti-heart"></i>
+      </div>
+      <div class="widget-content">
+        <h3 class="widget-title">Doctors</h3>
+        <div class="widget-value">
+          {{ formatNumber(dashboardData?.doctors_count) }}
+        </div>
+        <div class="widget-trend neutral"></div>
+      </div>
+    </div>
+  </div>
+  <!-- slots -->
+  <div class="widget-container">
+    <div class="widget-card slots-widget">
+      <div class="widget-icon">
+        <i class="ti-heart"></i>
+      </div>
+      <div class="widget-content">
+        <h3 class="widget-title">available slots</h3>
+        <div class="widget-value">
+          {{ formatNumber(dashboardData?.available_slots) }}
+        </div>
+        <div class="widget-trend neutral"></div>
+      </div>
+    </div>
+  </div>
+  <!-- Users  -->
+  <div class="widget-container">
+    <div class="widget-card users-widget">
+      <div class="widget-icon">
+        <i class="ti-user"></i>
+      </div>
+      <div class="widget-content">
+        <h3 class="widget-title">Users</h3>
+        <div class="widget-value">
+          {{ formatNumber(dashboardData?.users_count) }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Users Table -->
+<div class="row m-4">
+  <div class="col-md-12">
+    <div class="widget-area-2 proclinic-box-shadow">
+      <h1 class="widget-title my-5 text-center" style="font-size: 1.2rem">
+        Users List
+      </h1>
+
+      <div class="table-responsive">
+        <div
+          id="usersTable_wrapper"
+          class="dataTables_wrapper dt-bootstrap4 no-footer"
+        >
+          <div class="row">
+            <div class="col-sm-12">
+              <table
+                id="usersTable"
+                class="table table-bordered table-striped dataTable no-footer"
+                role="grid"
+                aria-describedby="usersTable_info"
+              >
+                <thead>
+                  <tr role="row">
+                    <th class="sorting" tabindex="0" aria-controls="usersTable">
+                      Name
+                    </th>
+                    <th class="sorting" tabindex="0" aria-controls="usersTable">
+                      Email
+                    </th>
+                    <th class="sorting" tabindex="0" aria-controls="usersTable">
+                      Role
+                    </th>
+                    <th class="sorting" tabindex="0" aria-controls="usersTable">
+                      Phone
+                    </th>
+                    <th class="no-sort sorting_disabled" aria-label="Actions">
+                      Actions
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    *ngIf="paginatedUsers.length === 0"
+                    role="row"
+                    class="odd"
+                  >
+                    <td colspan="7" class="text-center">No users found</td>
+                  </tr>
+                  <tr *ngFor="let user of paginatedUsers" role="row">
+                    <td>{{ user.name }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.role?.name }}</td>
+                    <td>{{ user.phone }}</td>
+                    <td>
+                      <div class="d-flex">
+                        <button class="btn mx-3" (click)="editUser(user.id)">
+                          <i
+                            class="material-icons"
+                            style="color: rgb(211, 211, 5)"
+                            >&#xE254;</i
+                          >
+                        </button>
+                        <button
+                          class="btn"
+                          style="color: red"
+                          (click)="deleteUser(user.id)"
+                        >
+                          <i class="material-icons">&#xE872;</i>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <!-- Pagination -->
+        <div class="d-flex align-items-center justify-content-center my-4">
+          <nav *ngIf="totalPages > 1">
+            <ul class="pagination">
+              <li class="page-item" [class.disabled]="currentPage === 1">
+                <button class="page-link" (click)="changePage(currentPage - 1)">
+                  Previous
+                </button>
+              </li>
+              <li
+                *ngFor="let page of [].constructor(totalPages); let i = index"
+                class="page-item"
+                [class.active]="currentPage === i + 1"
+              >
+                <button class="page-link" (click)="changePage(i + 1)">
+                  {{ i + 1 }}
+                </button>
+              </li>
+              <li
+                class="page-item"
+                [class.disabled]="currentPage === totalPages"
+              >
+                <button class="page-link" (click)="changePage(currentPage + 1)">
+                  Next
+                </button>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- edit -->

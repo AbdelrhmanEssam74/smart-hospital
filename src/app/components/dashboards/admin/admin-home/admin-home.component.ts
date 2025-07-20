@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { DashboardService } from '../../../../services/admin/dashboard.service';
 
 @Component({
   selector: 'app-admin-home',
@@ -11,17 +12,27 @@ import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 })
 export class AdminHomeComponent {
 user: any = null;
+stats: any = null;
+admin: any = null;
+errorMessage= false;
+isLoading= false;
 
-ngOnInit(): void {
-  const raw = localStorage.getItem('auth_currentUser');
-  if (raw) {
-    try {
-      const parsed = JSON.parse(raw);     
-      this.user = parsed.data;            
-      console.log('Loaded user:', this.user);
-    } catch (e) {
-      console.error('Failed to parse user data', e);
-    }
+constructor(private adminService: DashboardService) {}
+ngOnInit() {
+ this.loadDashboard();
   }
+loadDashboard(): void {
+
+  this.adminService.getDashboardData().subscribe({
+    next: (data) => {
+      console.log(data);
+      this.stats = data.stats;
+      this.admin = data.admin;
+    },
+    error: (err) => {
+      this.errorMessage = err.error?.message || 'Failed to load dashboard';
+    },
+    complete: () => this.isLoading = false
+  });
 }
 }
