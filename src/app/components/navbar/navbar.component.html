@@ -168,6 +168,20 @@
                 <button class="dropdown-item" (click)="logout()">Logout</button>
               </li>
             }
+            <!-- Admin -->
+            @else if (userRole == "Admin") {
+              <li>
+                <a class="dropdown-item" routerLink="./admin/admin-home">Dashboard</a>
+              </li>
+      
+              <li>
+                <hr class="dropdown-divider"/>
+              </li>
+     
+              <li>
+                <button class="dropdown-item" (click)="logout()">Logout</button>
+              </li>
+            } 
             <!-- patient -->
             @else if (userRole == "Patient") {
               <li>
