@@ -2,58 +2,68 @@
   <h2 class="m-auto">Edit Profile</h2>
 
   @if (errorMessage) {
-    <div class="alert alert-danger">{{ errorMessage }}</div>
-  }
-  
-  @if (successMessage) {
-    <div class="alert alert-success">{{ successMessage }}</div>
+  <div class="alert alert-danger">{{ errorMessage }}</div>
+  } @if (successMessage) {
+  <div class="alert alert-success">{{ successMessage }}</div>
   }
 
   <form [formGroup]="editForm" (ngSubmit)="onSubmit()">
     <div class="form-group">
-        <div class="form-group text-center">
-      <div class="image-upload-container">
-        <div class="profile-image-wrapper">
+      <div class="form-group text-center">
+        <!-- Modify your image section in the sidebar -->
+        <div class="profile-image-container position-relative">
           <img
-            [src]="imagePreview"
-            alt="Profile Image"
-            class="profile-image"
+            [src]="currentUser?.image || 'assets/images/default-profile.png'"
+            alt="patient"
+            class="profile-img rounded-circle mb-3"
+            style="
+              width: 120px;
+              height: 120px;
+              object-fit: cover;
+              border: 4px solid #e3f2fd;
+            "
           />
-          <div class="image-actions">
-            <label class="btn btn-sm btn-upload">
-              Change
-              <input 
-                name="image"
-                type="file" 
-                accept="image/*" 
-                style="display: none;"
-                  (change)="onFileSelected($event)"
-              >
+          <div class="image-upload-controls mt-2">
+            <input
+              type="file"
+              id="profileImage"
+              accept="image/*"
+              (change)="onImageSelected($event)"
+              style="display: none"
+            />
+            <label
+              for="profileImage"
+              class="btn btn-sm btn-outline-primary me-2"
+            >
+              <i class="fas fa-camera me-1"></i> Change
             </label>
-            @if (selectedImage) {
-              <button 
-                type="button" 
-                class="btn btn-sm btn-remove"
-                (click)="onRemoveImage()"
-              >
-               Remove
-              </button>
-            }
+            <button
+              class="btn btn-sm btn-primary"
+              (click)="uploadImage()"
+              [disabled]="!selectedImage || isImageUploading"
+            >
+              <span *ngIf="!isImageUploading">Upload</span>
+              <span *ngIf="isImageUploading">
+                <span
+                  class="spinner-border spinner-border-sm"
+                  role="status"
+                ></span>
+                Uploading...
+              </span>
+            </button>
           </div>
         </div>
       </div>
-    </div>
       <label for="name">Name</label>
       <input type="text" id="name" formControlName="name" />
       @if (editForm.get('name')?.invalid && editForm.get('name')?.touched) {
-        <div class="error-message">
-          @if (editForm.get('name')?.errors?.['required']) {
-            <div>Name is required</div>
-          }
-          @if (editForm.get('name')?.errors?.['minlength']) {
-            <div>Name must be at least 3 characters</div>
-          }
-        </div>
+      <div class="error-message">
+        @if (editForm.get('name')?.errors?.['required']) {
+        <div>Name is required</div>
+        } @if (editForm.get('name')?.errors?.['minlength']) {
+        <div>Name must be at least 3 characters</div>
+        }
+      </div>
       }
     </div>
 
@@ -61,17 +71,15 @@
       <label for="email">Email</label>
       <input type="email" id="email" formControlName="email" />
       @if (editForm.get('email')?.invalid && editForm.get('email')?.touched) {
-        <div class="error-message">
-          @if (editForm.get('email')?.errors?.['required']) {
-            <div>Email is required</div>
-          }
-          @if (editForm.get('email')?.errors?.['email']) {
-            <div>Please enter a valid email</div>
-          }
-           @if (editForm.get('email')?.errors?.['duplicate']) {
+      <div class="error-message">
+        @if (editForm.get('email')?.errors?.['required']) {
+        <div>Email is required</div>
+        } @if (editForm.get('email')?.errors?.['email']) {
+        <div>Please enter a valid email</div>
+        } @if (editForm.get('email')?.errors?.['duplicate']) {
         <div>This email is already registered with another account</div>
-      }
-        </div>
+        }
+      </div>
       }
     </div>
 
@@ -79,11 +87,11 @@
       <label for="phone">Phone</label>
       <input type="text" id="phone" formControlName="phone" />
       @if (editForm.get('phone')?.invalid && editForm.get('phone')?.touched) {
-        <div class="error-message">
-          @if (editForm.get('phone')?.errors?.['maxlength']) {
-            <div>Phone must be 11 digits or less</div>
-          }
-        </div>
+      <div class="error-message">
+        @if (editForm.get('phone')?.errors?.['maxlength']) {
+        <div>Phone must be 11 digits or less</div>
+        }
+      </div>
       }
     </div>
 
@@ -95,7 +103,7 @@
         <option value="Female">Female</option>
       </select>
       @if (editForm.get('gender')?.invalid && editForm.get('gender')?.touched) {
-        <div class="error-message">Gender is required</div>
+      <div class="error-message">Gender is required</div>
       }
     </div>
 
@@ -107,18 +115,25 @@
     <div class="form-group">
       <label for="address">Address</label>
       <textarea id="address" formControlName="address"></textarea>
-      @if (editForm.get('address')?.invalid && editForm.get('address')?.touched) {
-        <div class="error-message">
-          Address must be 255 characters or less
-        </div>
+      @if (editForm.get('address')?.invalid && editForm.get('address')?.touched)
+      {
+      <div class="error-message">Address must be 255 characters or less</div>
       }
     </div>
 
     <div class="form-actions">
-      <button type="submit" class="btn btn-outline-info" [disabled]="editForm.invalid ">
-      save changes
+      <button
+        type="submit"
+        class="btn btn-outline-info"
+        [disabled]="editForm.invalid"
+      >
+        save changes
       </button>
-      <button type="button" class="btn btn-outline-secondary" routerLink="/patient_profile">
+      <button
+        type="button"
+        class="btn btn-outline-secondary"
+        routerLink="/patient_profile"
+      >
         Cancel
       </button>
     </div>

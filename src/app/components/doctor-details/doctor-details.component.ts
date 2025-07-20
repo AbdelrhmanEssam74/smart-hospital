@@ -7,11 +7,13 @@ import { Appointment } from '../../interfaces/appointment';
 import { AppointmentService } from '../../services/appointment.service';
 import { CommonModule, DatePipe } from '@angular/common';
 import { DoctorDisplay } from '../../interfaces/doctor';
+import {DoctorReviewsComponent} from '../doctor-reviews/doctor-reviews.component';
+import {ReviewsService} from '../../services/reviews.service';
 
 @Component({
   selector: 'app-doctor-details',
   standalone: true,
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule, DoctorReviewsComponent],
   templateUrl: './doctor-details.component.html',
   styleUrls: ['./doctor-details.component.css'],
   providers: [DatePipe],
@@ -25,7 +27,7 @@ export class DoctorDetailsComponent implements OnInit {
   selectedDate: string | null = null;
   selectedSlot: { start_time: string; end_time: string } | null = null;
   isLoading: boolean = true;
-
+  averageRating: number = 0;
   appointment: Appointment = {
     patient_id: '',
     doctor_id: '',
@@ -43,7 +45,8 @@ export class DoctorDetailsComponent implements OnInit {
     private notifications: NotificationService,
     private appointmentService: AppointmentService,
     private datePipe: DatePipe,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private review:ReviewsService
   ) {}
 
   ngOnInit() {
@@ -51,9 +54,16 @@ export class DoctorDetailsComponent implements OnInit {
       this.doctorId = +params['id'];
       this.loadDoctorDetails();
       this.loadDoctorSlots(this.doctorId);
+      this.AverageRating();
     });
   }
-
+  AverageRating(): void {
+    if (this.doctorId) {
+      this.review.getAverageRating(this.doctorId).subscribe((res) => {
+        this.averageRating = res.average_rating;
+      });
+    }
+  }
   loadDoctorDetails() {
     if (!this.doctorId) return;
     this.isLoading = true;

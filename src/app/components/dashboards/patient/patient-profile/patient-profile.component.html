@@ -35,11 +35,13 @@
                 {{ patientData?.medical_record_number }}
               </p>
               <div class="d-flex justify-content-center align-items-center">
-                <div>
-                  <button class="btn btn-primary" routerLink="/profile_edit">
-                    Edit
-                  </button>
-                </div>
+                <button
+                  class="btn btn-outline-primary px-4 py-1 d-flex align-items-center gap-2"
+                  routerLink="/profile_edit"
+                >
+                  <i class="fas fa-edit"></i>
+                  Edit Profile
+                </button>
               </div>
             </div>
           </div>
@@ -106,7 +108,6 @@
                     <td>{{ appt.endTime }}</td>
                     <td>{{ appt.gender }}</td>
                     <td>{{ appt.appointment_fee }} EGP</td>
-
                     <td class="pe-4">
                       <span
                         class="badge rounded-pill"
@@ -120,7 +121,6 @@
                         {{ appt.status | titlecase }}
                       </span>
                     </td>
-
                     <td>
                       <ng-container
                         *ngIf="appt.status === 'confirmed'; else noButton"
@@ -152,7 +152,6 @@
                         >
                       </ng-template>
                     </td>
-
                     <td>
                       <span
                         class="badge rounded-pill text-center"
@@ -165,23 +164,20 @@
                         {{ appt.payment_status | titlecase }}
                       </span>
                     </td>
-
                     <td>
                       <a
                         class="action-btn view-btn"
                         (click)="viewAppointment(appt.id)"
                         title="View"
-                      >
-                        <i class="fas fa-eye"></i>
-                      </a>
+                        ><i class="fas fa-eye"></i
+                      ></a>
                       <a
                         *ngIf="appt.status === 'pending'"
                         class="action-btn delete-btn"
                         (click)="deleteAppointment(appt.id)"
                         title="Delete"
-                      >
-                        <i class="fas fa-times"></i>
-                      </a>
+                        ><i class="fas fa-times"></i
+                      ></a>
                     </td>
                   </tr>
                 </tbody>
@@ -202,13 +198,6 @@
                 </h5>
               </div>
               <div class="card-body">
-                <button
-                  class="btn btn-primary mb-3"
-                  (click)="showReportModal = true"
-                >
-                  <i class="fas fa-plus me-2"></i> Add New Report
-                </button>
-
                 <div *ngIf="isReportsLoading" class="text-center py-4">
                   <div class="spinner-border text-primary" role="status">
                     <span class="visually-hidden">Loading...</span>
@@ -232,6 +221,7 @@
                         <th>Title</th>
                         <th>Date</th>
                         <th>Description</th>
+                        <th>File</th>
                         <th>Actions</th>
                       </tr>
                     </thead>
@@ -241,16 +231,40 @@
                         <td>{{ report.report_date | date }}</td>
                         <td>{{ report.description }}</td>
                         <td>
+                          <a
+                            [href]="
+                              'http://localhost:8000/storage/' +
+                              report.file_path
+                            "
+                            target="_blank"
+                            class="action-btn view-btn"
+                            title="View Report"
+                          >
+                            <i class="fas fa-eye"></i> 
+                          </a>
+                        </td>
+
+                        <td>
                           <button
                             (click)="deleteMedicalReport(report.id)"
-                            class="btn btn-sm btn-danger"
+                            class="btn btn-sm border shadow-sm bg-white text-danger"
+                            title="Delete Report"
                           >
-                            <i class="fas fa-trash"></i> Delete
+                            <i class="fas fa-trash"></i>
                           </button>
                         </td>
                       </tr>
                     </tbody>
                   </table>
+                </div>
+
+                <div class="text-center mt-4">
+                  <button
+                    class="btn btn-outline-primary"
+                    (click)="showReportModal = true"
+                  >
+                    <i class="fas fa-plus me-2"></i> Add New Report
+                  </button>
                 </div>
               </div>
             </div>

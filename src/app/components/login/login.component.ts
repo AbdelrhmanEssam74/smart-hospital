@@ -47,11 +47,13 @@ export class LoginComponent {
       next: () => {
         this.auth.getProfile().subscribe({
           next: (profile) => {
-                          this.auth.saveUser(profile);
+            this.auth.saveUser(profile);
 
             // check if role is doctor - Abdelrhman
             if(profile.data.role.id === 2){
               this.router.navigate(['/doctor']);
+            }else if(profile.data.role.id === 1){
+              this.router.navigate(['/admin']);
             }else if(profile.data.role.id === 5){
               this.auth.saveUser(profile);
               this.router.navigate(['/home']);
