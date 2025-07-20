@@ -4,10 +4,13 @@
     <div class="col-md-3 col-lg-2 sidebar text-white vh-100">
       <div class="sidebar-content p-3">
         <!-- Doctor Profile -->
-        <div class="doctor-profile-card text-center ">
+        <div class="doctor-profile-card text-center">
           <div class="profile-image-container position-relative">
             <img
-              [src]="user?.image || 'https://png.pngtree.com/png-vector/20240710/ourmid/pngtree-the-person-icon-in-a-colorful-circle-with-a-person-on-vector-png-image_7046535.png'"
+              [src]="
+                admin?.image ||
+                'https://png.pngtree.com/png-vector/20240710/ourmid/pngtree-the-person-icon-in-a-colorful-circle-with-a-person-on-vector-png-image_7046535.png'
+              "
               class="profile-image rounded-circle img-fluid"
               alt="User Profile"
             />
@@ -16,8 +19,8 @@
               style="width: 12px; height: 12px"
             ></div>
           </div>
-          <h5 class="doctor-name mt-3 mb-0">{{ user?.name }}</h5>
-          <p class="doctor-specialty small">{{ user?.role?.name }}</p>
+          <h5 class="doctor-name mt-3 mb-0">{{ admin?.name }}</h5>
+          <p class="doctor-specialty small">{{ admin?.role }}</p>
         </div>
 
         <!-- Navigation Menu -->
@@ -91,6 +94,15 @@
             >
               <i class="fa-light fa-envelope me-2"></i>
               Messages Contact
+            </a>
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link text-white"
+              routerLink="admin-edit-profile"
+              routerLinkActive="active-link"
+            >
+              <i class="bi bi-pencil-square"></i> Edit Profile
             </a>
           </li>
 

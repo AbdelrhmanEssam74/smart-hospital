@@ -23,6 +23,8 @@ import { AdminAddslotsComponent } from './components/dashboards/admin/admin-adds
 import { AdminAddUserComponent } from './components/dashboards/admin/admin-add-user/admin-add-user.component';
 import { AdminDoctorsComponent } from './components/dashboards/admin/admin-doctors/admin-doctors.component';
 import { AdminContactsComponent } from './components/dashboards/admin/admin-contact/admin-contact.component';
+import { AdminEditUserComponent } from './components/dashboards/admin/admin-edit-user/admin-edit-user.component';
+import { AdminEditProfileComponent } from './components/dashboards/admin/admin-edit-profile/admin-edit-profile.component';
 
 export const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -49,9 +51,13 @@ export const routes: Routes = [
       {path: 'admin-patients', component: AdminPatientsComponent},
       {path: 'admin-doctors', component: AdminDoctorsComponent},
       {path: 'admin-adduser',component:AdminAddUserComponent},
+ {path: 'admin-edituser/:id',component:AdminEditUserComponent},
+      {path: 'admin-edit-profile', component: AdminEditProfileComponent},
+      {path: '', redirectTo: 'admin-home', pathMatch: 'full'},
       {path: 'admin-edituser',component:AdminAddUserComponent},
 
-        {path: 'massagecontact',component: AdminContactsComponent},
+
+     {path: 'massagecontact',component: AdminContactsComponent},
 
     ]
   },
