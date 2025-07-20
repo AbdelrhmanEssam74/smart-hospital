@@ -4,71 +4,111 @@
     <div class="col-md-3 col-lg-2 sidebar text-white vh-100">
       <div class="sidebar-content p-3">
         <!-- Doctor Profile -->
-        <div class="doctor-profile-card text-center py-3">
+        <div class="doctor-profile-card text-center ">
           <div class="profile-image-container position-relative">
             <img
-              src="https://png.pngtree.com/png-vector/20240710/ourmid/pngtree-the-person-icon-in-a-colorful-circle-with-a-person-on-vector-png-image_7046535.png"
-              class="profile-image rounded-circle img-fluid" alt="Doctor Profile">
-            <div class="online-status position-absolute bottom-0 end-0 bg-success rounded-circle border border-white"
-                 style="width: 12px; height: 12px;"></div>
+              [src]="user?.image || 'assets/images/default-user.png'"
+              class="profile-image rounded-circle img-fluid"
+              alt="User Profile"
+            />
+            <div
+              class="online-status position-absolute bottom-0 end-0 bg-success rounded-circle border border-white"
+              style="width: 12px; height: 12px"
+            ></div>
           </div>
-          <h5 class="doctor-name mt-3 mb-0"></h5>
-          <p class="doctor-specialty small"></p>
+          <h5 class="doctor-name mt-3 mb-0">{{ user?.name }}</h5>
+          <p class="doctor-specialty small">{{ user?.role?.name }}</p>
         </div>
 
         <!-- Navigation Menu -->
         <ul class="nav flex-column sidebar-menu mt-4">
           <li class="nav-item">
-            <a class="nav-link text-white" routerLink="admin-home" routerLinkActive="active-link">
+            <a
+              class="nav-link text-white"
+              routerLink="admin-home"
+              routerLinkActive="active-link"
+            >
               <i class="fa-light fa-house me-2"></i>
               Dashboard
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-white" routerLink="admin-appointments" routerLinkActive="active-link">
+            <a
+              class="nav-link text-white"
+              routerLink="admin-appointments"
+              routerLinkActive="active-link"
+            >
               <i class="fa-light fa-calendar-range me-2"></i>
-            All Appointments
+              All Appointments
               <span class="badge bg-light text-primary ms-auto"></span>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-white" routerLink="admin-add-slot" routerLinkActive="active-link">
+            <a
+              class="nav-link text-white"
+              routerLink="admin-add-slot"
+              routerLinkActive="active-link"
+            >
               <i class="fa-light fa-square-plus me-2"></i>
-              Add Slot To Doctor    
+              Add Slot To Doctor
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-white" routerLink="admin-patients" routerLinkActive="active-link">
+            <a
+              class="nav-link text-white"
+              routerLink="admin-patients"
+              routerLinkActive="active-link"
+            >
               <i class="fa-light fa-users-medical me-2"></i>
-             All Patients
+              All Patients
             </a>
           </li>
-                <li class="nav-item">
-            <a class="nav-link text-white" routerLink="admin-doctors" routerLinkActive="active-link">
+          <li class="nav-item">
+            <a
+              class="nav-link text-white"
+              routerLink="admin-doctors"
+              routerLinkActive="active-link"
+            >
               <i class="fa-light fa-users-medical me-2"></i>
               All Doctors
             </a>
           </li>
-                          <li class="nav-item">
-            <a class="nav-link text-white" routerLink="admin-adduser" routerLinkActive="active-link">
+          <li class="nav-item">
+            <a
+              class="nav-link text-white"
+              routerLink="admin-adduser"
+              routerLinkActive="active-link"
+            >
               <i class="fa-light fa-users-medical me-2"></i>
               Add User
             </a>
           </li>
-     <li class="nav-item">
-  <a class="nav-link text-white" routerLink="massagecontact" routerLinkActive="active-link">
-    <i class="fa-light fa-envelope me-2"></i>
-    Messages Contact
-  </a>
-</li>
           <li class="nav-item">
-            <a class="nav-link text-white" routerLink="admin-edit-profile" routerLinkActive="active-link">
+            <a
+              class="nav-link text-white"
+              routerLink="massagecontact"
+              routerLinkActive="active-link"
+            >
+              <i class="fa-light fa-envelope me-2"></i>
+              Messages Contact
+            </a>
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link text-white"
+              routerLink="admin-edit-profile"
+              routerLinkActive="active-link"
+            >
               <i class="fa-light fa-pen-to-square me-2"></i>
-                Edit Profile
+              Edit Profile
             </a>
           </li>
           <li class="nav-item mt-4">
-            <a class="nav-link text-warning" routerLink="logout" routerLinkActive="active-link">
+            <a
+              class="nav-link text-warning"
+              routerLink="logout"
+              routerLinkActive="active-link"
+            >
               <i class="fas fa-sign-out-alt me-2"></i>
               Logout
             </a>
