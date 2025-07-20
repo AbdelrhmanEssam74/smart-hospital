@@ -6,7 +6,7 @@ export interface User {
   image:string,
   profile_description: string,
   email_verified_at: string,
-  role: {
+  role?: {
     id: number;
     name: string;
   };

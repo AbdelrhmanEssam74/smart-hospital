@@ -50,6 +50,8 @@ export const routes: Routes = [
       {path: 'admin-patients', component: AdminPatientsComponent},
       {path: 'admin-doctors', component: AdminDoctorsComponent},
       {path: 'admin-adduser',component:AdminAddUserComponent},
+      {path: 'admin-edituser',component:AdminAddUserComponent},
+
         {path: 'massagecontact',component: AdminContactsComponent},
 
       {path: 'admin-edit-profile', component: AdminEditProfileComponent},
