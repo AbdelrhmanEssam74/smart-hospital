@@ -7,10 +7,7 @@
         <div class="doctor-profile-card text-center">
           <div class="profile-image-container position-relative">
             <img
-              [src]="
-                admin?.image ||
-                'https://png.pngtree.com/png-vector/20240710/ourmid/pngtree-the-person-icon-in-a-colorful-circle-with-a-person-on-vector-png-image_7046535.png'
-              "
+              [src]="admin?.image || 'https://png.pngtree.com/...fallback.png'"
               class="profile-image rounded-circle img-fluid"
               alt="User Profile"
             />
