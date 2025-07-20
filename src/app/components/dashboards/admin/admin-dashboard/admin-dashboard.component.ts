@@ -48,6 +48,7 @@ export class AdminDashboardComponent {
   totalPages: number = 1;
   totalUsers: number = 0;
   paginatedUsers: User[] = [];
+  stats: any = null;
 
   constructor(
     private adminApi: DashboardService,
@@ -67,12 +68,13 @@ export class AdminDashboardComponent {
     this.adminApi.getDashboardData().subscribe({
       next: (data) => {
         this.dashboardData = {
-          patients_count: data.patients_count,
-          doctors_count: data.doctors_count,
-          appointments_today: data.appointments_today,
-          available_slots: data.available_slots,
-          users_count: data.users_count,
+          patients_count: data.stats.patients_count,
+          doctors_count: data.stats.doctors_count,
+          appointments_today: data.stats.appointments_today,
+          available_slots: data.stats.available_slots,
+          users_count: data.stats.users_count,
         };
+
       },
       error: (error) => {
         console.error('Error loading dashboard data:', error);
@@ -108,7 +110,6 @@ export class AdminDashboardComponent {
         () => {
           this.loadUsers();
           this.updatePaginatedUsers();
-          this.currentPage = 1;
         },
         (error) => {
           console.error('Error deleting user:', error);
@@ -141,7 +142,7 @@ export class AdminDashboardComponent {
   }
 
   editUser(id: number): void {
-  this.router.navigate(['/admin/admin-adduser', id]);
+  this.router.navigate(['/admin/admin-edituser/', id]);
 }
 
 
