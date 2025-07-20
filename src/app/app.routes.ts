@@ -54,7 +54,10 @@ export const routes: Routes = [
  {path: 'admin-edituser/:id',component:AdminEditUserComponent},
       {path: 'admin-edit-profile', component: AdminEditProfileComponent},
       {path: '', redirectTo: 'admin-home', pathMatch: 'full'},
-        {path: 'massagecontact',component: AdminContactsComponent},
+      {path: 'admin-edituser',component:AdminAddUserComponent},
+
+
+     {path: 'massagecontact',component: AdminContactsComponent},
 
     ]
   },

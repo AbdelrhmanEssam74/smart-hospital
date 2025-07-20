@@ -50,6 +50,7 @@ export class AdminDashboardComponent {
   paginatedUsers: User[] = [];
   stats: any = null;
 
+
   constructor(
     private adminApi: DashboardService,
     private userService: UserControlService,
@@ -74,6 +75,7 @@ export class AdminDashboardComponent {
           available_slots: data.stats.available_slots,
           users_count: data.stats.users_count,
         };
+
 
       },
       error: (error) => {
@@ -110,6 +112,7 @@ export class AdminDashboardComponent {
         () => {
           this.loadUsers();
           this.updatePaginatedUsers();
+
         },
         (error) => {
           console.error('Error deleting user:', error);
@@ -143,6 +146,7 @@ export class AdminDashboardComponent {
 
   editUser(id: number): void {
   this.router.navigate(['/admin/admin-edituser/', id]);
+
 }
 
 

@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AuthService } from '../auth.service';
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -42,4 +43,10 @@ updateProfileImage(imageFile: File): Observable<any> {
       }
     );
 }
+}
+  constructor(private httpClient: HttpClient) {}
+
+  getDashboardData(): Observable<any> {
+    return this.httpClient.get(`${this.adminUrl}/admin/dashboard-data`);
+  }
 }
