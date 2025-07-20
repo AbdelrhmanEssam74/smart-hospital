@@ -230,3 +230,8 @@
     background-position: 400px 0;
   }
 }
+/* repots */
+.report-image {
+  height: 150px;
+  object-fit: cover;
+}
