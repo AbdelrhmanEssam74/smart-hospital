@@ -22,7 +22,6 @@ import { AdminAppointmentsComponent } from './components/dashboards/admin/admin-
 import { AdminAddslotsComponent } from './components/dashboards/admin/admin-addslots/admin-addslots.component';
 import { AdminAddUserComponent } from './components/dashboards/admin/admin-add-user/admin-add-user.component';
 import { AdminDoctorsComponent } from './components/dashboards/admin/admin-doctors/admin-doctors.component';
-import { AdminEditProfileComponent } from './components/dashboards/admin/admin-edit-profile/admin-edit-profile.component';
 import { AdminContactsComponent } from './components/dashboards/admin/admin-contact/admin-contact.component';
 
 export const routes: Routes = [
@@ -54,7 +53,6 @@ export const routes: Routes = [
 
         {path: 'massagecontact',component: AdminContactsComponent},
 
-      {path: 'admin-edit-profile', component: AdminEditProfileComponent},
     ]
   },
   {path: "patient_profile", component: PatientProfileComponent},

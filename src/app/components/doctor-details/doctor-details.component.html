@@ -23,7 +23,6 @@
     <i class="icon bi bi-droplet-fill"></i>
     <hr class="line_down" />
   </div>
-
   <div class="row bg-white mt-5 box">
     <!-- Doctor Profile -->
     <div class="col-md-4 p-4 border-end">
@@ -63,7 +62,6 @@
         </div>
       }
     </div>
-
     <!-- Booking Form -->
     <div class="col-md-8 p-4">
       @if (isLoading) {
@@ -73,8 +71,25 @@
           </div>
         </div>
       } @else {
-        <h4 class="mb-4">{{ doctor?.name }}</h4>
-
+        <div class="d-flex gap-2">
+          <h4 class="mb-4">{{ doctor?.name }}</h4>
+          <!-- Display Average Rating -->
+          <span class="average-rating">
+            <ng-container *ngIf="averageRating > 0; else noRating">
+              <div class="d-flex align-items-center">
+                <div class="text-warning me-2">
+                  <ng-container *ngFor="let star of [1, 2, 3, 4, 5]; let i = index">
+                    <i [ngClass]="i < averageRating ? 'fas fa-star' : 'far fa-star'"></i>
+                  </ng-container>
+                </div>
+                <span class="fw-bold">({{ averageRating.toFixed(1) }}/5)</span>
+              </div>
+            </ng-container>
+            <ng-template #noRating>
+              <span class="text-muted">No ratings yet</span>
+            </ng-template>
+          </span>
+        </div>
         <div class="experience mb-4">
           <h5>Profile Description</h5>
           <p>{{ doctor?.profile_description }}</p>
@@ -162,6 +177,10 @@
           </form>
         </div>
       }
+
+      <div class="reviews">
+        <app-doctor-reviews [doctorId]="doctorId"></app-doctor-reviews>
+      </div>
     </div>
   </div>
 </div>

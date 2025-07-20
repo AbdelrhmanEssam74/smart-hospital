@@ -1,0 +1,149 @@
+<div class="container py-4">
+  <div class="header">
+    <h4 class="mb-4">Patients Feedback</h4>
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addFeedbackModal">
+      Add Feedback
+    </button>
+
+    <!-- Add Feedback Modal -->
+    <div class="modal fade" id="addFeedbackModal" tabindex="-1" aria-labelledby="addFeedbackLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="addFeedbackLabel">Share Your Feedback</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form [formGroup]="feedbackForm" (ngSubmit)="onSubmit()">
+              <div class="form-group mb-3">
+                <label>Rating</label>
+                <div class="star-rating">
+                  <span *ngFor="let star of stars; let i = index"
+                        (click)="rate(i + 1)"
+                        [ngClass]="i < rating ? 'fas fa-star' : 'far fa-star'">
+                  </span>
+                </div>
+                <input type="hidden" formControlName="rating">
+                <div *ngIf="feedbackForm.get('rating')?.invalid && feedbackForm.get('rating')?.touched" class="text-danger">
+                  Please select a rating
+                </div>
+
+                <label for="feedback">Your Feedback</label>
+                <textarea id="feedback" class="form-control" formControlName="comment" rows="4"
+                          placeholder="Share your experience..."></textarea>
+                <div *ngIf="feedbackForm.get('comment')?.invalid && feedbackForm.get('comment')?.touched" class="text-danger">
+                  Please enter your feedback (minimum 10 characters)
+                </div>
+              </div>
+
+              <div class="modal-footer">
+                <button type="submit"  data-bs-dismiss="modal"  class="btn btn-primary" [disabled]="feedbackForm.invalid || isSubmitting">
+                  <span *ngIf="!isSubmitting">Submit Feedback</span>
+                  <span *ngIf="isSubmitting">
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    Submitting...
+                  </span>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div *ngIf="reviews.length > 0">
+  <div class="reviews-container" *ngFor="let review of reviews">
+    <div class="review-card">
+      <div class="review-header">
+        <div class="review-user">{{ review.user.name }}</div>
+        <div class="action-buttons" *ngIf="ifOwner(review)">
+          <button class="delete-btn" title="Delete" (click)="openDeleteModal(review.id)">
+            <i class="fa-solid fa-trash-xmark"></i>
+          </button>
+          <button class="edit-btn" title="Edit" (click)="viewReview(review.id)">
+            <i class="fa-regular fa-pen-to-square"></i>
+          </button>
+        </div>
+      </div>
+      <div class="stars">
+        <div class="star-rating">
+          <i *ngFor="let star of stars; let i = index" [ngClass]="i < review.rating ? 'fas fa-star' : 'far fa-star'"></i>
+        </div>
+      </div>
+      <div class="review-footer">
+        <div class="review-comment">{{ review.comment }}</div>
+        <div class="review-date">{{ dateFormat(review.created_at) }}</div>
+      </div>
+    </div>
+  </div>
+</div>
+<div *ngIf="reviews.length === 0">
+  <div class="no-reviews">
+    <p>No reviews available yet. Be the first to share your experience!</p>
+  </div>
+</div>
+
+<div *ngIf="showPopup" class="modal-overlay">
+  <div class="modal-content">
+    <div class="modal-header bg-light-blue">
+      <h5 class="modal-title">Edit you Feedback</h5>
+      <button type="button" class="btn-close btn-close-white" (click)="closePopup()"></button>
+    </div>
+
+    <div class="modal-body">
+      <!-- Edit Form -->
+      <form [formGroup]="feedbackForm">
+        <div class="form-group mb-3">
+          <label class="form-label">Update Rating</label>
+          <div class="star-rating">
+        <span *ngFor="let star of stars; let i = index"
+              (click)="rate(i + 1)"
+              [ngClass]="i < rating ? 'fas fa-star text-warning' : 'far fa-star text-secondary'">
+        </span>
+          </div>
+          <input type="hidden" formControlName="rating">
+          <div *ngIf="feedbackForm.get('rating')?.invalid && feedbackForm.get('rating')?.touched"
+               class="text-danger">
+            Please select a rating
+          </div>
+
+          <label for="feedback" class="form-label mt-3">Update Your Feedback</label>
+          <textarea id="feedback" class="form-control" formControlName="comment" rows="4"
+                    placeholder="Edit your previous feedback..."></textarea>
+          <div *ngIf="feedbackForm.get('comment')?.invalid && feedbackForm.get('comment')?.touched"
+               class="text-danger">
+            Please enter your feedback (minimum 10 characters)
+          </div>
+        </div>
+
+        <div class="d-flex justify-content-between">
+          <button type="button" class="btn btn-secondary" (click)="closePopup()">Cancel</button>
+          <button type="submit" (click)="onUpdate()" class="btn btn-primary" [disabled]="feedbackForm.invalid || isSubmitting">
+            <span *ngIf="!isSubmitting">Save Changes</span>
+            <span *ngIf="isSubmitting"><span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Saving...</span>
+          </button>
+        </div>
+      </form>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- Delete Confirmation Modal -->
+<div *ngIf="showDeleteModal" class="modal-overlay">
+  <div class="modal-content">
+    <div class="modal-header bg-danger text-white">
+      <h5 class="modal-title">Confirm Delete</h5>
+      <button type="button" class="btn-close btn-close-white" (click)="cancelDelete()"></button>
+    </div>
+    <div class="modal-body text-center">
+      <p>Are you sure you want to delete this review?</p>
+      <div class="d-flex justify-content-center gap-3">
+        <button class="btn btn-danger" (click)="confirmDelete()">Yes, Delete</button>
+        <button class="btn btn-secondary" (click)="cancelDelete()">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
