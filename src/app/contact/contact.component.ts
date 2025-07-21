@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   templateUrl: './contact.component.html',
   styleUrls: ['./contact.component.css'],
-  imports: [CommonModule, ReactiveFormsModule]
+  imports: [CommonModule, ReactiveFormsModule],
 })
 export class ContactComponent implements OnInit {
   contactForm: any;
@@ -17,16 +17,23 @@ export class ContactComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private contactService: ContactService,
-    private notificationService: NotificationService 
+    private notificationService: NotificationService
   ) {}
 
   ngOnInit(): void {
     this.contactForm = this.fb.group({
-      name: ['', Validators.required],
+      name: ['', [Validators.required, Validators.minLength(3)]],
       email: ['', [Validators.required, Validators.email]],
-      subject: ['', Validators.required],
-      phone: [''],
-      message: ['', Validators.required]
+      subject: ['', [Validators.required, Validators.minLength(10)]],
+  phone: [
+    '',
+    [
+      Validators.required,
+          Validators.minLength(10), 
+
+      Validators.pattern(/^(01)[0-9]{9}$/) 
+    ],
+  ],      message: ['', [Validators.required, Validators.minLength(10)]],
     });
   }
 
@@ -34,7 +41,7 @@ export class ContactComponent implements OnInit {
     if (this.contactForm.valid) {
       const formData = {
         ...this.contactForm.value,
-        phone: this.contactForm.value.phone?.toString() || null
+        phone: this.contactForm.value.phone?.toString() || null,
       };
 
       this.contactService.sendMessage(formData).subscribe({
@@ -43,9 +50,11 @@ export class ContactComponent implements OnInit {
           this.contactForm.reset();
         },
         error: (err) => {
-          this.notificationService.error(err.error?.message || 'Failed to send message.');
+          this.notificationService.error(
+            err.error?.message || 'Failed to send message.'
+          );
           console.error('Error:', err);
-        }
+        },
       });
     } else {
       this.notificationService.warning('Please fill in all required fields.');

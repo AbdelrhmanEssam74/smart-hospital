@@ -118,9 +118,12 @@
                   <button class="edit-btn" (click)="editUser(user.id)" title="Edit">
                     <i class="material-icons">&#xE254;</i>
                   </button>
+                  @if( user.role?.name !== 'Admin') {
+              
                   <button class="delete-btn" (click)="deleteUser(user.id)" title="Delete">
                     <i class="material-icons">&#xE872;</i>
                   </button>
+                }
                 </div>
               </td>
             </tr>
