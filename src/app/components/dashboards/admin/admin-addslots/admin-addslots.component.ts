@@ -33,14 +33,13 @@ export class AdminAddslotsComponent implements OnInit {
     this.http.get('http://localhost:8000/api/admin/doctors/dropdown')
       .subscribe((res: any) => {
         this.doctors = res;
-        this.loadSlots(); // مهم: نستنى لما الدكاترة تتجاب، بعدين نجيب الـ slots ونربطهم
+        this.loadSlots();
       });
   }
 
   loadSlots() {
     this.slotService.getAllSlots().subscribe(
       (data: any[]) => {
-        // نربط كل slot باسم الدكتور
         this.slots = data.map(slot => {
           const doctor = this.doctors.find(d => d.id == slot.doctor_id);
           return {

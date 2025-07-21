@@ -9,6 +9,8 @@ import {
   FormBuilder,
   FormGroup,
   ReactiveFormsModule,
+  FormControl,
+  FormGroupDirective,
   Validators,
 } from '@angular/forms';
 
