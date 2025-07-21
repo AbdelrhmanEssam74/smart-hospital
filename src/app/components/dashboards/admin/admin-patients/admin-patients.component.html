@@ -30,7 +30,7 @@
 
         <div class="card-body">
           <img
-            [src]="'http://127.0.0.1:8000/storage/' + patient.user?.image || 'https://www.svgrepo.com/show/452030/avatar-default.svg'"
+            [src]="'http://127.0.0.1:8000/' + patient.user?.image || 'https://www.svgrepo.com/show/452030/avatar-default.svg'"
             alt="{{ patient.user?.name }}"
             class="patient-image"
           />
