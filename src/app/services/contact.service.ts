@@ -19,4 +19,7 @@ export class ContactService {
   sendMessage(data: any): Observable<any> {
     return this.http.post(this.apiUrl, data, { withCredentials: true });
   }
+    deleteContact(id: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/${id}`, { withCredentials: true });
+  }
 }
