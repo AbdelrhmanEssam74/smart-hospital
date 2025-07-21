@@ -96,7 +96,7 @@ export class RegisterComponent {
         this.auth.saveToken(res.token);
         this.auth.saveUser(res.user);
         if (res.user.role_id === 5) {
-          this.router.navigate(['home']);
+          this.router.navigate(['login']);
         } else {
           this.router.navigate(['/login']);
         }
