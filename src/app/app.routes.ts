@@ -31,7 +31,7 @@ export const routes: Routes = [
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegisterComponent},
   {path: 'home', redirectTo: '', pathMatch: 'full'},
-  {path: 'doctordetails/:id', component: DoctorDetailsComponent},
+  {path: 'doctordetails/:id', component: DoctorDetailsComponent,canActivate: [AuthGuard]},
   {path: 'doctors', component: ListDoctorComponent},
   {
     path: 'doctor', component: DoctorHomeComponent, canActivate: [AuthGuard], children: [
