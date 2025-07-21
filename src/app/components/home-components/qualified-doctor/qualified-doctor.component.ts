@@ -1,38 +1,40 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { DoctorhomeService } from '../../../services/doctorhome.service';
 import { QualifiedDoctorCardComponent } from '../qualified-doctor-card/qualified-doctor-card.component';
 
 @Component({
   selector: 'app-qualified-doctor',
   standalone: true,
-  imports: [QualifiedDoctorCardComponent],
+  imports: [CommonModule, QualifiedDoctorCardComponent],
   templateUrl: './qualified-doctor.component.html',
   styleUrl: './qualified-doctor.component.css'
 })
-export class QualifiedDoctorComponent {
-  doctors = [
-    {
-      name: 'Dr. Andrew Berton',
-      specialty: 'Outpatient Surgery',
-      image: '/assets/images/doctors/doctor1.jpg',
-      social: ['fa-brands fa-facebook-f', 'fa-brands fa-twitter', 'fa-brands fa-google', 'fa-brands fa-instagram']
-    },
-    {
-      name: 'Dr. Wahab Apple',
-      specialty: 'Heart Specialist',
-      image: '/assets/images/doctors/doctor2.jpg',
-      social: ['fa-brands fa-facebook-f', 'fa-brands fa-twitter', 'fa-brands fa-google', 'fa-brands fa-instagram']
-    },
-    {
-      name: 'Dr. Mackenzie',
-      specialty: 'Haematology',
-      image: '/assets/images/doctors/doctor3.webp',
-      social: ['fa-brands fa-facebook-f', 'fa-brands fa-twitter', 'fa-brands fa-google', 'fa-brands fa-instagram']
-    },
-    {
-      name: 'Dr. Mackenzie',
-      specialty: 'Haematology',
-      image: '/assets/images/doctors/doctor9.jpg',
-      social: ['fa-brands fa-facebook-f', 'fa-brands fa-twitter', 'fa-brands fa-google', 'fa-brands fa-instagram']
-    }
-  ];
+export class QualifiedDoctorComponent implements OnInit {
+  doctors: any[] = [];
+
+  constructor(private doctorService: DoctorhomeService) {}
+
+  ngOnInit(): void {
+    this.doctorService.getDoctors().subscribe({
+      next: (data) => {
+        this.doctors = data.map((doc: any) => ({
+          id: doc.id,
+          name: doc.name,
+          image: this.cleanImageUrl(doc.image),
+          specialty: doc.specialty?.name || 'Unknown',
+          social: doc.social || []
+        }));
+      },
+      error: (err) => console.error('Error fetching doctors:', err)
+    });
+  }
+
+  cleanImageUrl(url: string): string {
+    return url.replace('storage/storage', 'storage').replace('storage/http://', '');
+  }
+  trackDoctor(index: number, doctor: any) {
+  return doctor.name;
+}
+
 }

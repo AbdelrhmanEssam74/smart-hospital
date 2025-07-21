@@ -121,4 +121,5 @@ export class DoctorService {
   getDoctorByUserId(userId: number): Doctor | undefined {
     return this.doctors.find((doctor) => doctor.user_id === userId);
   }
+  
 }

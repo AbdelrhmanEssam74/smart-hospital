@@ -10,7 +10,10 @@
 .info-box h6{
   font-size: large;
 }
-
+a{
+  text-decoration: none;
+  
+}
 
 .image-wrapper {
   width: 100%;

@@ -1,22 +1,20 @@
 <div class="container-fluid">
-  <div class="container ">
+  <div class="container">
     <div id="heading-box">
-      <div class="heading  text-center mb-4 ">
-        <h2 class="display-5">Qualified the <span class="display-3"> Doctor's </span></h2>
+      <div class="heading text-center mb-4">
+        <h2 class="display-5">Qualified the <span class="display-3">Doctor's</span></h2>
       </div>
-      <div class="lead">
-        <p class="text-center mb-4 text-secondary">
-          Who Is Behind The Best Medical Service In Our Clinic?</p>
-      </div>
+      <p class="text-center mb-4 text-secondary">
+        Who Is Behind The Best Medical Service In Our Clinic?
+      </p>
     </div>
+
     <div class="row g-4 mt-4">
-      @for (doc of doctors; track doc.name) {
-        <div class="col-lg-3 col-md-4 col-sm-6 ">
+      <ng-container *ngFor="let doc of doctors; trackBy: trackDoctor">
+        <div class="col-lg-3 col-md-4 col-sm-6">
           <app-qualified-doctor-card [doctor]="doc"></app-qualified-doctor-card>
         </div>
-      }
+      </ng-container>
     </div>
-
   </div>
 </div>
-
