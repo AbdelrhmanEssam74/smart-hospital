@@ -64,6 +64,6 @@ export const routes: Routes = [
   {path: "patient_profile", component: PatientProfileComponent},
   { path: 'profile_edit', component: EditProfileComponent},
   {path:'gallery',component: GalleryComponent},
-  {path:'contact', component: ContactComponent},
+  {path:'contact', component: ContactComponent, canActivate: [AuthGuard]},
   {path: "**", redirectTo: "404", pathMatch: "full"}
 ]
