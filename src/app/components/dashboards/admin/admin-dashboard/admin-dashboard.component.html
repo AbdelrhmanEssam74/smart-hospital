@@ -89,79 +89,43 @@
 <div class="row m-4">
   <div class="col-md-12">
     <div class="widget-area-2 proclinic-box-shadow">
-      <h1 class="widget-title my-5 text-center" style="font-size: 1.2rem">
+      <h1 class="title  text-center my-4">
         Users List
       </h1>
 
       <div class="table-responsive">
-        <div
-          id="usersTable_wrapper"
-          class="dataTables_wrapper dt-bootstrap4 no-footer"
-        >
-          <div class="row">
-            <div class="col-sm-12">
-              <table
-                id="usersTable"
-                class="table table-bordered table-striped dataTable no-footer"
-                role="grid"
-                aria-describedby="usersTable_info"
-              >
-                <thead>
-                  <tr role="row">
-                    <th class="sorting" tabindex="0" aria-controls="usersTable">
-                      Name
-                    </th>
-                    <th class="sorting" tabindex="0" aria-controls="usersTable">
-                      Email
-                    </th>
-                    <th class="sorting" tabindex="0" aria-controls="usersTable">
-                      Role
-                    </th>
-                    <th class="sorting" tabindex="0" aria-controls="usersTable">
-                      Phone
-                    </th>
-                    <th class="no-sort sorting_disabled" aria-label="Actions">
-                      Actions
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr
-                    *ngIf="paginatedUsers.length === 0"
-                    role="row"
-                    class="odd"
-                  >
-                    <td colspan="7" class="text-center">No users found</td>
-                  </tr>
-                  <tr *ngFor="let user of paginatedUsers" role="row">
-                    <td>{{ user.name }}</td>
-                    <td>{{ user.email }}</td>
-                    <td>{{ user.role?.name }}</td>
-                    <td>{{ user.phone }}</td>
-                    <td>
-                      <div class="d-flex">
-                        <button class="btn mx-3" (click)="editUser(user.id)">
-                          <i
-                            class="material-icons"
-                            style="color: rgb(211, 211, 5)"
-                            >&#xE254;</i
-                          >
-                        </button>
-                        <button
-                          class="btn"
-                          style="color: red"
-                          (click)="deleteUser(user.id)"
-                        >
-                          <i class="material-icons">&#xE872;</i>
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
+        <table class="users-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Role</th>
+              <th>Phone</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngIf="paginatedUsers.length === 0">
+              <td colspan="5" class="text-center">No users found</td>
+            </tr>
+            <tr *ngFor="let user of paginatedUsers">
+              <td>{{ user.name }}</td>
+              <td>{{ user.email }}</td>
+              <td>{{ user.role?.name }}</td>
+              <td>{{ user.phone }}</td>
+              <td>
+                <div class="action-buttons">
+                  <button class="edit-btn" (click)="editUser(user.id)" title="Edit">
+                    <i class="material-icons">&#xE254;</i>
+                  </button>
+                  <button class="delete-btn" (click)="deleteUser(user.id)" title="Delete">
+                    <i class="material-icons">&#xE872;</i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
         <!-- Pagination -->
         <div class="d-flex align-items-center justify-content-center my-4">
           <nav *ngIf="totalPages > 1">

@@ -68,10 +68,17 @@
   margin: 0 0 5px 0;
   font-size: 16px;
   font-weight: 500;
-  color: #6c757d;
+  color: #1f6eb4;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
+.title {
+  font-size: 30px;
+  font-weight: 700;
+  color: #007bff;
+ 
+}
+
 
 .widget-value {
   font-size: 28px;
@@ -153,4 +160,74 @@
 .invalid-feedback {
   color: #dc3545;
   font-size: 0.875em;
+}
+.users-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.users-table th, .users-table td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.users-table thead {
+  background: #f8f9fa;
+  color: #555;
+}
+
+.action-buttons button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  margin: 0 4px;
+  transition: 0.2s;
+}
+
+.edit-btn i { color: #007bff; }
+.delete-btn i { color: #e74c3c; }
+
+.edit-btn:hover i { color: #007bff; }
+.delete-btn:hover i { color: #c0392b; }
+.pagination-container {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.pagination {
+  list-style: none;
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  padding: 0;
+}
+
+.pagination li {
+  display: inline;
+}
+
+.pagination button {
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  background: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.pagination .active button {
+  background-color: #007bff;
+  color: white;
+  border-color: #007bff;
+}
+
+.pagination li.disabled button {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
