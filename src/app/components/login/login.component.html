@@ -20,13 +20,21 @@
     <nav class="breadcrumb"><a href="#">Home &raquo; </a> Login</nav>
   </div>
 </section>
-
+<!-- Loading overlay -->
+<div *ngIf="isLoading" class="loading-overlay">
+  <div class="loading-spinner"></div>
+</div>
 <div class="auth-container">
   <div class="auth-card">
     <h2>Login Account</h2>
     <!-- <p class="auth-description">Welcome back! Please login to your account.</p> -->
 
     <form [formGroup]="loginForm" (ngSubmit)="login()">
+      @if (successMessage) {
+      <div class="alert alert-success">
+        {{ successMessage }}
+      </div>
+      }
       @if (errorMessage) {
       <div class="alert alert-danger">{{ errorMessage }}</div>
       }
