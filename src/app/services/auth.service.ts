@@ -43,7 +43,6 @@ export class AuthService {
       if (user.image && !user.image.startsWith('http')) {
         user.image = `http://localhost:8000/${user.image}`;
       }
-      this.saveUser(user);
     })
   );
 
@@ -60,11 +59,12 @@ export class AuthService {
   clearToken(): void {
     localStorage.removeItem(this.tokenKey);
   }
-
-  saveUser(user: any): void {
+  saveUserImage(user: any): void {
     if (user.image && !user.image.startsWith('http')) {
       user.image = `http://localhost:8000/storage/${user.image}`;
     }
+  }
+  saveUser(user: any): void {
     localStorage.setItem(this.userKey, JSON.stringify(user));
     this.currentUserSubject.next(user);
   }
