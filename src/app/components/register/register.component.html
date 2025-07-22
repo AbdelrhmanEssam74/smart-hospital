@@ -361,7 +361,11 @@
           </div>
 
           <!-- Submit -->
-          <button type="submit"   class="btn btn-primary w-100 py-3 mt-3 fw-bold" [disabled]="isLoading">
+          <button
+            type="submit"
+            class="btn btn-primary w-100 py-3 mt-3 fw-bold"
+            [disabled]="isLoading"
+          >
             <span *ngIf="!isLoading">Register</span>
             <span *ngIf="isLoading">Processing...</span>
           </button>

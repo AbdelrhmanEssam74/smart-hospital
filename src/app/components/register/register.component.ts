@@ -32,61 +32,77 @@ export class RegisterComponent {
     private router: Router
   ) {}
 
-  ngOnInit(): void {
-    this.registerForm = this.fb.group(
-      {
-        name: ['', [Validators.required, Validators.minLength(3)]],
-        email: ['', [Validators.required, Validators.email]],
-        password: ['', [Validators.required, Validators.minLength(8)]],
-        confirmPassword: ['', [Validators.required]],
-        phone: [
-          '',
-          [Validators.required, Validators.pattern(/^(010|011|012|015)\d{8}$/)],
-        ],
-        role_id: ['', [Validators.required, Validators.pattern(/^(2|5)$/)]],
-        date_of_birth: [
-          '',
-          [
-            Validators.required,
-            Validators.pattern(/^\d{4}-\d{2}-\d{2}$/),
-            (control: AbstractControl) => {
-              const date = new Date(control.value);
-              const today = new Date();
-              const age = today.getFullYear() - date.getFullYear();
-              if (age < 24 || age > 80) {
-                return { invalidAge: true };
-              }
-              return null;
-            },
-          ],
-        ],
-        gender: [''],
-        address: [''],
-        specialty_id: [''],
-        years_of_experience: [
-          '',
-          [
-            Validators.required,
-            Validators.pattern(/^\d+$/),
-            Validators.min(7),
-            Validators.max(60),
-          ],
-        ],
-        appointment_fee: [
-          '',
-          [Validators.required, Validators.pattern(/^\d+$/)],
-        ],
-        license_file: [
-          [Validators.required, Validators.pattern(/^(?!.*\s).+\.pdf$/)],
-        ],
-      },
-      { validators: this.passwordMatchValidator }
-    );
-    this.loadSpecialties();
-    this.registerForm.get('role_id')?.valueChanges.subscribe((roleId) => {
-      this.isDoctor = roleId == 2;
-    });
-  }
+ngOnInit(): void {
+  this.registerForm = this.fb.group(
+    {
+      name: ['', [Validators.required, Validators.minLength(3)]],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(8)]],
+      confirmPassword: ['', [Validators.required]],
+      phone: ['', [Validators.required, Validators.pattern(/^(010|011|012|015)\d{8}$/)]],
+      role_id: ['', [Validators.required, Validators.pattern(/^(2|5)$/)]],
+      date_of_birth: ['', [
+        Validators.required,
+        Validators.pattern(/^\d{4}-\d{2}-\d{2}$/),
+        (control: AbstractControl) => {
+          const date = new Date(control.value);
+          const today = new Date();
+          const age = today.getFullYear() - date.getFullYear();
+          if (age < 24 || age > 80) {
+            return { invalidAge: true };
+          }
+          return null;
+        },
+      ]],
+      gender: [''],
+      address: [''],
+      specialty_id: [''],
+      years_of_experience: [''],
+      appointment_fee: [''],
+      license_file: [''],
+    },
+    { validators: this.passwordMatchValidator }
+  );
+
+  this.loadSpecialties();
+
+  this.registerForm.get('role_id')?.valueChanges.subscribe((roleId) => {
+    this.isDoctor = roleId == 2;
+
+    const specialty = this.registerForm.get('specialty_id');
+    const years = this.registerForm.get('years_of_experience');
+    const fee = this.registerForm.get('appointment_fee');
+    const license = this.registerForm.get('license_file');
+
+    if (this.isDoctor) {
+      specialty?.setValidators([Validators.required]);
+      years?.setValidators([
+        Validators.required,
+        Validators.pattern(/^\d+$/),
+        Validators.min(7),
+        Validators.max(60),
+      ]);
+      fee?.setValidators([
+        Validators.required,
+        Validators.pattern(/^\d+$/),
+      ]);
+      license?.setValidators([
+        Validators.required,
+        Validators.pattern(/^(?!.*\s).+\.pdf$/),
+      ]);
+    } else {
+      specialty?.clearValidators();
+      years?.clearValidators();
+      fee?.clearValidators();
+      license?.clearValidators();
+    }
+
+    specialty?.updateValueAndValidity();
+    years?.updateValueAndValidity();
+    fee?.updateValueAndValidity();
+    license?.updateValueAndValidity();
+  });
+}
 
   loadSpecialties() {
     this.auth.getSpecialties().subscribe({
