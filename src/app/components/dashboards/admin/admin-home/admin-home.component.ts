@@ -25,7 +25,7 @@ loadDashboard(): void {
 
   this.adminService.getDashboardData().subscribe({
     next: (data) => {
-      console.log(data);
+      // console.log(data);
       this.stats = data.stats;
       this.admin = data.admin;
     },

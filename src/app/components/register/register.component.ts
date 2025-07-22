@@ -21,6 +21,11 @@ export class RegisterComponent {
   registerForm!: FormGroup;
   errorMessage: string = '';
   selectedImage: File | null = null;
+  selectedLicenseFile: File | null = null;
+  isDoctor: boolean = false;
+  specialties: any[] = [];
+
+
 
   constructor(
     private fb: FormBuilder,
@@ -33,21 +38,44 @@ export class RegisterComponent {
       {
         name: ['', [Validators.required, Validators.minLength(2)]],
         email: ['', [Validators.required, Validators.email]],
-        password: ['', [Validators.required, Validators.minLength(6)]],
+        password: ['', [Validators.required, Validators.minLength(8)]],
         confirmPassword: ['', [Validators.required]],
         phone: [
           '',
-          [Validators.required, Validators.pattern(/^[0-9]{10,15}$/)],
+          [Validators.required, Validators.pattern(/^[0-9]{11}$/)],
         ],
         role_id:[5],
-        profile_description: ['patient'] ,
-        date_of_birth: [''],
+        profile_description: [''] ,
+         date_of_birth: [''],
         gender: [''],
         address: [''],
+        // doctor
+        specialty_id: [''],
+        years_of_experience: [''],
+        appointment_fee: [''],
+       
       },
       { validators: this.passwordMatchValidator }
     );
+    this.loadSpecialties();
+    this.registerForm.get('role_id')?.valueChanges.subscribe(roleId => {
+      this.isDoctor = roleId == 2;    
+    });
   }
+  loadSpecialties(){
+    this.auth.getSpecialties().subscribe({
+      next: (res) => {
+        // console.log(res.specialties);
+        this.specialties = res.specialties;
+      },
+      error: (err) => {
+        console.error('Error loading specialties', err);
+        this.errorMessage = 'Failed to load specialties. Please try again later.';
+      }
+    });
+  }
+
+
 
   get f(): { [key: string]: AbstractControl } {
     return this.registerForm.controls;
@@ -65,6 +93,13 @@ export class RegisterComponent {
       this.selectedImage = file;
     }
   }
+  
+  onLicenseFileChange(event: any): void {
+    const file = event.target.files[0];
+    if (file) {
+      this.selectedLicenseFile = file;
+    }
+  }
 
   register(): void {
     if (this.registerForm.invalid) {
@@ -79,13 +114,20 @@ export class RegisterComponent {
     formData.append('password_confirmation', this.f['confirmPassword'].value);
     formData.append('phone', this.f['phone'].value);
     formData.append('role_id', this.f['role_id'].value);
-    // formData.append(
-    //   'profile_description',
-    //   this.f['profile_description'].value || 'Patient'
-    // );
+    formData.append('profile_description', this.f['profile_description'].value || 'Patient');
     formData.append('date_of_birth', this.f['date_of_birth'].value);
     formData.append('gender', this.f['gender'].value);
     formData.append('address', this.f['address'].value);
+    // check role
+    if (this.isDoctor) {
+      formData.append('specialty_id', this.f['specialty_id'].value);
+      formData.append('years_of_experience', this.f['years_of_experience'].value);
+      formData.append('appointment_fee', this.f['appointment_fee'].value);
+      
+        if (this.selectedLicenseFile) {
+        formData.append('license_file', this.selectedLicenseFile);
+      }
+    } 
 
     if (this.selectedImage) {
       formData.append('image', this.selectedImage);

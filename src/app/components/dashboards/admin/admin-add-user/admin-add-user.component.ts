@@ -3,6 +3,7 @@ import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, Validator
 import { UserControlService } from '../../../../services/admin/user-control.service';
 import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../../../../services/auth.service';
 
 @Component({
   selector: 'app-admin-add-user',
@@ -13,18 +14,20 @@ import { CommonModule } from '@angular/common';
 })
 export class AdminAddUserComponent {
 userForm: FormGroup;
-  roles = [
-    { id: 1, name: 'Admin' },
-    { id: 2, name: 'Doctor' },
-    { id: 5, name: 'Patient' }
-  ];
+ 
+  specialties: any[] = [];
   isSubmitting = false;
+  isDoctor = false;
+  selectedImage: File | null = null;
+  selectedLicenseFile: File | null = null;
   userId:any|null = null;
+
 
 constructor(
     private fb: FormBuilder,
     private userService: UserControlService,
-    private router: Router
+    private router: Router, 
+    private auth: AuthService, 
   ) {
     this.userForm = this.fb.group({
       name: ['', Validators.required],
@@ -32,14 +35,35 @@ constructor(
       password: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', Validators.required],
       phone: ['', Validators.required],
-      role_id: ['', Validators.required],
+      role_id: [5],
       address: [''],
       gender: [''],
       date_of_birth: [''],
       profile_description: [''],
+      // doctor records
+      specialty_id: [''],
+      license_number: [''],
+      years_of_experience: [''],
+      appointment_fee: [''],
     },
-        { validators: this.passwordMatchValidator }
-);
+    { validators: this.passwordMatchValidator});
+
+      this.loadSpecialties();
+      this.userForm.get('role_id')?.valueChanges.subscribe(roleId => {
+      this.isDoctor = roleId == 2;
+    });
+  }
+
+ loadSpecialties(){
+    this.auth.getSpecialties().subscribe({
+      next: (res) => {
+        // console.log(res.specialties);
+        this.specialties = res.specialties;
+      },
+      error: (err) => {
+        console.error('Error loading specialties', err);
+      }
+    });
   }
 
     get f(): { [key: string]: AbstractControl } {
@@ -58,20 +82,33 @@ onSubmit() {
     return;
   }
 
-  const userData = {
-    name: this.f['name'].value,
-    email: this.f['email'].value,
-    password: this.f['password'].value,
-    password_confirmation: this.f['confirmPassword'].value,
-    phone: this.f['phone'].value,
-    role_id: this.f['role_id'].value,
-    profile_description: this.f['profile_description'].value,
-    date_of_birth: this.f['date_of_birth'].value,
-    gender: this.f['gender'].value,
-    address: this.f['address'].value
-  };
+     const formData = new FormData();
+    formData.append('name', this.f['name'].value);
+    formData.append('email', this.f['email'].value);
+    formData.append('password', this.f['password'].value);
+    formData.append('password_confirmation', this.f['confirmPassword'].value);
+    formData.append('phone', this.f['phone'].value);
+    formData.append('role_id', this.f['role_id'].value);
+    formData.append('profile_description', this.f['profile_description'].value || 'Patient');
+    formData.append('date_of_birth', this.f['date_of_birth'].value);
+    formData.append('gender', this.f['gender'].value);
+    formData.append('address', this.f['address'].value);
+    // check role
+    if (this.isDoctor) {
+      formData.append('specialty_id', this.f['specialty_id'].value);
+      formData.append('years_of_experience', this.f['years_of_experience'].value);
+      formData.append('appointment_fee', this.f['appointment_fee'].value);
+      
+        if (this.selectedLicenseFile) {
+        formData.append('license_file', this.selectedLicenseFile);
+      }
+    } 
 
-    this.userService.createUser(userData).subscribe({
+    if (this.selectedImage) {
+      formData.append('image', this.selectedImage);
+    }
+
+    this.userService.createUser(formData).subscribe({
     next: (res) => this.router.navigate(['/admin/admin-home']),
     error: (err) => {
       if (err.status === 422) {
@@ -86,4 +123,10 @@ onSubmit() {
 
   });
 }
+  onLicenseFileChange(event: any): void {
+    const file = event.target.files[0];
+    if (file) {
+      this.selectedLicenseFile = file;
+    }
+  }
 }

@@ -1,5 +1,5 @@
 <div class="container mt-4">
-  <h2>Add  User</h2>
+  <h2>Add User</h2>
 
   <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
     <div class="row">
@@ -99,26 +99,6 @@
         </div>
 
         <div class="form-group">
-          <label for="role_id">Role</label>
-          <select class="form-control" id="role_id" formControlName="role_id">
-            <option value="">Select Role</option>
-            <option *ngFor="let role of roles" [value]="role.id">
-              {{ role.name }}
-            </option>
-          </select>
-          <div
-            *ngIf="
-              userForm.get('role_id')?.invalid &&
-              (userForm.get('role_id')?.dirty ||
-                userForm.get('role_id')?.touched)
-            "
-            class="text-danger"
-          >
-            Role is required
-          </div>
-        </div>
-
-        <div class="form-group">
           <label for="gender">Gender</label>
           <select class="form-control" id="gender" formControlName="gender">
             <option value="">Select Gender</option>
@@ -163,6 +143,110 @@
         rows="3"
       ></textarea>
     </div>
+    <!-- role -->
+      <div class="form-group">
+            <label>Role</label>
+            <select
+              class="form-control p-3"
+              formControlName="role_id"
+              [class.is-invalid]="
+                f['role_id'].invalid &&
+                (f['role_id'].touched )
+              "
+            >
+              <option value="" disabled>Select a role</option>
+              <option [value]="2">Doctor</option>
+              <option [value]="5">Patient</option>
+              <!-- <option [value]="1">Admin</option> -->
+              <!-- <option [value]="3">Nurse</option> -->
+              <!-- <option [value]="4">Receptionist</option> -->
+            </select>
+            <div
+              *ngIf="
+                f['role_id'].invalid &&
+                (f['role_id'].touched )
+              "
+              class="text-danger"
+            >
+              Role is required
+            </div>
+          </div>
+    <!-- doctor -->
+    <div *ngIf="isDoctor" class="row mt-3">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="specialty_id">Specialty</label>
+          <select
+            class="form-control"
+            id="specialty_id"
+            formControlName="specialty_id"
+          >
+            <option value="">Select Specialty</option>
+            <option
+              *ngFor="let specialty of specialties"
+              [value]="specialty.id"
+            >
+              {{ specialty.name }}
+            </option>
+          </select>
+          <div
+            *ngIf="
+              userForm.get('specialty_id')?.invalid &&
+              userForm.get('specialty_id')?.touched
+            "
+            class="text-danger"
+          >
+            Specialty is required
+          </div>
+        </div>
+
+      </div>
+      <div class="col-md-6 ">
+        <div class="form-group">
+          <label for="years_of_experience">Years of Experience</label>
+          <input
+            type="number"
+            class="form-control"
+            id="years_of_experience"
+            formControlName="years_of_experience"
+          />
+          <div
+            *ngIf="
+              userForm.get('years_of_experience')?.invalid &&
+              userForm.get('years_of_experience')?.touched
+            "
+            class="text-danger"
+          >
+            Valid years of experience is required
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="appointment_fee">Appointment Fee</label>
+          <input
+            type="number"
+            class="form-control"
+            id="appointment_fee"
+            formControlName="appointment_fee"
+          />
+          <div
+            *ngIf="
+              userForm.get('appointment_fee')?.invalid &&
+              userForm.get('appointment_fee')?.touched
+            "
+            class="text-danger"
+          >
+            Valid appointment fee is required
+          </div>
+        </div>
+          <label>Upload License Document</label>
+              <input
+                type="file"
+                class="form-control"
+                (change)="onLicenseFileChange($event)"
+              />
+            </div>
+      </div>
 
 <!--     
     <div class="form-group">
@@ -175,13 +259,11 @@
       <button
         type="submit"
         class="btn btn-outline-info"
-
         [disabled]="userForm.invalid || isSubmitting"
       >
         <span *ngIf="!isSubmitting">Create User</span>
       </button>
       <a routerLink="/admin/admin-home" class="btn btn-outline-secondary ms-2">Cancel</a>
-
     </div>
   </form>
 </div>

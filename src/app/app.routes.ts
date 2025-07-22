@@ -25,6 +25,7 @@ import { AdminDoctorsComponent } from './components/dashboards/admin/admin-docto
 import { AdminContactsComponent } from './components/dashboards/admin/admin-contact/admin-contact.component';
 import { AdminEditUserComponent } from './components/dashboards/admin/admin-edit-user/admin-edit-user.component';
 import { AdminEditProfileComponent } from './components/dashboards/admin/admin-edit-profile/admin-edit-profile.component';
+import { AdminMangeDoctorComponent } from './components/dashboards/admin/admin-mange-doctor/admin-mange-doctor.component';
 
 export const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -55,8 +56,8 @@ export const routes: Routes = [
       {path: 'admin-edit-profile', component: AdminEditProfileComponent},
       {path: '', redirectTo: 'admin-home', pathMatch: 'full'},
       {path: 'admin-edituser',component:AdminAddUserComponent},
-
-
+      // pending
+        {path: 'manage-pending',component:AdminMangeDoctorComponent},
      {path: 'massagecontact',component: AdminContactsComponent},
 
     ]
