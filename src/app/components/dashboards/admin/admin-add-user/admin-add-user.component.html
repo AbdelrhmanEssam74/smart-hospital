@@ -94,10 +94,15 @@
             "
             class="text-danger"
           >
-            Phone number is required
+            <div *ngIf="userForm.get('phone')?.errors?.['required']">
+              Phone is required
+            </div>
+            <div *ngIf="userForm.get('phone')?.errors?.['pattern']">
+              Phone must be 11 digits starting with 01
+            </div>
           </div>
         </div>
-
+        <!-- gender -->
         <div class="form-group">
           <label for="gender">Gender</label>
           <select class="form-control" id="gender" formControlName="gender">
@@ -108,7 +113,7 @@
         </div>
       </div>
     </div>
-
+    <!-- address -->
     <div class="row">
       <div class="col-md-6">
         <div class="form-group">
@@ -121,6 +126,7 @@
           />
         </div>
       </div>
+      <!-- date of birth -->
       <div class="col-md-6">
         <div class="form-group">
           <label for="date_of_birth">Date of Birth</label>
@@ -130,6 +136,18 @@
             id="date_of_birth"
             formControlName="date_of_birth"
           />
+        </div>
+        <div
+          *ngIf="
+            userForm.get('date_of_birth')?.invalid &&
+            (userForm.get('date_of_birth')?.dirty ||
+              userForm.get('date_of_birth')?.touched)
+          "
+          class="text-danger"
+        >
+          <div *ngIf="userForm.get('date_of_birth')?.errors?.['futureDate']">
+            Date of birth cannot be in the future
+          </div>
         </div>
       </div>
     </div>
@@ -144,33 +162,27 @@
       ></textarea>
     </div>
     <!-- role -->
-      <div class="form-group">
-            <label>Role</label>
-            <select
-              class="form-control p-3"
-              formControlName="role_id"
-              [class.is-invalid]="
-                f['role_id'].invalid &&
-                (f['role_id'].touched )
-              "
-            >
-              <option value="" disabled>Select a role</option>
-              <option [value]="2">Doctor</option>
-              <option [value]="5">Patient</option>
-              <!-- <option [value]="1">Admin</option> -->
-              <!-- <option [value]="3">Nurse</option> -->
-              <!-- <option [value]="4">Receptionist</option> -->
-            </select>
-            <div
-              *ngIf="
-                f['role_id'].invalid &&
-                (f['role_id'].touched )
-              "
-              class="text-danger"
-            >
-              Role is required
-            </div>
-          </div>
+    <div class="form-group">
+      <label>Role</label>
+      <select
+        class="form-control p-3"
+        formControlName="role_id"
+        [class.is-invalid]="f['role_id'].invalid && f['role_id'].touched"
+      >
+        <option value="" disabled>Select a role</option>
+        <option [value]="2">Doctor</option>
+        <option [value]="5">Patient</option>
+        <!-- <option [value]="1">Admin</option> -->
+        <!-- <option [value]="3">Nurse</option> -->
+        <!-- <option [value]="4">Receptionist</option> -->
+      </select>
+      <div
+        *ngIf="f['role_id'].invalid && f['role_id'].touched"
+        class="text-danger"
+      >
+        Role is required
+      </div>
+    </div>
     <!-- doctor -->
     <div *ngIf="isDoctor" class="row mt-3">
       <div class="col-md-6">
@@ -199,9 +211,8 @@
             Specialty is required
           </div>
         </div>
-
       </div>
-      <div class="col-md-6 ">
+      <div class="col-md-6">
         <div class="form-group">
           <label for="years_of_experience">Years of Experience</label>
           <input
@@ -239,16 +250,16 @@
             Valid appointment fee is required
           </div>
         </div>
-          <label>Upload License Document</label>
-              <input
-                type="file"
-                class="form-control"
-                (change)="onLicenseFileChange($event)"
-              />
-            </div>
+        <label>Upload License Document</label>
+        <input
+          type="file"
+          class="form-control"
+          (change)="onLicenseFileChange($event)"
+        />
       </div>
+    </div>
 
-<!--     
+    <!--     
     <div class="form-group">
       <label for="image">Profile Image</label>
       <input type="file" class="form-control" id="image" (change)="onFileSelected($event)">
@@ -263,7 +274,9 @@
       >
         <span *ngIf="!isSubmitting">Create User</span>
       </button>
-      <a routerLink="/admin/admin-home" class="btn btn-outline-secondary ms-2">Cancel</a>
+      <a routerLink="/admin/admin-home" class="btn btn-outline-secondary ms-2"
+        >Cancel</a
+      >
     </div>
   </form>
 </div>

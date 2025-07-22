@@ -88,7 +88,7 @@
               </div>
             </div>
           </div>
-          <!-- Phone -->
+           <!-- Phone -->
           <div class="form-group">
             <label>Phone</label>
             <input
@@ -100,16 +100,19 @@
               placeholder="Enter your phone number"
             />
             <div
-              *ngIf="
-                f['phone'].invalid && (f['phone'].touched || f['phone'].dirty)
-              "
-              class="text-danger"
-            >
-              <div *ngIf="f['phone'].errors?.['pattern']">
-                Phone must be numeric (11 digits)
-              </div>
+            *ngIf="
+              f['phone'].invalid && (f['phone'].touched || f['phone'].dirty)
+            "
+            class="text-danger"
+          >
+            <div *ngIf="f['phone'].errors?.['required']">Phone is required</div>
+            <div *ngIf="f['phone'].errors?.['pattern']">
+              Phone must be 11 digits starting with 01
             </div>
           </div>
+          </div>
+        
+
           <!--  -->
           <div class="patient-fields">
             <!-- Date of Birth -->
@@ -120,6 +123,17 @@
                 formControlName="date_of_birth"
                 class="form-control"
               />
+              <div
+                *ngIf="
+                  f['date_of_birth'].invalid &&
+                  (f['date_of_birth'].touched || f['date_of_birth'].dirty)
+                "
+                class="text-danger"
+              >
+                <div *ngIf="f['date_of_birth'].errors?.['futureDate']">
+                   can't register for future dates
+                </div>
+              </div>
             </div>
 
             <!-- Gender -->
@@ -143,7 +157,7 @@
               ></textarea>
             </div>
           </div>
-            <!-- Profile Description -->
+          <!-- Profile Description -->
           <div class="form-group">
             <label>Profile Description</label>
             <textarea
@@ -204,17 +218,13 @@
             </div>
           </div>
 
-
           <!-- Role -->
           <div class="form-group">
             <label>Role</label>
             <select
               class="form-control p-3"
               formControlName="role_id"
-              [class.is-invalid]="
-                f['role_id'].invalid &&
-                (f['role_id'].touched )
-              "
+              [class.is-invalid]="f['role_id'].invalid && f['role_id'].touched"
             >
               <option value="" disabled>Select a role</option>
               <!-- <option [value]="1">Admin</option> -->
@@ -224,10 +234,7 @@
               <option [value]="5">Patient</option>
             </select>
             <div
-              *ngIf="
-                f['role_id'].invalid &&
-                (f['role_id'].touched )
-              "
+              *ngIf="f['role_id'].invalid && f['role_id'].touched"
               class="text-danger"
             >
               Role is required

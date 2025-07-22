@@ -25,8 +25,6 @@ export class RegisterComponent {
   isDoctor: boolean = false;
   specialties: any[] = [];
 
-
-
   constructor(
     private fb: FormBuilder,
     private auth: AuthService,
@@ -40,29 +38,38 @@ export class RegisterComponent {
         email: ['', [Validators.required, Validators.email]],
         password: ['', [Validators.required, Validators.minLength(8)]],
         confirmPassword: ['', [Validators.required]],
-        phone: [
-          '',
-          [Validators.required, Validators.pattern(/^[0-9]{11}$/)],
-        ],
-        role_id:[5],
-        profile_description: [''] ,
-         date_of_birth: [''],
+        phone: ['', [Validators.required, Validators.pattern(/^01[0-9]{9}$/)]],
+        role_id: [5],
+        profile_description: [''],
+        date_of_birth: ['', [this.dateOfBirthValidator.bind(this)]],
         gender: [''],
         address: [''],
         // doctor
         specialty_id: [''],
         years_of_experience: [''],
         appointment_fee: [''],
-       
       },
       { validators: this.passwordMatchValidator }
     );
     this.loadSpecialties();
-    this.registerForm.get('role_id')?.valueChanges.subscribe(roleId => {
-      this.isDoctor = roleId == 2;    
+    this.registerForm.get('role_id')?.valueChanges.subscribe((roleId) => {
+      this.isDoctor = roleId == 2;
     });
   }
-  loadSpecialties(){
+  // date validation
+  dateOfBirthValidator(
+    control: AbstractControl
+  ): { [key: string]: boolean } | null {
+    const selectedDate = new Date(control.value);
+    const today = new Date();
+
+    if (selectedDate > today) {
+      return { futureDate: true };
+    }
+    return null;
+  }
+
+  loadSpecialties() {
     this.auth.getSpecialties().subscribe({
       next: (res) => {
         // console.log(res.specialties);
@@ -70,12 +77,10 @@ export class RegisterComponent {
       },
       error: (err) => {
         console.error('Error loading specialties', err);
-        this.errorMessage = 'Failed to load specialties. Please try again later.';
-      }
+       
+      },
     });
   }
-
-
 
   get f(): { [key: string]: AbstractControl } {
     return this.registerForm.controls;
@@ -93,7 +98,7 @@ export class RegisterComponent {
       this.selectedImage = file;
     }
   }
-  
+
   onLicenseFileChange(event: any): void {
     const file = event.target.files[0];
     if (file) {
@@ -114,20 +119,26 @@ export class RegisterComponent {
     formData.append('password_confirmation', this.f['confirmPassword'].value);
     formData.append('phone', this.f['phone'].value);
     formData.append('role_id', this.f['role_id'].value);
-    formData.append('profile_description', this.f['profile_description'].value || 'Patient');
+    formData.append(
+      'profile_description',
+      this.f['profile_description'].value || 'Patient'
+    );
     formData.append('date_of_birth', this.f['date_of_birth'].value);
     formData.append('gender', this.f['gender'].value);
     formData.append('address', this.f['address'].value);
     // check role
     if (this.isDoctor) {
       formData.append('specialty_id', this.f['specialty_id'].value);
-      formData.append('years_of_experience', this.f['years_of_experience'].value);
+      formData.append(
+        'years_of_experience',
+        this.f['years_of_experience'].value
+      );
       formData.append('appointment_fee', this.f['appointment_fee'].value);
-      
-        if (this.selectedLicenseFile) {
+
+      if (this.selectedLicenseFile) {
         formData.append('license_file', this.selectedLicenseFile);
       }
-    } 
+    }
 
     if (this.selectedImage) {
       formData.append('image', this.selectedImage);
