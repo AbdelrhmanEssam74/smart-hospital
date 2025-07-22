@@ -24,6 +24,7 @@ export class RegisterComponent {
   selectedLicenseFile: File | null = null;
   isDoctor: boolean = false;
   specialties: any[] = [];
+  isLoading: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -34,20 +35,50 @@ export class RegisterComponent {
   ngOnInit(): void {
     this.registerForm = this.fb.group(
       {
-        name: ['', [Validators.required, Validators.minLength(2)]],
+        name: ['', [Validators.required, Validators.minLength(3)]],
         email: ['', [Validators.required, Validators.email]],
         password: ['', [Validators.required, Validators.minLength(8)]],
         confirmPassword: ['', [Validators.required]],
-        phone: ['', [Validators.required, Validators.pattern(/^01[0-9]{9}$/)]],
-        role_id: [5],
-        profile_description: [''],
-        date_of_birth: ['', [this.dateOfBirthValidator.bind(this)]],
+        phone: [
+          '',
+          [Validators.required, Validators.pattern(/^(010|011|012|015)\d{8}$/)],
+        ],
+        role_id: ['', [Validators.required, Validators.pattern(/^(2|5)$/)]],
+        date_of_birth: [
+          '',
+          [
+            Validators.required,
+            Validators.pattern(/^\d{4}-\d{2}-\d{2}$/),
+            (control: AbstractControl) => {
+              const date = new Date(control.value);
+              const today = new Date();
+              const age = today.getFullYear() - date.getFullYear();
+              if (age < 24 || age > 80) {
+                return { invalidAge: true };
+              }
+              return null;
+            },
+          ],
+        ],
         gender: [''],
         address: [''],
-        // doctor
         specialty_id: [''],
-        years_of_experience: [''],
-        appointment_fee: [''],
+        years_of_experience: [
+          '',
+          [
+            Validators.required,
+            Validators.pattern(/^\d+$/),
+            Validators.min(7),
+            Validators.max(60),
+          ],
+        ],
+        appointment_fee: [
+          '',
+          [Validators.required, Validators.pattern(/^\d+$/)],
+        ],
+        license_file: [
+          [Validators.required, Validators.pattern(/^(?!.*\s).+\.pdf$/)],
+        ],
       },
       { validators: this.passwordMatchValidator }
     );
@@ -56,28 +87,16 @@ export class RegisterComponent {
       this.isDoctor = roleId == 2;
     });
   }
-  // date validation
-  dateOfBirthValidator(
-    control: AbstractControl
-  ): { [key: string]: boolean } | null {
-    const selectedDate = new Date(control.value);
-    const today = new Date();
-
-    if (selectedDate > today) {
-      return { futureDate: true };
-    }
-    return null;
-  }
 
   loadSpecialties() {
     this.auth.getSpecialties().subscribe({
       next: (res) => {
-        // console.log(res.specialties);
         this.specialties = res.specialties;
       },
       error: (err) => {
         console.error('Error loading specialties', err);
-       
+        this.errorMessage =
+          'Failed to load specialties. Please try again later.';
       },
     });
   }
@@ -112,6 +131,9 @@ export class RegisterComponent {
       return;
     }
 
+    this.isLoading = true;
+    this.errorMessage = '';
+
     const formData = new FormData();
     formData.append('name', this.f['name'].value);
     formData.append('email', this.f['email'].value);
@@ -119,14 +141,10 @@ export class RegisterComponent {
     formData.append('password_confirmation', this.f['confirmPassword'].value);
     formData.append('phone', this.f['phone'].value);
     formData.append('role_id', this.f['role_id'].value);
-    formData.append(
-      'profile_description',
-      this.f['profile_description'].value || 'Patient'
-    );
     formData.append('date_of_birth', this.f['date_of_birth'].value);
     formData.append('gender', this.f['gender'].value);
     formData.append('address', this.f['address'].value);
-    // check role
+
     if (this.isDoctor) {
       formData.append('specialty_id', this.f['specialty_id'].value);
       formData.append(
@@ -146,15 +164,30 @@ export class RegisterComponent {
 
     this.auth.register(formData).subscribe({
       next: (res) => {
+        this.isLoading = false;
         this.auth.saveToken(res.token);
-        this.auth.saveUser(res.user);
-        if (res.user.role_id === 5) {
-          this.router.navigate(['login']);
+        this.auth.saveUserImage(res.user);
+        // Check user role and redirect accordingly
+        if (res.user.role_id === 2) {
+          // Doctor role
+          this.router.navigate(['/doctor-status'], {
+            state: {
+              message: 'Registration successful! Your account is under review.',
+              user: res.user,
+            },
+          });
         } else {
-          this.router.navigate(['/login']);
+          // Patient or other roles
+          this.router.navigate(['/login'], {
+            state: {
+              message: 'Registration successful! Please login to continue.',
+              success: true,
+            },
+          });
         }
       },
       error: (err) => {
+        this.isLoading = false;
         this.errorMessage = err.error?.message || 'Registration failed';
       },
     });

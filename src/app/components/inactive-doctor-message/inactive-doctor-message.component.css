@@ -1,0 +1,34 @@
+.inactive-doctor-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f8f9fa;
+  padding: 2rem;
+}
+
+.card {
+  max-width: 600px;
+  width: 100%;
+  border: none;
+  border-radius: 10px;
+}
+
+.icon-container {
+  font-size: 3rem;
+  color: #ffc107;
+}
+
+.alert {
+  max-width: 80%;
+  margin: 0 auto;
+}
+
+ul {
+  max-width: 80%;
+  margin: 0 auto;
+}
+
+.btn-outline-primary {
+  margin-top: 1rem;
+}
