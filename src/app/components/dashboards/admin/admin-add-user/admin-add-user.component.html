@@ -1,269 +1,224 @@
-<div class="container mt-4">
-  <h2>Add User</h2>
+<div class="container bg-white rounded-4 shadow p-4 my-4">
+  <h2 class="text-center text-primary fw-bold mb-4">Add New User</h2>
 
-  <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
-    <div class="row">
-      <div class="col-md-6">
-        <div class="form-group">
-          <label for="name">Name</label>
-          <input
-            type="text"
-            class="form-control"
-            id="name"
-            formControlName="name"
-          />
-          <div
-            *ngIf="
-              userForm.get('name')?.invalid &&
-              (userForm.get('name')?.dirty || userForm.get('name')?.touched)
-            "
-            class="text-danger"
-          >
-            Name is required
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label for="email">Email</label>
-          <input
-            type="email"
-            class="form-control"
-            id="email"
-            formControlName="email"
-          />
-          <div
-            *ngIf="
-              userForm.get('email')?.invalid &&
-              (userForm.get('email')?.dirty || userForm.get('email')?.touched)
-            "
-            class="text-danger"
-          >
-            Valid email is required
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label for="password">Password</label>
-          <input
-            type="password"
-            class="form-control"
-            id="password"
-            formControlName="password"
-          />
-          <div
-            *ngIf="
-              userForm.get('password')?.invalid &&
-              (userForm.get('password')?.dirty ||
-                userForm.get('password')?.touched)
-            "
-            class="text-danger"
-          >
-            Password must be at least 6 characters
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="confirmPassword">Confirm Password</label>
-          <input
-            type="password"
-            class="form-control"
-            id="confirmPassword"
-            formControlName="confirmPassword"
-          />
-          <div
-            *ngIf="userForm.errors?.['mismatch'] && (userForm.touched || userForm.dirty)"
-            class="text-danger"
-          >
-            Passwords do not match
-          </div>
-        </div>
-      </div>
-
-      <div class="col-md-6">
-        <div class="form-group">
-          <label for="phone">Phone</label>
-          <input
-            type="tel"
-            class="form-control"
-            id="phone"
-            formControlName="phone"
-          />
-          <div
-            *ngIf="
-              userForm.get('phone')?.invalid &&
-              (userForm.get('phone')?.dirty || userForm.get('phone')?.touched)
-            "
-            class="text-danger"
-          >
-            Phone number is required
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label for="gender">Gender</label>
-          <select class="form-control" id="gender" formControlName="gender">
-            <option value="">Select Gender</option>
-            <option value="Male">Male</option>
-            <option value="Female">Female</option>
-          </select>
-        </div>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-md-6">
-        <div class="form-group">
-          <label for="address">Address</label>
-          <input
-            type="text"
-            class="form-control"
-            id="address"
-            formControlName="address"
-          />
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="form-group">
-          <label for="date_of_birth">Date of Birth</label>
-          <input
-            type="date"
-            class="form-control"
-            id="date_of_birth"
-            formControlName="date_of_birth"
-          />
-        </div>
-      </div>
-    </div>
-
-    <div class="form-group">
-      <label for="profile_description">Profile Description</label>
-      <textarea
+  <form
+    [formGroup]="userForm"
+    (ngSubmit)="onSubmit()"
+    enctype="multipart/form-data"
+    class="row g-4"
+  >
+    <!-- Name -->
+    <div class="col-md-6">
+      <label class="form-label">Name *</label>
+      <input
+        type="text"
         class="form-control"
-        id="profile_description"
-        formControlName="profile_description"
-        rows="3"
-      ></textarea>
+        formControlName="name"
+        placeholder="Enter full name"
+      />
+      <small *ngIf="f['name'].touched && f['name'].invalid" class="text-danger"
+        >Name is required</small
+      >
     </div>
-    <!-- role -->
-      <div class="form-group">
-            <label>Role</label>
-            <select
-              class="form-control p-3"
-              formControlName="role_id"
-              [class.is-invalid]="
-                f['role_id'].invalid &&
-                (f['role_id'].touched )
-              "
-            >
-              <option value="" disabled>Select a role</option>
-              <option [value]="2">Doctor</option>
-              <option [value]="5">Patient</option>
-              <!-- <option [value]="1">Admin</option> -->
-              <!-- <option [value]="3">Nurse</option> -->
-              <!-- <option [value]="4">Receptionist</option> -->
-            </select>
-            <div
-              *ngIf="
-                f['role_id'].invalid &&
-                (f['role_id'].touched )
-              "
-              class="text-danger"
-            >
-              Role is required
-            </div>
-          </div>
-    <!-- doctor -->
-    <div *ngIf="isDoctor" class="row mt-3">
+
+    <!-- Email -->
+    <div class="col-md-6">
+      <label class="form-label">Email *</label>
+      <input
+        type="email"
+        class="form-control"
+        formControlName="email"
+        placeholder="example@mail.com"
+      />
+      <small
+        *ngIf="f['email'].touched && f['email'].invalid"
+        class="text-danger"
+        >Valid email required</small
+      >
+    </div>
+
+    <!-- Phone -->
+    <div class="col-md-6">
+      <label class="form-label">Phone *</label>
+      <input
+        type="text"
+        class="form-control"
+        formControlName="phone"
+        placeholder="01XXXXXXXXX"
+      />
+      <small
+        *ngIf="f['phone'].touched && f['phone'].invalid"
+        class="text-danger"
+        >Valid phone is required</small
+      >
+          <small *ngIf="f['phone'].touched && f['phone'].hasError('pattern')" class="text-danger">
+      Phone must be a valid Egyptian number
+    </small>
+    </div>
+
+    <!-- Password -->
+    <div class="col-md-6">
+      <label class="form-label">Password *</label>
+      <input type="password" class="form-control" formControlName="password" />
+      <small
+        *ngIf="f['password'].touched && f['password'].invalid"
+        class="text-danger"
+      >
+        Min 6 characters required
+      </small>
+    </div>
+
+    <!-- Confirm Password -->
+    <div class="col-md-6">
+      <label class="form-label">Confirm Password *</label>
+      <input
+        type="password"
+        class="form-control"
+        formControlName="confirmPassword"
+      />
+      <small
+        *ngIf="userForm.errors?.['mismatch'] && f['confirmPassword'].touched"
+        class="text-danger"
+      >
+        Passwords do not match
+      </small>
+    </div>
+
+    <!-- Role -->
+    <div class="col-md-6">
+      <label class="form-label">Role *</label>
+      <select class="form-select" formControlName="role_id">
+        <option value="">-- Select Role --</option>
+        <option [value]="1">Admin</option>
+        <option [value]="2">Doctor</option>
+        <option [value]="5">Patient</option>
+      </select>
+      <small
+        *ngIf="f['role_id'].touched && f['role_id'].invalid"
+        class="text-danger"
+        >Role is required</small
+      >
+    </div>
+
+    <!-- Patient Fields -->
+    <div *ngIf="isPatient" class="pt-4 border-top mt-3">
+      <h5 class="mb-3 text-secondary">Patient Information</h5>
+
       <div class="col-md-6">
-        <div class="form-group">
-          <label for="specialty_id">Specialty</label>
-          <select
-            class="form-control"
-            id="specialty_id"
-            formControlName="specialty_id"
-          >
-            <option value="">Select Specialty</option>
-            <option
-              *ngFor="let specialty of specialties"
-              [value]="specialty.id"
-            >
-              {{ specialty.name }}
-            </option>
-          </select>
-          <div
-            *ngIf="
-              userForm.get('specialty_id')?.invalid &&
-              userForm.get('specialty_id')?.touched
-            "
-            class="text-danger"
-          >
-            Specialty is required
-          </div>
-        </div>
-
-      </div>
-      <div class="col-md-6 ">
-        <div class="form-group">
-          <label for="years_of_experience">Years of Experience</label>
-          <input
-            type="number"
-            class="form-control"
-            id="years_of_experience"
-            formControlName="years_of_experience"
-          />
-          <div
-            *ngIf="
-              userForm.get('years_of_experience')?.invalid &&
-              userForm.get('years_of_experience')?.touched
-            "
-            class="text-danger"
-          >
-            Valid years of experience is required
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label for="appointment_fee">Appointment Fee</label>
-          <input
-            type="number"
-            class="form-control"
-            id="appointment_fee"
-            formControlName="appointment_fee"
-          />
-          <div
-            *ngIf="
-              userForm.get('appointment_fee')?.invalid &&
-              userForm.get('appointment_fee')?.touched
-            "
-            class="text-danger"
-          >
-            Valid appointment fee is required
-          </div>
-        </div>
-          <label>Upload License Document</label>
-              <input
-                type="file"
-                class="form-control"
-                (change)="onLicenseFileChange($event)"
-              />
-            </div>
+        <label class="form-label">Address</label>
+        <input type="text" class="form-control" formControlName="address" />
       </div>
 
-<!--     
-    <div class="form-group">
-      <label for="image">Profile Image</label>
-      <input type="file" class="form-control" id="image" (change)="onFileSelected($event)">
+      <div class="col-md-6">
+        <label class="form-label">Gender</label>
+        <select class="form-select" formControlName="gender">
+          <option value="">-- Select Gender --</option>
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+        </select>
+      </div>
+      <small
+        *ngIf="f['gender'].touched && f['gender'].hasError('pattern')"
+        class="text-danger"
+      >
+        Please select a valid gender
+      </small>
+      <small *ngIf="f['gender'].hasError('serverError')" class="text-danger">
+        {{ f["gender"].getError("serverError") }}
+      </small>
+
+      <div class="col-md-6">
+        <label class="form-label">Date of Birth</label>
+        <input
+          type="date"
+          class="form-control"
+          formControlName="date_of_birth"
+        />
+         <small *ngIf="f['date_of_birth'].touched && f['date_of_birth'].hasError('invalidDateRange')" class="text-danger">
+      Date must be between 1950 and today
+    </small>
+      </div>
+
+      <div class="col-md-12">
+        <label class="form-label">Profile Description</label>
+        <textarea
+          class="form-control"
+          rows="3"
+          formControlName="profile_description"
+        ></textarea>
+      </div>
     </div>
-    -->
 
-    <div class="mt-3">
+    <!-- Doctor Fields -->
+    <div *ngIf="isDoctor" class="pt-4 border-top mt-3">
+      <h5 class="mb-3 text-secondary">Doctor Information</h5>
+
+      <div class="col-md-6">
+        <label class="form-label">Specialty *</label>
+        <select class="form-select" formControlName="specialty_id">
+          <option value="">-- Select Specialty --</option>
+          <option *ngFor="let specialty of specialties" [value]="specialty.id">
+            {{ specialty.name }}
+          </option>
+        </select>
+        <small
+          *ngIf="f['specialty_id'].touched && f['specialty_id'].invalid"
+          class="text-danger"
+          >Required</small
+        >
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label">Years of Experience *</label>
+        <input
+          type="number"
+          class="form-control"
+          formControlName="years_of_experience"
+        />
+        <small
+          *ngIf="
+            f['years_of_experience'].touched && f['years_of_experience'].invalid
+          "
+          class="text-danger"
+        >
+          Must be >= 0
+        </small>
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label">Appointment Fee *</label>
+        <input
+          type="number"
+          class="form-control"
+          formControlName="appointment_fee"
+        />
+        <small
+          *ngIf="f['appointment_fee'].touched && f['appointment_fee'].invalid"
+          class="text-danger"
+        >
+          Must be >= 0
+        </small>
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label">License File</label>
+        <input
+          type="file"
+          class="form-control"
+          (change)="onLicenseFileChange($event)"
+        />
+      </div>
+    </div>
+
+    <!-- Submit Button -->
+    <div class="col-12 text-center mt-4">
       <button
         type="submit"
-        class="btn btn-outline-info"
-        [disabled]="userForm.invalid || isSubmitting"
+        class="btn btn-success px-5 fw-bold"
+        [disabled]="isSubmitting"
       >
-        <span *ngIf="!isSubmitting">Create User</span>
+        {{ isSubmitting ? "Submitting..." : "Submit" }}
       </button>
-      <a routerLink="/admin/admin-home" class="btn btn-outline-secondary ms-2">Cancel</a>
     </div>
   </form>
 </div>
