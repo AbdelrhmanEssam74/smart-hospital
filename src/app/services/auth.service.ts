@@ -92,4 +92,8 @@ export class AuthService {
       Authorization: `Bearer ${this.getToken()}`,
     });
   }
+  // specialties for registeration form
+  getSpecialties(): Observable<any> {
+  return this.http.get(`${this.apiUrl}/specialties`);
+}
 }

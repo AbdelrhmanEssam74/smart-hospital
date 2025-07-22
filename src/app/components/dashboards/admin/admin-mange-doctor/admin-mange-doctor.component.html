@@ -1,0 +1,152 @@
+<div class="container mt-4">
+  <h2>Pending Doctor Approvals</h2>
+
+  @if (loading) {
+  <div class="text-center">
+    <div class="spinner-border" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+  }
+
+  <div *ngIf="!loading && pendingDoctors.length === 0" class="alert alert-info">
+    No pending doctor approvals
+  </div>
+
+  @for (doctor of pendingDoctors; track doctor.id) {
+  <div class="card mb-3">
+    <div class="card-body">
+      <h5 class="card-title">{{ doctor.user.name }}</h5>
+      <p class="card-text">
+        <strong>Specialty:</strong> {{ doctor.specialty.name }}<br />
+        <strong>Experience:</strong> {{ doctor.experience_years }} years <br>
+        <strong>Appointement fee's:</strong> {{ doctor.appointment_fee }}<br />
+      </p>
+
+      @if (doctor.license_file) {
+      <button
+        (click)="viewLicense(doctor)"
+        class="btn btn-sm btn-outline-primary me-2"
+      >
+        <i class="fas fa-id-card me-1"></i> View License
+      </button>
+      }
+
+      <div class="mt-3">
+        <button
+          (click)="approveDoctor(doctor.id)"
+          class="btn btn-outline-info me-2"
+        >
+          Approve
+        </button>
+
+        <button
+          class="btn btn-outline-danger"
+          data-bs-toggle="modal"
+          [attr.data-bs-target]="'#rejectModal' + doctor.id"
+        >
+          Reject
+        </button>
+      </div>
+    </div>
+  </div>
+  }
+</div>
+
+<!-- reject -->
+@for (doctor of pendingDoctors; track doctor.id) {
+<div class="modal fade" [id]="'rejectModal' + doctor.id" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Reject Doctor Application</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <label class="form-label">Reason for rejection</label>
+          <textarea #reason class="form-control" rows="3"></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Cancel
+        </button>
+        <button
+          type="button"
+          class="btn btn-danger"
+          data-bs-dismiss="modal"
+          (click)="rejectDoctor(doctor.id, reason.value)"
+        >
+          Submit Rejection
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+}
+
+<!-- licence -->
+@if (showLicenseModal) {
+<div class="modal-backdrop fade show"></div>
+<div class="modal fade show d-block" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header text-white">
+        <h5 class="modal-title">
+          <i class="fas fa-id-card me-2"></i>
+          License for {{ currentLicenseDoctor?.user?.name || "Doctor" }}
+        </h5>
+        <button
+          type="button"
+          class="btn-close btn-close-white"
+          (click)="closeLicenseModal()"
+        ></button>
+      </div>
+      <div class="modal-body">
+        @if (licenseLoading) {
+        <div class="text-center py-4">
+          <div class="spinner-border " role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </div>
+        } @if (licenseError) {
+        <div class="alert alert-danger">
+          <i class="fas fa-exclamation-circle me-2"></i>
+          {{ licenseError }}
+        </div>
+        } @if (!licenseLoading && !licenseUrl) {
+        <div class="text-center py-4">
+          <i class="fas fa-folder-open fa-3x text-muted mb-3"></i>
+          <p>No license found for this doctor</p>
+        </div>
+        } @if (!licenseLoading && licenseUrl) {
+        <div class="row">
+          <div class="col-12 text-center">
+            <img
+              [src]="licenseUrl"
+              class="img-fluid rounded mb-3"
+              alt="Doctor License"
+              (click)="openImagePreview(licenseUrl)"
+            />
+          </div>
+        </div>
+        }
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-outline-secondary"
+          (click)="closeLicenseModal()"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+}

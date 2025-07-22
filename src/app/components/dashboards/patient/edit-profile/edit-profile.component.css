@@ -40,6 +40,9 @@ label {
   font-weight: bold;
   color: #333;
 }
+.change:hover{
+  color: #3aa8e9;
+}
 
 input, select, textarea {
   width: 100%;

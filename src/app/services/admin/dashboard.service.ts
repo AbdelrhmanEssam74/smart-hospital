@@ -45,4 +45,25 @@ export class DashboardService {
       }
     );
   }
+  // mamage recently registered doctors
+  getPendingDoctors() {
+    return this.httpClient.get<any[]>(`${this.adminUrl}/manage_pending_doctors`);
+  }
+
+  approveDoctor(doctorId: number) {
+    return this.httpClient.post(`${this.adminUrl}/approve-doctor/${doctorId}`, {});
+  }
+
+  rejectDoctor(doctorId: number, reason: string) {
+    return this.httpClient.post(`${this.adminUrl}/reject-doctor/${doctorId}`, { reason });
+  }
+
+  getDoctorLicence(doctorId:number):Observable<any>{
+    return this.httpClient.get<any>(
+      `${this.adminUrl}/doctor/${doctorId}/licence`, 
+        {
+            headers: this.authService.getAuthHeaders(),
+        } 
+    )
+  }
 }

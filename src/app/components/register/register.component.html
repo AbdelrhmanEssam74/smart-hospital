@@ -12,7 +12,7 @@
     justify-content: center;
   "
 >
-  <div class="hero-content ">
+  <div class="hero-content">
     <div>
       <small>Register</small>
       <h1>Register Now</h1>
@@ -88,6 +88,71 @@
               </div>
             </div>
           </div>
+          <!-- Phone -->
+          <div class="form-group">
+            <label>Phone</label>
+            <input
+              type="tel"
+              formControlName="phone"
+              [class.is-invalid]="
+                f['phone'].invalid && (f['phone'].touched || f['phone'].dirty)
+              "
+              placeholder="Enter your phone number"
+            />
+            <div
+              *ngIf="
+                f['phone'].invalid && (f['phone'].touched || f['phone'].dirty)
+              "
+              class="text-danger"
+            >
+              <div *ngIf="f['phone'].errors?.['pattern']">
+                Phone must be numeric (11 digits)
+              </div>
+            </div>
+          </div>
+          <!--  -->
+          <div class="patient-fields">
+            <!-- Date of Birth -->
+            <div class="form-group">
+              <label>Date of Birth</label>
+              <input
+                type="date"
+                formControlName="date_of_birth"
+                class="form-control"
+              />
+            </div>
+
+            <!-- Gender -->
+            <div class="form-group">
+              <label>Gender</label>
+              <select formControlName="gender" class="form-control">
+                <option value="">Select Gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+              </select>
+            </div>
+
+            <!-- Address -->
+            <div class="form-group">
+              <label>Address</label>
+              <textarea
+                formControlName="address"
+                rows="2"
+                class="form-control"
+                placeholder="Enter your address"
+              ></textarea>
+            </div>
+          </div>
+            <!-- Profile Description -->
+          <div class="form-group">
+            <label>Profile Description</label>
+            <textarea
+              rows="3"
+              formControlName="profile_description"
+              placeholder="Write something about your Medical condition..."
+              class="form-control"
+            ></textarea>
+          </div>
 
           <!-- Password -->
           <div class="form-group">
@@ -139,102 +204,110 @@
             </div>
           </div>
 
-          <!-- Phone -->
-          <div class="form-group">
-            <label>Phone</label>
-            <input
-              type="tel"
-              formControlName="phone"
-              [class.is-invalid]="
-                f['phone'].invalid && (f['phone'].touched || f['phone'].dirty)
-              "
-              placeholder="Enter your phone number"
-            />
-            <div
-              *ngIf="
-                f['phone'].invalid && (f['phone'].touched || f['phone'].dirty)
-              "
-              class="text-danger"
-            >
-              <div *ngIf="f['phone'].errors?.['pattern']">
-                Phone must be numeric (10–15 digits)
-              </div>
-            </div>
-          </div>
 
           <!-- Role -->
-          <!-- <div class="form-group">
+          <div class="form-group">
             <label>Role</label>
             <select
               class="form-control p-3"
               formControlName="role_id"
               [class.is-invalid]="
                 f['role_id'].invalid &&
-                (f['role_id'].touched || f['role_id'].dirty)
+                (f['role_id'].touched )
               "
             >
               <option value="" disabled>Select a role</option>
-              <option [value]="1">Admin</option>
+              <!-- <option [value]="1">Admin</option> -->
               <option [value]="2">Doctor</option>
-              <option [value]="3">Nurse</option>
-              <option [value]="4">Receptionist</option>
+              <!-- <option [value]="3">Nurse</option> -->
+              <!-- <option [value]="4">Receptionist</option> -->
               <option [value]="5">Patient</option>
             </select>
             <div
               *ngIf="
                 f['role_id'].invalid &&
-                (f['role_id'].touched || f['role_id'].dirty)
+                (f['role_id'].touched )
               "
               class="text-danger"
             >
               Role is required
             </div>
-          </div> -->
+          </div>
 
-          <!-- Profile Description -->
-          <!-- <div class="form-group">
-            <label>Profile Description</label>
-            <textarea
-              rows="3"
-              formControlName="profile_description"
-              placeholder="Write something about yourself..."
-              class="form-control"
-            ></textarea>
-          </div> -->
-<!--  -->
-<div class="patient-fields">
-    <!-- Date of Birth -->
-    <div class="form-group">
-        <label>Date of Birth</label>
-        <input
-            type="date"
-            formControlName="date_of_birth"
-            class="form-control"
-        />
-    </div>
+          <!-- doctor records  -->
+          <div *ngIf="isDoctor" class="doctor-fields">
+            <!-- License File Upload -->
+            <div class="form-group">
+              <label>Upload License Document</label>
+              <input
+                type="file"
+                class="form-control"
+                (change)="onLicenseFileChange($event)"
+              />
+            </div>
+            <!-- speciality -->
+            <div class="form-group">
+              <label>Specialty</label>
+              <select formControlName="specialty_id" class="form-control">
+                <option value="" disabled selected>Select Specialty</option>
+                <option
+                  *ngFor="let specialty of specialties"
+                  [value]="specialty.id"
+                >
+                  {{ specialty.name }}
+                </option>
+              </select>
+              <div
+                *ngIf="
+                  registerForm.get('specialty_id')?.invalid &&
+                  registerForm.get('specialty_id')?.touched
+                "
+                class="text-danger"
+              >
+                Specialty is required
+              </div>
+            </div>
+            <!-- years of exper -->
+            <div class="form-group">
+              <label>Years of Experience</label>
+              <input
+                type="number"
+                formControlName="years_of_experience"
+                class="form-control"
+                placeholder="Enter years of experience"
+              />
+              <div
+                *ngIf="
+                  f['years_of_experience'].invalid &&
+                  (f['years_of_experience'].touched || f['years_of_experience'])
+                "
+                class="text-danger"
+              >
+                Valid years of experience is required
+              </div>
+            </div>
+            <!--  app. fee -->
+            <div class="form-group">
+              <label>Appointment Fee</label>
+              <input
+                type="number"
+                formControlName="appointment_fee"
+                class="form-control"
+                placeholder="Enter appointment fee"
+              />
+              <div
+                *ngIf="
+                  f['appointment_fee'].invalid &&
+                  (f['appointment_fee'].touched || f['appointment_fee'])
+                "
+                class="text-warning"
+              >
+                Valid appointment fee is required
+              </div>
+            </div>
+          </div>
+          <!-- end of doctor records-->
 
-    <!-- Gender -->
-    <div class="form-group">
-        <label>Gender</label>
-        <select formControlName="gender" class="form-control">
-            <option value="">Select Gender</option>
-            <option value="Male">Male</option>
-            <option value="Female">Female</option>
-        </select>
-    </div>
-
-    <!-- Address -->
-    <div class="form-group">
-        <label>Address</label>
-        <textarea
-            formControlName="address"
-            rows="2"
-            class="form-control"
-            placeholder="Enter your address"
-        ></textarea>
-    </div>
-</div>
-<!--  -->
           <!-- Image Upload -->
           <div class="form-group">
             <label>Upload Profile Image</label>
