@@ -87,7 +87,6 @@ ngOnInit(): void {
         Validators.pattern(/^\d+$/),
       ]);
       license?.setValidators([
-        Validators.required,
         Validators.pattern(/^(?!.*\s).+\.pdf$/),
       ]);
     } else {

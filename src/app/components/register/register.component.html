@@ -333,13 +333,6 @@
                 />
                 <div id="emailHelp" class="form-text">Upload PDF File</div>
               </div>
-
-              <div
-                *ngIf="f['license_file'].errors?.['required'] && f['license_file'].touched"
-                class="text-danger"
-              >
-                License file is required
-              </div>
               <div
                 *ngIf="f['license_file'].errors?.['pattern']"
                 class="text-danger"
