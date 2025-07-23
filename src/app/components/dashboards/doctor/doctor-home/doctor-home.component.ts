@@ -3,7 +3,7 @@ import {RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
 import {HttpClient} from '@angular/common/http';
 import {AuthService} from '../../../../services/auth.service';
 import {DoctorNew} from '../../../../interfaces/doctor-new';
-
+import {Router} from '@angular/router';
 @Component({
   selector: 'app-doctor-home',
   imports: [
@@ -19,7 +19,9 @@ export class DoctorHomeComponent implements OnInit{
   Doctor: DoctorNew;
   APIUrl = 'http://127.0.0.1:8000/api/doctor/';
 
-  constructor(private http: HttpClient, private auth: AuthService) {
+  constructor(private http: HttpClient, private authService: AuthService, private auth: AuthService, private router: Router) {
+    // Initialize Doctor to an empty object
+    this.Doctor = {} as DoctorNew;
   }
 
   ngOnInit(): void {
@@ -29,7 +31,16 @@ export class DoctorHomeComponent implements OnInit{
       this.Doctor = data.doctor;
     }, (error) => console.error('Error:', error))
   }
-  logout(){
-    this.auth.logout()
+  logout() {
+    // Clear immediately to update the UI
+    this.authService.clearToken();
+    this.authService.clearUser();
+    this.router.navigate(['/login']);
+
+    // Then notify backend
+    this.authService.logout().subscribe({
+      next: () => {},
+      error: () => {},
+    });
   }
 }

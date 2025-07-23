@@ -55,6 +55,7 @@ export const routes: Routes = [
   {
     path: 'admin',
     component: AdminHomeComponent,
+    canActivate: [AuthGuard],
     children: [
       { path: 'admin-home', component: AdminDashboardComponent },
       { path: 'admin-appointments', component: AdminAppointmentsComponent },
@@ -71,8 +72,8 @@ export const routes: Routes = [
       { path: 'massagecontact', component: AdminContactsComponent },
     ],
   },
-  { path: 'patient_profile', component: PatientProfileComponent },
-  { path: 'profile_edit', component: EditProfileComponent },
+  { path: 'patient_profile', component: PatientProfileComponent , canActivate: [AuthGuard] },
+  { path: 'profile_edit', component: EditProfileComponent , canActivate: [AuthGuard] },
   { path: 'gallery', component: GalleryComponent },
   { path: 'contact', component: ContactComponent, canActivate: [AuthGuard] },
   { path: 'doctor-status', component: InactiveDoctorMessageComponent },
