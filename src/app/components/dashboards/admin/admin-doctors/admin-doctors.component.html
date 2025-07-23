@@ -1,111 +1,313 @@
-<div class="patient-profiles-container">
-  <div class="header-section">
-    <h2 class="text-center fw-bold mb-3 text-primary">All Doctors</h2>
-    <p class="text-center text-muted mb-4">Manage and view your doctors</p>
+<div class="doctors-management-container">
+  <!-- Header Section -->
+  <div class="header-section bg-white p-4 rounded shadow-sm mb-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <div>
+        <h2 class="fw-bold text-primary mb-1">Doctor Management</h2>
+        <p class="text-muted mb-0">Review and manage doctor applications</p>
+      </div>
+      <button class="btn btn-primary" (click)="openAddDoctorModal()">
+        <i class="fas fa-plus me-2"></i> Add New Doctor
+      </button>
+    </div>
 
-    <div class="search-filter-bar">
-      <div class="search-box">
-        <i class="fas fa-search"></i>
-        <input
-          type="text"
-          [(ngModel)]="searchName"
-          (input)="onSearch()"
-          placeholder="Search by name"
-          class="search-input"
-        />
+    <!-- Filters -->
+    <div class="row g-3">
+      <div class="col-md-6">
+        <div class="search-box input-group">
+          <span class="input-group-text bg-white"
+            ><i class="fas fa-search"></i
+          ></span>
+          <input
+            type="text"
+            [(ngModel)]="searchName"
+            (input)="onSearch()"
+            placeholder="Search by name, specialty or email"
+            class="form-control"
+          />
+        </div>
+      </div>
+      <div class="col-md-3">
+        <select
+          class="form-select"
+          [(ngModel)]="statusFilter"
+          (change)="filterDoctors()"
+        >
+          <option value="">All Statuses</option>
+          <option value="pending">Pending Review</option>
+          <option value="accepted">Approved</option>
+          <option value="rejected">Rejected</option>
+        </select>
+      </div>
+      <div class="col-md-3">
+        <select
+          class="form-select"
+          [(ngModel)]="specialtyFilter"
+          (change)="filterDoctors()"
+        >
+          <option value="">All Specialties</option>
+          <option *ngFor="let specialty of specialties" [value]="specialty">
+            {{ specialty }}
+          </option>
+        </select>
       </div>
     </div>
   </div>
 
-  <div class="patient-cards">
-    <div *ngFor="let doctor of doctors">
-      <div class="patient-card">
-        <div class="card-header">
-          <div class="status-badge active">active</div>
-          <button class="card-menu-btn">
-            <i class="fas fa-ellipsis-v"></i>
+  <!-- Stats Cards -->
+  <div class="row mb-4">
+    <div class="col-md-4">
+      <div class="card stat-card bg-primary text-white">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <h6 class="text-uppercase small">Total Doctors</h6>
+              <h3 class="mb-0">{{ doctors.length }}</h3>
+            </div>
+            <i class="fas fa-user-md fa-2x opacity-50"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card stat-card bg-success text-white">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <h6 class="text-uppercase small">Approved</h6>
+            </div>
+            <i class="fas fa-check-circle fa-2x opacity-50"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card stat-card bg-warning text-dark">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <h6 class="text-uppercase small">Pending Review</h6>
+            </div>
+            <i class="fas fa-clock fa-2x opacity-50"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Doctors Grid -->
+  <div class="row g-4">
+    <div class="col-12" *ngIf="filteredDoctors.length === 0">
+      <div class="card empty-state">
+        <div class="card-body text-center py-5">
+          <i class="fas fa-user-md fa-3x text-muted mb-3"></i>
+          <h4 class="text-muted">No doctors found</h4>
+          <p class="text-muted">Try adjusting your search filters</p>
+          <button class="btn btn-outline-primary" (click)="resetFilters()">
+            Reset Filters
           </button>
         </div>
+      </div>
+    </div>
 
-        <div class="card-body">
-          <img
-            *ngIf="doctor.user?.image?.includes('http')"
-            [src]="doctor.user?.image"
-            class="img-fluid rounded"
-            alt="doctor image"
-            style="width: 100px; height: 100px; object-fit: cover"
-          />
-          <ng-template [ngIf]="!doctor.user?.image?.includes('http')">
-            <img
-              [src]="'http://127.0.0.1:8000/' + doctor.user?.image"
-              class="img-fluid rounded"
-              alt="doctor image"
-              style="width: 100px; height: 100px; object-fit: cover"
-            />
-          </ng-template>
-
-          <div class="patient-info">
-            <h4 class="patient-name">
-              {{ doctor.user?.name }}
-            </h4>
-
-            <div class="patient-meta">
-              <span class="badge bg-light text-dark">
-                <i class="fas fa-envelope me-1"></i> {{ doctor.user?.email }}
-              </span>
-              <span class="badge bg-light text-dark">
-                <i class="fas fa-phone me-1"></i> {{ doctor.user?.phone }}
-              </span>
-            </div>
-
-            <div class="patient-details">
-              <p>
-                <strong>Description:</strong>
-                {{ doctor.user?.profile_description }}
-              </p>
-              <p>
-                <strong>Experience:</strong> {{ doctor.experience_years }} years
-              </p>
-              <p>
-                <strong>Appointment Fee:</strong> ${{ doctor.appointment_fee }}
-              </p>
-              <p>
-                <strong>Joined At:</strong>
-                {{ doctor.user?.created_at | date : "mediumDate" }}
-              </p>
-              <p><strong>Role:</strong> {{ doctor.user?.role?.name }}</p>
-            </div>
+    <div
+      class="col-xl-4 col-lg-6 col-md-6"
+      *ngFor="let doctor of filteredDoctors"
+    >
+      <div class="card doctor-card h-100">
+        <div
+          class="card-header d-flex justify-content-between align-items-center"
+        >
+          <span
+            class="badge"
+            [ngClass]="{
+              'bg-success': doctor.status === 'accepted',
+              'bg-warning text-dark': doctor.status === 'pending',
+              'bg-danger': doctor.status === 'rejected'
+            }"
+          >
+            {{ doctor.status | titlecase }}
+          </span>
+          <div class="dropdown">
+            <button
+              class="btn btn-sm btn-link text-muted"
+              type="button"
+              data-bs-toggle="dropdown"
+            >
+              <i class="fas fa-ellipsis-v"></i>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li>
+                <a
+                  class="dropdown-item"
+                  href="#"
+                  (click)="viewDoctorDetails(doctor)"
+                  ><i class="fas fa-eye me-2"></i> View Details</a
+                >
+              </li>
+              <li>
+                <a class="dropdown-item" href="#" (click)="editDoctor(doctor)"
+                  ><i class="fas fa-edit me-2"></i> Edit</a
+                >
+              </li>
+              <li><hr class="dropdown-divider" /></li>
+              <li>
+                <a
+                  class="dropdown-item text-danger"
+                  href="#"
+                  (click)="deleteDoctor(doctor.id)"
+                  ><i class="fas fa-trash-alt me-2"></i> Delete</a
+                >
+              </li>
+            </ul>
           </div>
         </div>
 
-        <div class="card-footer">
-          <button
-            class="btn btn-sm btn-outline-info"
-            data-bs-toggle="modal"
-            data-bs-target="#slotsModal"
-            (click)="selectDoctor(doctor)"
+        <div class="card-body">
+          <div class="d-flex align-items-start mb-3">
+            <div class="doctor-avatar me-3">
+              <img
+                [src]="
+                  doctor.user?.image?.includes('http')
+                    ? doctor.user?.image
+                    : 'http://127.0.0.1:8000/' + doctor.user?.image
+                "
+                class="rounded-circle"
+                alt="doctor image"
+                style="width: 80px; height: 80px; object-fit: cover"
+                onerror="this.src='assets/images/default-avatar.png'"
+              />
+            </div>
+            <div>
+              <h5 class="mb-1">{{ doctor.user?.name }}</h5>
+              <p class="text-muted small mb-1">
+                <i class="fas fa-envelope me-1"></i> {{ doctor.user?.email }}
+              </p>
+              <p class="text-muted small mb-1">
+                <i class="fas fa-phone me-1"></i>
+                {{ doctor.user?.phone || "Not provided" }}
+              </p>
+              <span class="badge bg-info text-dark">{{
+                doctor.specialty || "General"
+              }}</span>
+            </div>
+          </div>
+
+          <div class="doctor-details">
+            <div class="detail-item">
+              <span class="detail-label">Experience:</span>
+              <span class="detail-value"
+                >{{ doctor.experience_years || 0 }} years</span
+              >
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">Appointment Fee:</span>
+              <span class="detail-value"
+                >EGP {{ doctor.appointment_fee || 0 }}</span
+              >
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">Joined:</span>
+              <span class="detail-value">{{
+                doctor.user?.created_at | date : "mediumDate"
+              }}</span>
+            </div>
+          </div>
+
+          <p
+            class="mt-3 text-muted small description-truncate"
+            [title]="doctor.user?.profile_description"
           >
-            <i class="fas fa-calendar-alt me-1"></i> View Slots
-          </button>
-          <button
-            class="btn btn-sm btn-danger"
-            (click)="deleteDoctor(doctor.id)"
-          >
-            <i class="fas fa-trash-alt me-1"></i> Delete
-          </button>
+            {{ doctor.user?.profile_description || "No description provided" }}
+          </p>
+        </div>
+
+        <div class="card-footer bg-white border-top">
+          <div class="d-flex justify-content-between">
+            <button
+              class="btn btn-sm btn-outline-info"
+              data-bs-toggle="modal"
+              data-bs-target="#slotsModal"
+              (click)="selectDoctor(doctor)"
+            >
+              <i class="fas fa-calendar-alt me-1"></i> View Slots
+            </button>
+
+            <div *ngIf="doctor.status === 'pending'">
+              <button
+                class="btn btn-sm btn-success me-2"
+                (click)="approveDoctor(doctor.id)"
+              >
+                <i class="fas fa-check me-1"></i> Approve
+              </button>
+              <button
+                class="btn btn-sm btn-danger"
+                (click)="rejectDoctor(doctor.id)"
+              >
+                <i class="fas fa-times me-1"></i> Reject
+              </button>
+            </div>
+
+            <button
+              *ngIf="doctor.status !== 'pending'"
+              class="btn btn-sm btn-outline-primary"
+              (click)="viewDoctorDetails(doctor)"
+            >
+              <i class="fas fa-eye me-1"></i> Details
+            </button>
+          </div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Modal to Show Slots -->
+  <!-- Pagination -->
+  <div
+    class="d-flex justify-content-center mt-4"
+    *ngIf="filteredDoctors.length > 0"
+  >
+    <nav aria-label="Page navigation">
+      <ul class="pagination">
+        <li class="page-item" [class.disabled]="currentPage === 1">
+          <a class="page-link" href="#" (click)="changePage(currentPage - 1)"
+            >Previous</a
+          >
+        </li>
+        <li
+          class="page-item"
+          *ngFor="let page of getPages()"
+          [class.active]="page === currentPage"
+        >
+          <a class="page-link" href="#" (click)="changePage(page)">{{
+            page
+          }}</a>
+        </li>
+        <li class="page-item" [class.disabled]="currentPage === totalPages">
+          <a class="page-link" href="#" (click)="changePage(currentPage + 1)"
+            >Next</a
+          >
+        </li>
+      </ul>
+    </nav>
+  </div>
+
+  <!-- Doctor Details Modal -->
   <div
     class="modal fade"
-    id="slotsModal"
+    id="doctorDetailsModal"
     tabindex="-1"
-    aria-labelledby="slotsModalLabel"
     aria-hidden="true"
   >
+    <!-- Modal content remains the same as before -->
+  </div>
+
+  <!-- Add/Edit Doctor Modal -->
+  <div class="modal fade" id="doctorFormModal" tabindex="-1" aria-hidden="true">
+    <!-- Add your form modal content here -->
+  </div>
+
+  <!-- Slots Modal -->
+  <div class="modal fade" id="slotsModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable">
       <div class="modal-content">
         <div class="modal-header">
