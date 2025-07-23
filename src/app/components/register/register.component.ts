@@ -182,8 +182,10 @@ ngOnInit(): void {
         this.isLoading = false;
         this.auth.saveToken(res.token);
         this.auth.saveUserImage(res.user);
+        console.log('Registration successful', res.user.role === "2");
+        
         // Check user role and redirect accordingly
-        if (res.user.role_id === 2) {
+        if (res.user.role.id === '2') {
           // Doctor role
           this.router.navigate(['/doctor-status'], {
             state: {

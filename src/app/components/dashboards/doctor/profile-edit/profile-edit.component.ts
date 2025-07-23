@@ -162,7 +162,8 @@ export class ProfileEditComponent implements OnInit {
           this.updatedData.user.image = uploadedPath;
 
           this.notify.success('Image uploaded successfully.');
-
+          // reload the page
+          this.loadDoctorProfile();
           const reader = new FileReader();
           reader.onload = () => {
             this.profileImage = reader.result;
