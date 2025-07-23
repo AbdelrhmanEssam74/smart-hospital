@@ -5,13 +5,7 @@
         <div class="card-body">
           <h3 class="card-title mb-4 border-bottom pb-2">Edit Admin Profile</h3>
 
-          <!-- Alerts -->
-          <div *ngIf="errorMessage" class="alert alert-danger">
-            {{ errorMessage }}
-          </div>
-          <div *ngIf="successMessage" class="alert alert-success">
-            {{ successMessage }}
-          </div>
+          <!-- Loading Spinner -->
           <div *ngIf="isLoading" class="text-center my-4">
             <div class="spinner-border text-primary" role="status"></div>
             <p class="mt-2">Loading profile data...</p>

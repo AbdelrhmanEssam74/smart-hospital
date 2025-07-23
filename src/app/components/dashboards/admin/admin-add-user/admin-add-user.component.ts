@@ -12,6 +12,7 @@ import { UserControlService } from '../../../../services/admin/user-control.serv
 import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../../services/auth.service';
+import { NotificationService } from '../../../../services/notification.service';
 
 @Component({
   selector: 'app-admin-add-user',
@@ -34,7 +35,8 @@ export class AdminAddUserComponent {
     private fb: FormBuilder,
     private userService: UserControlService,
     private router: Router,
-    private auth: AuthService
+    private auth: AuthService,
+    private notificationService: NotificationService 
   ) {
     this.userForm = this.fb.group(
       {
@@ -123,6 +125,7 @@ export class AdminAddUserComponent {
       },
       error: (err) => {
         console.error('Error loading specialties', err);
+        this.notificationService.error('Failed to load specialties ');
       },
     });
   }
@@ -150,6 +153,7 @@ export class AdminAddUserComponent {
   onSubmit() {
     if (this.userForm.invalid) {
       this.userForm.markAllAsTouched();
+      this.notificationService.error('Please correct the form errors '); 
       return;
     }
 
@@ -187,6 +191,7 @@ export class AdminAddUserComponent {
 
     this.userService.createUser(formData).subscribe({
       next: () => {
+        this.notificationService.success('User created successfully '); 
         this.userForm.reset();
         this.isDoctor = false;
         this.isAdmin = true;
@@ -205,8 +210,10 @@ export class AdminAddUserComponent {
               control.setErrors({ serverError: err.error.errors[key][0] });
             }
           });
+          this.notificationService.error('Please fix the form errors '); 
         } else {
           console.error('Unknown error:', err);
+          this.notificationService.error('An unexpected error occurred '); 
         }
       },
     });
