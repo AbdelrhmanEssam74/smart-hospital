@@ -4,11 +4,19 @@
     <div class="row g-3 justify-content-between">
       <div class="col-md-4">
         <label class="form-label text-muted small">Filter by Date</label>
-        <input type="date" class="form-control border-primary" [(ngModel)]="filter.date">
+        <input
+          type="date"
+          class="form-control border-primary"
+          [(ngModel)]="filter.date"
+        />
       </div>
       <div class="col-md-3">
         <label class="form-label text-muted small">Time Range</label>
-        <input type="time" class="form-control border-primary" [(ngModel)]="filter.time">
+        <input
+          type="time"
+          class="form-control border-primary"
+          [(ngModel)]="filter.time"
+        />
       </div>
       <div class="col-md-3">
         <label class="form-label text-muted small">Appointment Status</label>
@@ -20,8 +28,11 @@
           <option value="completed">Completed</option>
         </select>
       </div>
-      <div class="col-md-2  d-flex align-items-end">
-        <button class="btn btn-outline-primary w-100 mt-2" (click)="filter = { date: '', time: '', status: '' }">
+      <div class="col-md-2 d-flex align-items-end">
+        <button
+          class="btn btn-outline-primary w-100 mt-2"
+          (click)="filter = { date: '', time: '', status: '' }"
+        >
           <i class="fas fa-sync-alt me-2"></i>Reset
         </button>
       </div>
@@ -31,75 +42,121 @@
   <div class="table-responsive rounded-3 shadow-sm">
     <table class="table table-borderless table-hover align-middle">
       <thead class="bg-light-blue">
-      <tr>
-        <th class="ps-4">Patient</th>
-        <th>Gender</th>
-        <th>Date</th>
-        <th>Time</th>
-        <th>Duration</th>
-        <th>Notes</th>
-        <th>Actions</th>
-        <th class="pe-4">Status</th>
-        <th class="pe-4">Payment Status</th>
-      </tr>
+        <tr>
+          <th class="ps-4">Patient</th>
+          <th>Gender</th>
+          <th>Date</th>
+          <th>Time</th>
+          <!-- <th>Duration</th> -->
+          <th>Notes</th>
+          <th>Actions</th>
+          <th class="pe-4">Status</th>
+          <th class="pe-4">Payment Status</th>
+        </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let appt of filteredAppointments; trackBy: trackById" class="border-bottom">
-        <td class="ps-4 fw-medium">{{ appt.patient?.user?.name }}</td>
-        <td><span class="badge bg-light text-dark">{{ appt.patient?.gender }}</span></td>
-        <td>{{ appt.appointment_date | date:'mediumDate' }}</td>
-        <td>{{ appt.start_time }}</td>
-        <td>{{ calculateDuration(appt.start_time, appt.end_time) }}</td>
-        <td>
-            <span *ngIf="appt.notes" class="notes-preview" title="{{ appt.notes }}">
-              {{appt.notes}}
+        <tr
+          *ngFor="let appt of filteredAppointments; trackBy: trackById"
+          class="border-bottom"
+        >
+          <td class="ps-4 fw-medium">{{ appt.patient?.user?.name }}</td>
+          <td>
+            <span class="badge bg-light text-dark">{{
+              appt.patient?.gender
+            }}</span>
+          </td>
+          <td>{{ appt.appointment_date | date : "mediumDate" }}</td>
+          <td>{{ formatTo12Hour(appt.start_time) }}</td>
+
+          <!-- <td>{{ calculateDuration(appt.start_time, appt.end_time) }}</td> -->
+          <td>
+            <span
+              *ngIf="appt.notes"
+              class="notes-preview"
+              title="{{ appt.notes }}"
+            >
+              {{ appt.notes }}
             </span>
-          <span *ngIf="!appt.notes" class="text-muted">-</span>
-        </td>
-        <td>
-          <div class="d-flex">
-            <button class="btn btn-sm btn-outline-primary me-2" (click)="viewAppointment(appt.id)">
-              <i class="fas fa-eye"></i>
-            </button>
-            <button class="btn btn-sm btn-success me-2"
-                    (click)="acceptAppointment(appt.id, { id: appt.id, status: 'confirmed'  }, { date: appt.appointment_date })"
-                    [disabled]="appt.status === 'confirmed' || appt.status === 'completed' || appt.status === 'cancelled'">
-              <i class="fas fa-check"></i>
-            </button>
-            <button class="btn btn-sm btn-outline-danger"
-                    (click)="CancelledAppointment(appt.id, appt.appointment_date, appt.status  ,appt.payment_status) "
-                    [disabled]="appt.payment_status === 'paid' || payment_status === 'paid' || clicked_cancel || isPastAppointment(appt.appointment_date)">
-              <i class="fas fa-times"></i>
-            </button>
-          </div>
-        </td>
-        <td class="pe-4">
-            <span class="badge rounded-pill" [ngClass]="{
-              'bg-success': appt.status === 'confirmed',
-              'bg-warning text-dark': appt.status === 'pending',
-              'bg-danger': appt.status === 'cancelled',
-              'bg-secondary': appt.status === 'completed'
-            }">
+            <span *ngIf="!appt.notes" class="text-muted">-</span>
+          </td>
+          <td>
+            <div class="d-flex">
+              <button
+                class="btn btn-sm btn-outline-primary me-2"
+                (click)="viewAppointment(appt.id)"
+              >
+                <i class="fas fa-eye"></i>
+              </button>
+              <button
+                class="btn btn-sm btn-success me-2"
+                (click)="
+                  acceptAppointment(
+                    appt.id,
+                    { id: appt.id, status: 'confirmed' },
+                    { date: appt.appointment_date }
+                  )
+                "
+                [disabled]="
+                  appt.status === 'confirmed' ||
+                  appt.status === 'completed' ||
+                  appt.status === 'cancelled'
+                "
+              >
+                <i class="fas fa-check"></i>
+              </button>
+              <button
+                class="btn btn-sm btn-outline-danger"
+                (click)="
+                  CancelledAppointment(
+                    appt.id,
+                    appt.appointment_date,
+                    appt.status,
+                    appt.payment_status
+                  )
+                "
+                [disabled]="
+                  appt.payment_status === 'paid' ||
+                  payment_status === 'paid' ||
+                  clicked_cancel ||
+                  isPastAppointment(appt.appointment_date)
+                "
+              >
+                <i class="fas fa-times"></i>
+              </button>
+            </div>
+          </td>
+          <td class="pe-4">
+            <span
+              class="badge rounded-pill"
+              [ngClass]="{
+                'bg-success': appt.status === 'confirmed',
+                'bg-warning text-dark': appt.status === 'pending',
+                'bg-danger': appt.status === 'cancelled',
+                'bg-secondary': appt.status === 'completed'
+              }"
+            >
               {{ appt.status | titlecase }}
             </span>
-        </td>
-             <td class="pe-4">
-            <span class="badge rounded-pill" [ngClass]="{
+          </td>
+          <td class="pe-4">
+            <span
+              class="badge rounded-pill"
+              [ngClass]="{
               'bg-success': appt.payment_status === 'paid',
               'bg-warning text-dark': appt.payment_status === 'refunded',
               'bg-danger': appt.payment_status === 'unpaid',
-            }">
+            }"
+            >
               {{ appt.payment_status | titlecase }}
             </span>
-        </td>
-
-      </tr>
-      <tr *ngIf="filteredAppointments.length === 0" class="border-bottom">
-        <td colspan="8" class="text-center py-4 text-muted">
-          <i class="far fa-calendar-times fa-2x mb-2"></i><br>
-          No appointments match your current filters
-        </td>
-      </tr>
+          </td>
+        </tr>
+        <tr *ngIf="filteredAppointments.length === 0" class="border-bottom">
+          <td colspan="8" class="text-center py-4 text-muted">
+            <i class="far fa-calendar-times fa-2x mb-2"></i><br />
+            No appointments match your current filters
+          </td>
+        </tr>
       </tbody>
     </table>
   </div>
@@ -107,36 +164,60 @@
 
 <div *ngIf="showPopup" class="modal-overlay">
   <div class="modal-content">
-    <div class="modal-header bg-light-blue ">
+    <div class="modal-header bg-light-blue">
       <h5 class="modal-title">Appointment Details</h5>
-      <button type="button" class="btn-close btn-close-white" (click)="closePopup()"></button>
+      <button
+        type="button"
+        class="btn-close btn-close-white"
+        (click)="closePopup()"
+      ></button>
     </div>
     <div class="modal-body">
       <div class="row mb-3">
         <div class="col-md-6">
-          <p><strong class="text-muted">Patient Name:</strong><br>{{ selectedAppointment?.patientName }}</p>
-          <p><strong class="text-muted">Gender:</strong><br>{{ selectedAppointment?.gender }}</p>
+          <p>
+            <strong class="text-muted">Patient Name:</strong><br />{{
+              selectedAppointment?.patientName
+            }}
+          </p>
+          <p>
+            <strong class="text-muted">Gender:</strong><br />{{
+              selectedAppointment?.gender
+            }}
+          </p>
         </div>
         <div class="col-md-6">
-          <p><strong class="text-muted">Appointment Date:</strong><br>{{ selectedAppointment?.date | date:'fullDate' }}
+          <p>
+            <strong class="text-muted">Appointment Date:</strong><br />{{
+              selectedAppointment?.date | date : "fullDate"
+            }}
           </p>
-          <p><strong class="text-muted">Time:</strong><br>{{ selectedAppointment?.startTime }}
-            - {{ selectedAppointment?.endTime }}</p>
+          <p>
+            <strong class="text-muted">Time:</strong><br />{{
+              selectedAppointment?.startTime
+            }}
+            - {{ selectedAppointment?.endTime }}
+          </p>
         </div>
       </div>
       <div class="mb-3">
         <strong class="text-muted">Notes:</strong>
-        <div class="p-3 bg-light rounded mt-2">{{ selectedAppointment?.notes || 'No notes provided' }}</div>
+        <div class="p-3 bg-light rounded mt-2">
+          {{ selectedAppointment?.notes || "No notes provided" }}
+        </div>
       </div>
       <div class="d-flex justify-content-between align-items-center">
         <span>
           <strong class="text-muted">Status:</strong>
-          <span class="badge rounded-pill ms-2" [ngClass]="{
-            'bg-success': selectedAppointment?.status === 'confirmed',
-            'bg-warning text-dark': selectedAppointment?.status === 'pending',
-            'bg-danger': selectedAppointment?.status === 'cancelled',
-            'bg-secondary': selectedAppointment?.status === 'completed'
-          }">
+          <span
+            class="badge rounded-pill ms-2"
+            [ngClass]="{
+              'bg-success': selectedAppointment?.status === 'confirmed',
+              'bg-warning text-dark': selectedAppointment?.status === 'pending',
+              'bg-danger': selectedAppointment?.status === 'cancelled',
+              'bg-secondary': selectedAppointment?.status === 'completed'
+            }"
+          >
             {{ selectedAppointment?.status | titlecase }}
           </span>
         </span>

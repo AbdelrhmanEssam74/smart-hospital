@@ -57,6 +57,17 @@ export class AddSlotComponent implements OnInit {
         }
       );
   }
+  formatTo12Hour(time: string): string {
+    const [hour, minute] = time.split(':');
+    const date = new Date();
+    date.setHours(parseInt(hour, 10));
+    date.setMinutes(parseInt(minute, 10));
+    return date.toLocaleTimeString([], {
+      hour: 'numeric',
+      minute: '2-digit',
+      hour12: true,
+    });
+  }
 
   addSlot() {
     const { slot_date, start_time, end_time } = this.slot;

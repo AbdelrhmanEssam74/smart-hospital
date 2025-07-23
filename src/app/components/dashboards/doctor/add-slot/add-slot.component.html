@@ -1,6 +1,5 @@
 <div class="container py-5">
   <div class="row g-4">
-
     <!-- Add Slot Form -->
     <div class="col-lg-6">
       <div class="card shadow-sm border-0 rounded-4">
@@ -9,7 +8,6 @@
         </div>
         <div class="card-body">
           <form (ngSubmit)="addSlot()" #slotForm="ngForm" novalidate>
-
             <div class="mb-3">
               <label for="slot_date" class="form-label">Slot Date</label>
               <input
@@ -19,7 +17,7 @@
                 type="date"
                 class="form-control"
                 required
-              >
+              />
             </div>
 
             <div class="mb-3">
@@ -31,7 +29,9 @@
                 type="time"
                 class="form-control"
                 required
-              >
+                min="13:00"
+                max="23:00"
+              />
             </div>
 
             <div class="mb-3">
@@ -43,7 +43,9 @@
                 type="time"
                 class="form-control"
                 required
-              >
+                min="13:00"
+                max="23:00"
+              />
             </div>
 
             <div class="d-grid">
@@ -55,7 +57,6 @@
                 <i class="fas fa-plus-circle me-2"></i> Add Slot
               </button>
             </div>
-
           </form>
         </div>
       </div>
@@ -68,18 +69,32 @@
           <h5 class="mb-0 text-center">Your Available Slots</h5>
         </div>
         <div class="card-body">
-
           <!-- Skeleton Loader -->
           <div *ngIf="loading">
-            <div *ngFor="let i of [1,2,3]" class="list-group-item mb-3 border-0">
+            <div
+              *ngFor="let i of [1, 2, 3]"
+              class="list-group-item mb-3 border-0"
+            >
               <div class="d-flex justify-content-between align-items-center">
-                <div style="width: 60%;">
-                  <div class="skeleton" style="height: 14px; width: 80%; margin-bottom: 6px;"></div>
-                  <div class="skeleton" style="height: 12px; width: 60%;"></div>
+                <div style="width: 60%">
+                  <div
+                    class="skeleton"
+                    style="height: 14px; width: 80%; margin-bottom: 6px"
+                  ></div>
+                  <div class="skeleton" style="height: 12px; width: 60%"></div>
                 </div>
-                <div style="width: 20%;" class="d-flex justify-content-end gap-2">
-                  <div class="skeleton" style="height: 28px; width: 28px; border-radius: 6px;"></div>
-                  <div class="skeleton" style="height: 28px; width: 28px; border-radius: 6px;"></div>
+                <div
+                  style="width: 20%"
+                  class="d-flex justify-content-end gap-2"
+                >
+                  <div
+                    class="skeleton"
+                    style="height: 28px; width: 28px; border-radius: 6px"
+                  ></div>
+                  <div
+                    class="skeleton"
+                    style="height: 28px; width: 28px; border-radius: 6px"
+                  ></div>
                 </div>
               </div>
             </div>
@@ -91,28 +106,35 @@
               <li class="list-group-item" *ngFor="let s of doctorSlots">
                 <div class="d-flex justify-content-between align-items-center">
                   <div>
-                    <strong>{{ s.date }}</strong><br>
-                    {{ s.start_time }} - {{ s.end_time }}<br>
-                    <span class="badge"
-                          [ngClass]="{
-              'bg-success': s.status === 'available',
-              'bg-primary': s.status === 'booked',
-              'bg-danger': s.status === 'cancelled'
-            }">
-        {{ s.status }}
-      </span>
+                    <strong>{{ s.date }}</strong
+                    ><br />
+                    {{ formatTo12Hour(s.start_time) }} - {{ formatTo12Hour(s.end_time) }}<br />
+                    <span
+                      class="badge"
+                      [ngClass]="{
+                        'bg-success': s.status === 'available',
+                        'bg-primary': s.status === 'booked',
+                        'bg-danger': s.status === 'cancelled'
+                      }"
+                    >
+                      {{ s.status }}
+                    </span>
                   </div>
 
                   <div>
-                    <button class="btn btn-sm btn-primary me-2"
-                            (click)="viewSlot(s.id)"
-                            [disabled]="s.status === 'booked'">
+                    <button
+                      class="btn btn-sm btn-primary me-2"
+                      (click)="viewSlot(s.id)"
+                      [disabled]="s.status === 'booked'"
+                    >
                       <i class="fa-light fa-pen-to-square"></i>
                     </button>
 
-                    <button class="btn btn-sm btn-outline-danger"
-                            (click)="openDeleteModal( s.id)"
-                            [disabled]="s.status === 'booked'">
+                    <button
+                      class="btn btn-sm btn-outline-danger"
+                      (click)="openDeleteModal(s.id)"
+                      [disabled]="s.status === 'booked'"
+                    >
                       <i class="fas fa-trash-alt"></i>
                     </button>
                   </div>
@@ -123,13 +145,13 @@
 
           <!-- No Slots -->
           <ng-template #noSlots>
-            <p *ngIf="!loading" class="text-muted text-center mb-0">No slots available yet.</p>
+            <p *ngIf="!loading" class="text-muted text-center mb-0">
+              No slots available yet.
+            </p>
           </ng-template>
-
         </div>
       </div>
     </div>
-
   </div>
 </div>
 
@@ -137,7 +159,11 @@
   <div class="modal-content">
     <div class="modal-header bg-light-blue">
       <h5 class="modal-title">Edit Slot</h5>
-      <button type="button" class="btn-close btn-close-white" (click)="closePopup()"></button>
+      <button
+        type="button"
+        class="btn-close btn-close-white"
+        (click)="closePopup()"
+      ></button>
     </div>
 
     <div class="modal-body">
@@ -148,8 +174,12 @@
           <div class="form-control placeholder mb-3"></div>
         </div>
       </div>
-      <form *ngIf="!slotLoading && selectedSlot" (ngSubmit)="updateSlot()" #editForm="ngForm" novalidate>
-
+      <form
+        *ngIf="!slotLoading && selectedSlot"
+        (ngSubmit)="updateSlot()"
+        #editForm="ngForm"
+        novalidate
+      >
         <div class="mb-3">
           <label class="form-label">Slot Date</label>
           <input
@@ -158,7 +188,7 @@
             type="date"
             class="form-control"
             required
-          >
+          />
         </div>
 
         <div class="mb-3">
@@ -169,7 +199,9 @@
             type="time"
             class="form-control"
             required
-          >
+            min="13:00"
+            max="23:00"
+          />
         </div>
 
         <div class="mb-3">
@@ -180,7 +212,9 @@
             type="time"
             class="form-control"
             required
-          >
+            min="13:00"
+            max="23:00"
+          />
         </div>
         <div class="mb-3">
           <label class="form-label">Status</label>
@@ -195,8 +229,18 @@
           </select>
         </div>
         <div class="d-flex justify-content-between">
-          <button type="button" class="btn btn-secondary" (click)="closePopup()">Cancel</button>
-          <button type="submit" class="btn btn-primary" [disabled]="editForm.invalid">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            (click)="closePopup()"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            class="btn btn-primary"
+            [disabled]="editForm.invalid"
+          >
             Save Changes
           </button>
         </div>
@@ -205,18 +249,25 @@
   </div>
 </div>
 
-
 <div *ngIf="showDeleteModal" class="modal-overlay">
   <div class="modal-content">
     <div class="modal-header bg-danger text-white">
       <h5 class="modal-title">Confirm Delete</h5>
-      <button type="button" class="btn-close btn-close-white" (click)="cancelDelete()"></button>
+      <button
+        type="button"
+        class="btn-close btn-close-white"
+        (click)="cancelDelete()"
+      ></button>
     </div>
     <div class="modal-body text-center">
       <p>Are you sure you want to delete this slot?</p>
       <div class="d-flex justify-content-center gap-3">
-        <button class="btn btn-danger" (click)="confirmDelete()">Yes, Delete</button>
-        <button class="btn btn-secondary" (click)="cancelDelete()">Cancel</button>
+        <button class="btn btn-danger" (click)="confirmDelete()">
+          Yes, Delete
+        </button>
+        <button class="btn btn-secondary" (click)="cancelDelete()">
+          Cancel
+        </button>
       </div>
     </div>
   </div>

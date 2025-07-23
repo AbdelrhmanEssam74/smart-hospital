@@ -1,139 +1,124 @@
 <div class="edit-profile-container">
-  <h2 class="m-auto">Edit Profile</h2>
+  <h2 class="text-center mb-4">Edit Profile</h2>
 
   @if (errorMessage) {
-  <div class="alert alert-danger">{{ errorMessage }}</div>
+    <div class="alert alert-danger">{{ errorMessage }}</div>
   } @if (successMessage) {
-  <div class="alert alert-success">{{ successMessage }}</div>
+    <div class="alert alert-success">{{ successMessage }}</div>
   }
 
   <form [formGroup]="editForm" (ngSubmit)="onSubmit()">
-    <div class="form-group">
-      <div class="form-group text-center">
-        <div class="profile-image-container position-relative">
+    <div class="row g-4">
+      <!-- Image Section -->
+      <div class="col-md-4 text-center">
+        <div class="profile-image-wrapper">
           <img
             [src]="currentUser?.image || 'assets/images/default-profile.png'"
             alt="patient"
-            class="profile-img rounded-circle mb-3"
-            style="
-              width: 120px;
-              height: 120px;
-              object-fit: cover;
-              border: 4px solid #e3f2fd;
-            "
+            class="profile-image"
           />
-          <div class="image-upload-controls mt-2">
-            <input
-              type="file"
-              id="profileImage"
-              accept="image/*"
-              (change)="onImageSelected($event)"
-              style="display: none"
-            />
-            <label
-              for="profileImage"
-              class="change btn-sm me-2"
-            > Change
-            </label>
-            <button
-              class="btn btn-sm btn-primary"
-              (click)="uploadImage()"
-              [disabled]="!selectedImage || isImageUploading"
-            >
-              <span *ngIf="!isImageUploading">Upload</span>
-              <span *ngIf="isImageUploading">
-                <span
-                  class="spinner-border spinner-border-sm"
-                  role="status"
-                ></span>
-                Uploading...
-              </span>
-            </button>
-          </div>
+        </div>
+        <div class="image-actions">
+          <label for="profileImage" class="btn-upload">Change</label>
+          <input
+            type="file"
+            id="profileImage"
+            accept="image/*"
+            (change)="onImageSelected($event)"
+            style="display: none"
+          />
+          <button
+            class="btn btn-primary btn-sm"
+            (click)="uploadImage()"
+            [disabled]="!selectedImage || isImageUploading"
+          >
+            <span *ngIf="!isImageUploading">Upload</span>
+            <span *ngIf="isImageUploading">
+              <span class="spinner-border spinner-border-sm"></span>
+              Uploading...
+            </span>
+          </button>
         </div>
       </div>
-      <label for="name">Name</label>
-      <input type="text" id="name" formControlName="name" />
-      @if (editForm.get('name')?.invalid && editForm.get('name')?.touched) {
-      <div class="error-message">
-        @if (editForm.get('name')?.errors?.['required']) {
-        <div>Name is required</div>
-        } @if (editForm.get('name')?.errors?.['minlength']) {
-        <div>Name must be at least 3 characters</div>
-        }
+
+      <!-- Form Fields -->
+      <div class="col-md-8">
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input type="text" id="name" formControlName="name" />
+          @if (editForm.get('name')?.invalid && editForm.get('name')?.touched) {
+            <div class="error-message">
+              @if (editForm.get('name')?.errors?.['required']) {
+                <div>Name is required</div>
+              } @if (editForm.get('name')?.errors?.['minlength']) {
+                <div>Name must be at least 3 characters</div>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" formControlName="email" />
+          @if (editForm.get('email')?.invalid && editForm.get('email')?.touched) {
+            <div class="error-message">
+              @if (editForm.get('email')?.errors?.['required']) {
+                <div>Email is required</div>
+              } @if (editForm.get('email')?.errors?.['email']) {
+                <div>Please enter a valid email</div>
+              } @if (editForm.get('email')?.errors?.['duplicate']) {
+                <div>This email is already registered with another account</div>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="form-group">
+          <label for="phone">Phone</label>
+          <input type="text" id="phone" formControlName="phone" />
+          @if (editForm.get('phone')?.invalid && editForm.get('phone')?.touched) {
+            <div class="error-message">
+              @if (editForm.get('phone')?.errors?.['maxlength']) {
+                <div>Phone must be 11 digits or less</div>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="form-group">
+          <label for="gender">Gender</label>
+          <select id="gender" formControlName="gender">
+            <option value="">Select Gender</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+          </select>
+          @if (editForm.get('gender')?.invalid && editForm.get('gender')?.touched) {
+            <div class="error-message">Gender is required</div>
+          }
+        </div>
+
+        <div class="form-group">
+          <label for="date_of_birth">Date of Birth</label>
+          <input type="date" id="date_of_birth" formControlName="date_of_birth" />
+        </div>
+
+        <div class="form-group">
+          <label for="address">Address</label>
+          <textarea id="address" formControlName="address"></textarea>
+          @if (editForm.get('address')?.invalid && editForm.get('address')?.touched) {
+            <div class="error-message">Address must be 255 characters or less</div>
+          }
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn btn-outline-info" [disabled]="editForm.invalid">
+            Save Changes
+          </button>
+          <button type="button" class="btn btn-outline-secondary" routerLink="/patient_profile">
+            Cancel
+          </button>
+        </div>
       </div>
-      }
-    </div>
-
-    <div class="form-group">
-      <label for="email">Email</label>
-      <input type="email" id="email" formControlName="email" />
-      @if (editForm.get('email')?.invalid && editForm.get('email')?.touched) {
-      <div class="error-message">
-        @if (editForm.get('email')?.errors?.['required']) {
-        <div>Email is required</div>
-        } @if (editForm.get('email')?.errors?.['email']) {
-        <div>Please enter a valid email</div>
-        } @if (editForm.get('email')?.errors?.['duplicate']) {
-        <div>This email is already registered with another account</div>
-        }
-      </div>
-      }
-    </div>
-
-    <div class="form-group">
-      <label for="phone">Phone</label>
-      <input type="text" id="phone" formControlName="phone" />
-      @if (editForm.get('phone')?.invalid && editForm.get('phone')?.touched) {
-      <div class="error-message">
-        @if (editForm.get('phone')?.errors?.['maxlength']) {
-        <div>Phone must be 11 digits or less</div>
-        }
-      </div>
-      }
-    </div>
-
-    <div class="form-group">
-      <label for="gender">Gender</label>
-      <select id="gender" formControlName="gender">
-        <option value="">Select Gender</option>
-        <option value="Male">Male</option>
-        <option value="Female">Female</option>
-      </select>
-      @if (editForm.get('gender')?.invalid && editForm.get('gender')?.touched) {
-      <div class="error-message">Gender is required</div>
-      }
-    </div>
-
-    <div class="form-group">
-      <label for="date_of_birth">Date of Birth</label>
-      <input type="date" id="date_of_birth" formControlName="date_of_birth" />
-    </div>
-
-    <div class="form-group">
-      <label for="address">Address</label>
-      <textarea id="address" formControlName="address"></textarea>
-      @if (editForm.get('address')?.invalid && editForm.get('address')?.touched)
-      {
-      <div class="error-message">Address must be 255 characters or less</div>
-      }
-    </div>
-
-    <div class="form-actions">
-      <button
-        type="submit"
-        class="btn btn-outline-info"
-        [disabled]="editForm.invalid"
-      >
-        save changes
-      </button>
-      <button
-        type="button"
-        class="btn btn-outline-secondary"
-        routerLink="/patient_profile"
-      >
-        Cancel
-      </button>
     </div>
   </form>
 </div>

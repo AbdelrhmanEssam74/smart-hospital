@@ -62,6 +62,13 @@ export class AppointmentsComponent implements OnInit {
     appointmentDate.setHours(0, 0, 0, 0);
     return appointmentDate < today;
   }
+formatTo12Hour(time: string): string {
+  const [hour, minute] = time.split(':');
+  const date = new Date();
+  date.setHours(parseInt(hour, 10));
+  date.setMinutes(parseInt(minute, 10));
+  return date.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit', hour12: true });
+}
 
   get filteredAppointments() {
     return this.appointments.filter(appt => {
