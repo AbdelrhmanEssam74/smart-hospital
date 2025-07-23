@@ -28,20 +28,19 @@ export class NavbarComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.authService.currentUser$.subscribe((user) => {
-      this.login = !!user;
+    this.authService.getProfile().subscribe((user) => {
+      this.login = !!user;  
       this.user = user?.data;
 
       if (this.login) {
         this.userInitial = this.user.name?.trim()?.charAt(0) || '';
         this.userImage = this.user.image || '';
+        
         if (this.user.role?.id === 2) {
           this.userRole = 'Doctor';
-        }
-        else if (this.user.role?.id === 1) {
+        } else if (this.user.role?.id === 1) {
           this.userRole = 'Admin';
-        }
-         else if (this.user.role?.id === 5) {
+        } else if (this.user.role?.id === 5) {
           this.userRole = 'Patient';
         } else {
           this.userRole = '';
@@ -52,6 +51,8 @@ export class NavbarComponent implements OnInit {
         this.userImage = '';
       }
     });
+    console.log(this.userImage);
+    
   }
 
   logout() {

@@ -29,4 +29,5 @@ export class PatientService {
   deletePatient(id: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/${id}`);
   }
+  
 }

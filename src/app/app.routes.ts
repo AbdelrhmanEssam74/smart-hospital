@@ -27,11 +27,11 @@ import { AdminEditUserComponent } from './components/dashboards/admin/admin-edit
 import { AdminEditProfileComponent } from './components/dashboards/admin/admin-edit-profile/admin-edit-profile.component';
 import { AdminMangeDoctorComponent } from './components/dashboards/admin/admin-mange-doctor/admin-mange-doctor.component';
 import { InactiveDoctorMessageComponent } from './components/inactive-doctor-message/inactive-doctor-message.component';
-
+import { LoginRegisterGuard } from './guards/login-register.guard';
 export const routes: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'login', component: LoginComponent },
-  { path: 'register', component: RegisterComponent },
+  { path: 'login', component: LoginComponent, canActivate: [LoginRegisterGuard] },
+  { path: 'register', component: RegisterComponent, canActivate: [LoginRegisterGuard] },
   { path: 'home', redirectTo: '', pathMatch: 'full' },
   {
     path: 'doctordetails/:id',
@@ -55,6 +55,7 @@ export const routes: Routes = [
   {
     path: 'admin',
     component: AdminHomeComponent,
+    canActivate: [AuthGuard],
     children: [
       { path: 'admin-home', component: AdminDashboardComponent },
       { path: 'admin-appointments', component: AdminAppointmentsComponent },
@@ -71,8 +72,8 @@ export const routes: Routes = [
       { path: 'massagecontact', component: AdminContactsComponent },
     ],
   },
-  { path: 'patient_profile', component: PatientProfileComponent },
-  { path: 'profile_edit', component: EditProfileComponent },
+  { path: 'patient_profile', component: PatientProfileComponent , canActivate: [AuthGuard] },
+  { path: 'profile_edit', component: EditProfileComponent , canActivate: [AuthGuard] },
   { path: 'gallery', component: GalleryComponent },
   { path: 'contact', component: ContactComponent, canActivate: [AuthGuard] },
   { path: 'doctor-status', component: InactiveDoctorMessageComponent },

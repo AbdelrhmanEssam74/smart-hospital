@@ -2,12 +2,13 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { AuthService } from '../auth.service';
 
 @Injectable({ providedIn: 'root' })
 export class DoctorService {
   private baseUrl = 'http://127.0.0.1:8000/api/admin/doctors';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private auth: AuthService) {}
 
   getDoctors(name: string = ''): Observable<any> {
     let params = new HttpParams();
@@ -25,5 +26,10 @@ export class DoctorService {
 
   getDoctor(id: number): Observable<any> {
     return this.http.get(`${this.baseUrl}/${id}`);
+  }
+  // update doctor status
+  // using this api /doctor/{id}/status/accepted
+  updateDoctorStatus(id: number, status: string): Observable<any> {
+    return this.http.put(`${this.baseUrl}/${id}/status/${status}`, {});
   }
 }
