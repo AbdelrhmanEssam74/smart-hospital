@@ -6,18 +6,16 @@
         <h2 class="fw-bold text-primary mb-1">Doctor Management</h2>
         <p class="text-muted mb-0">Review and manage doctor applications</p>
       </div>
-      <button class="btn btn-primary" (click)="openAddDoctorModal()">
-        <i class="fas fa-plus me-2"></i> Add New Doctor
-      </button>
     </div>
 
     <!-- Filters -->
-    <div class="row g-3">
+    <div class="row g-3 align-items-end">
       <div class="col-md-6">
-        <div class="search-box input-group">
-          <span class="input-group-text bg-white"
-            ><i class="fas fa-search"></i
-          ></span>
+        <label class="form-label fw-semibold">Search</label>
+        <div class="input-group">
+          <span class="input-group-text bg-white">
+            <i class="fas fa-search text-muted"></i>
+          </span>
           <input
             type="text"
             [(ngModel)]="searchName"
@@ -27,7 +25,9 @@
           />
         </div>
       </div>
-      <div class="col-md-3">
+
+      <div class="col-md-6">
+        <label class="form-label fw-semibold">Filter by Status</label>
         <select
           class="form-select"
           [(ngModel)]="statusFilter"
@@ -39,61 +39,14 @@
           <option value="rejected">Rejected</option>
         </select>
       </div>
-      <div class="col-md-3">
-        <select
-          class="form-select"
-          [(ngModel)]="specialtyFilter"
-          (change)="filterDoctors()"
-        >
-          <option value="">All Specialties</option>
-          <option *ngFor="let specialty of specialties" [value]="specialty">
-            {{ specialty }}
-          </option>
-        </select>
-      </div>
     </div>
   </div>
 
   <!-- Stats Cards -->
-  <div class="row mb-4">
-    <div class="col-md-4">
-      <div class="card stat-card bg-primary text-white">
-        <div class="card-body">
-          <div class="d-flex justify-content-between align-items-center">
-            <div>
-              <h6 class="text-uppercase small">Total Doctors</h6>
-              <h3 class="mb-0">{{ doctors.length }}</h3>
-            </div>
-            <i class="fas fa-user-md fa-2x opacity-50"></i>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-4">
-      <div class="card stat-card bg-success text-white">
-        <div class="card-body">
-          <div class="d-flex justify-content-between align-items-center">
-            <div>
-              <h6 class="text-uppercase small">Approved</h6>
-            </div>
-            <i class="fas fa-check-circle fa-2x opacity-50"></i>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-4">
-      <div class="card stat-card bg-warning text-dark">
-        <div class="card-body">
-          <div class="d-flex justify-content-between align-items-center">
-            <div>
-              <h6 class="text-uppercase small">Pending Review</h6>
-            </div>
-            <i class="fas fa-clock fa-2x opacity-50"></i>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+
+
+  <!-- Stats Cards -->
+
 
   <!-- Doctors Grid -->
   <div class="row g-4">
