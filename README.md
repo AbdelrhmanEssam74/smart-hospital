@@ -1,4 +1,4 @@
-<h1 align="center" >🏤 Smart Hospital</h1>
+<h1 align="center" >🏤 Clinics Center</h1>
 
 <p align="center" >project not finished yet </p>
 
